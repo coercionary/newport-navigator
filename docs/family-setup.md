@@ -3,7 +3,7 @@
 Do this **at home, on Wi-Fi, a day or two before you fly** — not after you land.
 
 ## 1. Add the Newport Navigator to your home screen
-1. Open this link in your browser: **`<paste the GitHub Pages link here once deployed>`**
+1. Open this link in your browser: **https://coercionary.github.io/newport-navigator/**
 2. Tap the **Share** button, then **Add to Home Screen**.
 3. It now opens like an app — and works with no signal.
 
