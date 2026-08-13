@@ -3,7 +3,7 @@
 Do this **at home, on Wi-Fi, a day or two before you fly** — not after you land.
 
 ## 1. Add the Newport Navigator to your home screen
-1. Open this link in your browser: **https://coercionary.github.io/newport-navigator/**
+1. Open this link in **Safari** (iPhone) or **Chrome** (Android): **[https://newport-navigator.fly.dev/](https://newport-navigator.fly.dev/)**
 2. Tap the **Share** button, then **Add to Home Screen**.
 3. It now opens like an app — and works with no signal.
 
@@ -24,6 +24,13 @@ If you also want Google Maps as a driving backup:
 1. Open Google Maps → search **"Westport, Mayo"** → tap the name → **Download**.
 2. Note: Google offline maps do **driving only**, and expire after ~15 days, so download close to travel.
 
+## 4. Allow location (so you can drop a pin)
+When you find a place worth sharing, tap **Add pin** and allow **Location** when the phone asks.
+The pin is saved on your phone.
+
+If the app looks out of date, open it on Wi-Fi and tap **Get latest** at the top.
+
 ## You're set ✅
 - Newport Navigator on your home screen → see what's around, host picks, our plans.
 - Organic Maps with West Mayo downloaded → real walking/cycling/driving directions, no signal needed.
+- **Add pin** → drop a GPS pin on this phone.

@@ -1,7 +1,8 @@
 // Newport Navigator service worker — offline app shell
-const CACHE = 'newport-nav-v1';
+const CACHE = 'newport-nav-v4';
 const ASSETS = [
   '.', 'index.html', 'manifest.webmanifest', 'data/places.json',
+  'family-sync.js',
   'icons/icon.svg', 'icons/icon-maskable.svg'
 ];
 self.addEventListener('install', e => {
@@ -12,13 +13,20 @@ self.addEventListener('activate', e => {
     Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
   ).then(() => self.clients.claim()));
 });
+self.addEventListener('message', e => {
+  if (e.data === 'skipWaiting') self.skipWaiting();
+});
+// Serve cache immediately (offline), refresh the cache in the background when online.
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  if (url.origin === location.origin) {
-    e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
-      const copy = resp.clone();
-      caches.open(CACHE).then(c => c.put(e.request, copy)).catch(()=>{});
+  if (url.origin !== location.origin || e.request.method !== 'GET') return;
+  e.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    const cached = await cache.match(e.request);
+    const fetched = fetch(e.request).then(resp => {
+      if (resp && resp.ok) cache.put(e.request, resp.clone()).catch(()=>{});
       return resp;
-    }).catch(() => caches.match('index.html'))));
-  }
+    }).catch(() => cached || cache.match('index.html'));
+    return cached || fetched;
+  })());
 });

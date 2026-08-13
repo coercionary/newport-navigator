@@ -6,7 +6,8 @@ activities, and golf — with the **hosts' own recommendations** highlighted (�
 baked in. Each place hands off to a real maps app for turn-by-turn **walking / cycling / driving** directions.
 
 It's a **PWA**: open the hosted link once, "Add to Home Screen", and it launches like an app and works
-with **no internet**.
+with **no internet**. Anyone can tap **Add pin** to drop a GPS pin with a name and description; pins
+are saved on that phone (sharing across phones will be a small Fly.io API later).
 
 ## Why it works offline (and where directions come from)
 Map *imagery* (street tiles) can't legally be bundled offline, so this app uses a lightweight, custom
@@ -22,12 +23,12 @@ walk/bike). See [`docs/family-setup.md`](docs/family-setup.md) for the one-page 
 ## Project structure
 ```
 index.html                # the app (illustrated basemap + pins + filters + info cards)
+family-sync.js            # family pins in localStorage (this phone only)
 manifest.webmanifest      # PWA metadata (name, icons, theme)
 sw.js                     # service worker — caches the app shell for offline use
-data/places.json          # ALL place data — edit this to add/change pins (see below)
+data/places.json          # curated place data — edit this to add/change host pins
 icons/                    # app icons (scalable SVG: icon.svg + icon-maskable.svg)
 docs/family-setup.md      # "get your phone ready before Ireland" sheet
-.nojekyll                 # tells GitHub Pages to serve files as-is
 ```
 
 > Icons are SVG so they stay crisp at any size. High-res PNG icons (192/512/maskable/apple-touch)
@@ -42,8 +43,15 @@ python3 -m http.server 8080
 ```
 (or use any static server / the Live Server extension in Cursor/VS Code).
 
+## Family pins (GPS drops)
+Curated places stay in `data/places.json`. Pins the family adds are **not** written there — they live in
+`localStorage` on that phone. They work offline. Sharing between phones is not wired up yet (planned as a
+small Fly.io API).
+
+**Getting an update onto a phone:** open the home-screen icon **on Wi-Fi** and tap **Get latest** in the header. That unregisters the service worker, clears the cache, and reloads from the network. You do not need to delete website data. (The app also refreshes its cache in the background when online; **Get latest** is the immediate / stuck-stale button.)
+
 ## Add or edit places
-All content lives in **`data/places.json`** — no code changes needed. Each place looks like:
+Curated content lives in **`data/places.json`** — no code changes needed. Each place looks like:
 ```json
 {
   "id": "the-tavern-bar-murrisk",
@@ -64,15 +72,16 @@ All content lives in **`data/places.json`** — no code changes needed. Each pla
 same simple projection as the basemap; anything outside the core Newport–Achill area shows up in the
 "Off this map" strip instead of on the map.
 
-## Deploy (GitHub Pages)
-1. Push this repo to GitHub.
-2. Repo **Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `main`, folder `/ (root)`.
-3. Wait ~1 min; your app is live at `https://<user>.github.io/newport-navigator/`.
-4. Open that link on each phone → share sheet → **Add to Home Screen**.
+## Deploy
+Live at **[https://newport-navigator.fly.dev/](https://newport-navigator.fly.dev/)**. Open that link on each phone → **Add to Home Screen**.
+
+Redeploy after pulling these repo changes, then tap **Get latest** on any phone that already has the icon.
 
 ## Roadmap
 - Fill in the expandable pin fields (hours, photos, longer write-ups) — content task.
 - Optional: de-cluster the Westport town pins into an expandable group.
 - Optional: a day-by-day itinerary view.
+- Optional: directions between two selected pins.
+- Shared family pins via a Fly.io API.
 
 Built for the Lime Kiln House trip. Map data © OpenStreetMap contributors (positions); illustration is original.
