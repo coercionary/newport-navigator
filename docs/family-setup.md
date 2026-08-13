@@ -24,13 +24,13 @@ If you also want Google Maps as a driving backup:
 1. Open Google Maps → search **"Westport, Mayo"** → tap the name → **Download**.
 2. Note: Google offline maps do **driving only**, and expire after ~15 days, so download close to travel.
 
-## 4. Allow location (so you can drop a pin)
-When you find a place worth sharing, tap **Add pin** and allow **Location** when the phone asks.
-The pin is saved on your phone.
+## 4. Drop a pin
+- **On the map:** press and hold (or right-click on a computer) where you want it. Position is approximate.
+- **Where you are:** tap **Add pin** and allow **Location**. Best when you're actually there.
 
 If the app looks out of date, open it on Wi-Fi and tap **Get latest** at the top.
 
 ## You're set ✅
 - Newport Navigator on your home screen → see what's around, host picks, our plans.
 - Organic Maps with West Mayo downloaded → real walking/cycling/driving directions, no signal needed.
-- **Add pin** → drop a GPS pin on this phone.
+- **Add pin** → GPS at your location, or press-and-hold the map (approximate).

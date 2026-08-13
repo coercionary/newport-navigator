@@ -1,0 +1,1191 @@
+{
+  "journeys": [
+    {
+      "from": "lime-kiln-house",
+      "to": "grainne-uaile-pub-newport",
+      "mins": 8,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Down the drive onto the little road, then turn for Newport. The other way is Mulranny, and that road does not know the meaning of a short spin.",
+        "You'll join the main road along the bay. Stay on it. The village announces itself with the petrol station and then the shops.",
+        "Through the main street and over the stone bridge — the proper one, across the river. The Grainne Uaile is just the far side, on Medlicott Street, under the old seven-arch railway viaduct.",
+        "If you can see the Greenway and a rack of bikes, you're there. About eight minutes, unless you're stuck behind a tractor."
+      ]
+    },
+    {
+      "from": "grainne-uaile-pub-newport",
+      "to": "lime-kiln-house",
+      "mins": 8,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Back over the stone bridge into Main Street. Don't follow the Greenway — you can't drive the seven arches, and that path will not put you on the house road.",
+        "Out the west side, Mulranny / Achill, bear past Circle K. Not Castlebar Street, not up past the church.",
+        "Past Circle K you're on the Achill / Mulranny road — that's the N59, not the Castlebar N5. You'll pass a Burrishoole Abbey sign; leave it. Over the new steel bridge, round a bad left-hand bend, then slow down.",
+        "Field gateway, then LEFT down the next small road: steep, sloped-roof barn on the right. If you overshoot, Furnace is on your right — use it to turn around; don't follow it inland. Red-door bungalow, stone house, pillars, cattle grid, up the drive."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "kelly-s-kitchen-newport",
+      "mins": 7,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Down the drive, little road, then left toward Newport — the village, not the scenic route. Mulranny can wait.",
+        "N59 along the water. Circle K is the Kellys' garage on Georges Street as you come in from the west — that's fuel, not lunch. Drop down into the top of Main Street.",
+        "Kelly's Kitchen is at the top of Main Street, this side of the river, wedged between Kelly's butchers and Chambers newsagent. Do not cross the stone bridge. If you're under the seven arches you're at the pub.",
+        "They close at six, so don't make a project of getting there. Seven minutes, and that's being leisurely."
+      ]
+    },
+    {
+      "from": "kelly-s-kitchen-newport",
+      "to": "lime-kiln-house",
+      "mins": 7,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Back out the west end of the village, Mulranny / Achill way. Bear past Circle K — if you follow Castlebar you'll be in the county town wondering where the inlet went.",
+        "When the shops stop, you're on the N59. Pass the Abbey sign — keep going. Steel bridge, bad left-hand bend, then SLOW.",
+        "LEFT down the next small road: barn with the sloped roof on the right. If Furnace is on your right you overshot — turn around. Red door, stone house, pillars, cattle grid, mountain in the kitchen."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "sheridan-s-centra-newport",
+      "mins": 7,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Same start as everything in the village: down the drive, turn for Newport, ignore Mulranny like it owes you money.",
+        "Along the bay until Circle K. That's not Sheridan's — that's fuel. Down Georges Street into Main Street and keep going toward the river.",
+        "Sheridan's is the Centra at the bottom of Main Street, this side of the stone bridge, opposite Walsh's Bridge Inn. Bread, wine, papers, frozen peas. If you can see the butcher you're still at the top; keep walking down.",
+        "If you cross the river you've gone for a pint instead of milk. The viaduct is a walkway. Act like you wanted groceries."
+      ]
+    },
+    {
+      "from": "sheridan-s-centra-newport",
+      "to": "lime-kiln-house",
+      "mins": 7,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Leave the Centra and point yourself west, out past Circle K, not up the Castlebar Road. The Castlebar Road is honest but it will not bring you home.",
+        "Shops run out, water on your left if you're lucky with the tide. Abbey turning is a pass, not yours. Over the new steel bridge, round the bad left, then left down the small road.",
+        "Nevin's means you dreamed through it. Turn around. Up the drive until the mountain is in the window again."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "kelly-s-butchers-newport",
+      "mins": 7,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Drive, little road, Newport. The mountain in the rear view is Croagh Patrick saying you're going the right way for sausages.",
+        "N59 into the village. Past the Kellys' Circle K, down into the top of Main Street, still this side of the stone bridge.",
+        "Kelly's Butchers is beside Kelly's Kitchen — prize putóg and they'll cut whatever you ask for. If you pass Chambers and find yourself at Walsh's or over the bridge, reverse the last twenty seconds. Don't send the shopping to Keane's, the other butcher.",
+        "The viaduct is for pints. The butcher is before the river. Do not confuse them, especially on a Thursday when there's music over the water."
+      ]
+    },
+    {
+      "from": "kelly-s-butchers-newport",
+      "to": "lime-kiln-house",
+      "mins": 7,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Sausages in the boot, west out of town. Mulranny signs, not Castlebar. Past the pumps.",
+        "The N59 looks like it goes on forever because it does. Pass the Abbey, over the steel bridge, left after the bad bend — barn on the right, not Furnace inland.",
+        "If the church and Nevin's appear, you have overshot in the classic style. Come back a minute, down the boreen, over the cattle grid. Home is the house that looks at the Reek."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "circle-k-petrol-newport",
+      "mins": 6,
+      "km": 3,
+      "how": "drive",
+      "irish": [
+        "This is barely a journey. Down the drive, Newport, along the bay.",
+        "The village has not properly begun when you see Circle K. That's the Kellys, fuel and a kind word about punctures.",
+        "If you reach the butcher and the newsagent you've sailed past the pumps. Turn around — it's behind you, which is the oldest trick in Mayo.",
+        "You are there before the shops. Six minutes. Try not to write a postcard about it."
+      ]
+    },
+    {
+      "from": "circle-k-petrol-newport",
+      "to": "lime-kiln-house",
+      "mins": 6,
+      "km": 3,
+      "how": "drive",
+      "irish": [
+        "From the pumps take the Mulranny / Achill road, not back through the village toward Castlebar. You've already been through the village. It isn't hiding.",
+        "About 2 km on, you'll pass a Burrishoole Abbey sign and turning — keep going. Then the new steel bridge, a bad left-hand bend, and you slow down like Louisa asked.",
+        "Field gateway, then LEFT down the next small road: steep, barn with the sloped roof on your right. Overshoot and Furnace is on the right to turn around. Red door, stone house, pillars, cattle grid, up the drive."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "great-western-greenway-newport",
+      "mins": 8,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Newport, not Mulranny. The Greenway runs past the house too, but you are in a car, so use the road like a civilian.",
+        "Into the village past Circle K, down Main Street, over the stone road bridge. The seven-arch viaduct is the old railway — you walk or cycle it, you do not drive it.",
+        "Park on Medlicott or near the old station and get onto the path. If you're still in the car at Mulranny you've missed the point of a traffic-free trail.",
+        "Forty-two kilometres to Achill if you're stubborn. Check the wind first. A headwind on the Greenway is how Mayo does character-building."
+      ]
+    },
+    {
+      "from": "great-western-greenway-newport",
+      "to": "lime-kiln-house",
+      "mins": 8,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Off the bikes, into the car, west out of Newport. Do not attempt to drive the Greenway. The railway people tried that and even they gave up.",
+        "Past Circle K, Mulranny direction. The Abbey sign is scenery. Steel bridge, bad left, then the small road with the barn.",
+        "Nevin's is the too-far pub. Turn back, red door, stone house, pillars, up the drive. If your legs are jelly, the mountain in the window will still be there tomorrow."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "clew-bay-fishing-darragh-magee",
+      "mins": 8,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Newport again — the harbour this time, not the butcher. Down the drive, turn for the village, along the bay.",
+        "Through Main Street toward the water. At the bottom, do not cross the stone bridge and do not climb Castlebar Street. Quay Road west — stone walls and gates of Newport House, then the quay.",
+        "If you're standing under the seven arches looking for a boat, you're on the wrong bank. If you're at St Patrick's on Barrack Hill you're in the hills.",
+        "Call Darragh before you leave the house. The trip depends on the weather more than the road, and the road is only eight minutes."
+      ]
+    },
+    {
+      "from": "clew-bay-fishing-darragh-magee",
+      "to": "lime-kiln-house",
+      "mins": 8,
+      "km": 4,
+      "how": "drive",
+      "irish": [
+        "Up from the harbour, through the village, out the west side. Mulranny signs. The sea will try to keep you; let it.",
+        "Past the Kellys' pumps. When the street becomes a road again, leave the Abbey turning and take the steel bridge, then slow after the left-hander.",
+        "If you reach the church at Tiernaur you've done the scenic extra loop. Turn around. Home is Croagh Patrick in the glass and a smell of the inlet."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "nevin-s-pub-tiernaur",
+      "mins": 8,
+      "km": 6,
+      "how": "drive",
+      "irish": [
+        "This time you do want Mulranny — or at least the road that thinks about Mulranny. Down the drive and turn that way, not for Newport.",
+        "Eight minutes along the N59 with the bay for company. Nevin's is at Tiernaur, by the church. You can't miss the church, and you shouldn't miss the pub.",
+        "If you reach Mulranny's causeway you've gone for a scenic drive and no lunch. Turn around; it's behind you by the graveyard wall.",
+        "Call ahead on Sundays. Last orders nine. A local pub that close to the house is a dangerous blessing."
+      ]
+    },
+    {
+      "from": "nevin-s-pub-tiernaur",
+      "to": "lime-kiln-house",
+      "mins": 8,
+      "km": 6,
+      "how": "drive",
+      "irish": [
+        "Back toward Newport on the N59. The house is before the village — which is a rude thing for a house to do if you were expecting more road.",
+        "Burrishoole, bay side. If Circle K appears you've gone through town and will have to explain yourself to the sausages.",
+        "Down the boreen, up the drive. If you can still hear the pub, you haven't gone far enough to deserve the mountain in the window."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "doherty-s-centra-mulranny",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "Mulranny direction. Down the drive and turn that way. Newport is the other way and you do not want it, which is a sentence you'll get used to.",
+        "N59 along the north shore of Clew Bay. You'll pass Nevin's at Tiernaur by the church — a pint is available, milk is not the point of Nevin's, keep going.",
+        "Mulranny is the little isthmus with the causeway, the salt marsh, and the old railway hotel looking pleased with itself. About twenty-five minutes.",
+        "Doherty's is the Centra: shop, petrol, pub and post office in the one go. Handy if you're bound for Achill and forgot milk. If you cross the Michael Davitt Bridge you've gone to the island without the tea bags."
+      ]
+    },
+    {
+      "from": "doherty-s-centra-mulranny",
+      "to": "lime-kiln-house",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "N59 back toward Newport, causeway behind you. The Greenway will run beside you like a smug cousin. Stay on the road.",
+        "Past Nevin's, then watch like a hawk for Burrishoole — it's easy to sail past after a day out, which is how people end up in Newport asking where they live.",
+        "Bay side, little road, up the drive. Croagh Patrick should be waiting. If it isn't, you are still on the N59 and should be concerned."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "mulranny-park-hotel-pool-leisure",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "West out the drive, Mulranny, not Newport. The bay stays on your left like it's being paid.",
+        "N59 past Tiernaur church and Nevin's. Don't stop unless the children have mutinied; the pool is the point of this particular outing.",
+        "Mulranny announces itself with the causeway and a hotel that used to be the railway's idea of grandeur. That's the Park Hotel — refurbished, bay views, leisure centre.",
+        "If you reach Achill Sound you've gone to another county of weather. Turn back; the hotel is the big one looking at the islands, not the Centra."
+      ]
+    },
+    {
+      "from": "mulranny-park-hotel-pool-leisure",
+      "to": "lime-kiln-house",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "Out of the car park and east, Newport way. The causeway is pretty. Do not photograph it from the middle of the N59.",
+        "Nevin's, then the Burrishoole turn on the water side before Newport's shops start up again.",
+        "If you hit Circle K you've overshot the house and arrived at petrol. Come back a minute. The drive is the one that still smells of the inlet."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "mulranny-golf-club",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "Mulranny road. Drive, turn west, N59 along the bay. You'll pass Rockfleet — Grace O'Malley's tower down a short lane on the left — then Rosturk, then Nevin's Newfield Inn by the church.",
+        "The golf club is just shy of the village coming from the house: a lane that drops toward the bay and vanishes. Nine holes, causeway, Croagh Patrick across the water.",
+        "If you are at Doherty's or the Park Hotel you've gone a few hundred metres too far; turn back toward Newport a touch. If you drive onto the Michael Davitt Bridge you've gone to Achill with your golf shoes.",
+        "Trolleys are a few euro. Competitions most weekends — call ahead or you'll be playing through someone's medal and that's a social wound."
+      ]
+    },
+    {
+      "from": "mulranny-golf-club",
+      "to": "lime-kiln-house",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "Back onto the N59 toward Newport. Resist Achill. Achill will still be there tomorrow, unfortunately for your schedule.",
+        "Along the north shore. Nevin's is a landmark, not a mandatory stop, unless it is.",
+        "Burrishoole before the village, bay side. Miss it and Newport will sell you diesel you didn't need. Turn around. The Reek in the window is the nineteenth hole."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "an-port-m-r-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Newport first — down the drive, east, along the bay, through the village. In the main street do not take the Castlebar Road. That's the R311, and it will take you to a perfectly nice town that is not your dinner.",
+        "Stay on the N59 for Westport, maybe twenty minutes. Golf Course Road is a signed right at Carrowholly; that's the club down a kilometre of lane. Stay on. The Mall means the streets are about to start.",
+        "Into Westport until the Clock Tower. Bridge Street runs down from it to the river. An Port Mór is 1 Brewery Place, a narrow alley off Bridge Street — if you can see it from the car you're cheating.",
+        "Book it. Frankie named it after his home village and the menus after the mountains. If you reach the Octagon looking lost, park and walk back toward the tower; the alley is the sort of place you pass twice."
+      ]
+    },
+    {
+      "from": "an-port-m-r-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Out of the alley, back to the N59 the way you came — Newport, not the Louisburgh road. The Quay is lovely and will not bring you to Burrishoole.",
+        "Golf club on your left this time. Through Newport village, past Circle K, then the Burrishoole turn on the bay side.",
+        "If you hit Nevin's you've overshot in a contented haze. Turn around. Up the drive. If you can still taste the sea trout, you did it right."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "savoir-fare-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "East to Newport, through the village, ignore Castlebar, N59 south as if Westport owed you cheese.",
+        "Golf Course Road peels off right at Carrowholly — that's the club, a kilometre down the lane. Stay on the N59. The Mall and the Carrowbeg mean you've arrived.",
+        "Bridge Street climbs from the river up to the Clock Tower. Savoir Fare is on that slope, between McCormack's Butchers and Matt Molloy's. Alain Morice: cheeses, charcuterie, wine, bread. Closes six, so this is not a sunset activity.",
+        "If you get as far as the Quay you've gone for a harbour walk. If you're up High Street you've overshot the river end. Come back to Molloy's and you're warm."
+      ]
+    },
+    {
+      "from": "savoir-fare-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Back up toward the Clock Tower and out the Newport road. Do not follow signs for Louisburgh unless you want a thatched pub and a different story.",
+        "N59, golf club on the left, Newport's main street, Circle K, then Burrishoole on the water.",
+        "Nevin's means you were dreaming of camembert and missed the boreen. Come back. The mountain in the window does not sell cheese; that's why you went."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "sage-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Drive, Newport, through, not Castlebar, N59 to Westport. Croagh Patrick will appear off to your left as you come in, which is showing off.",
+        "When the road becomes streets, look for the Clock Tower. Sage is on High Street, just above it — up the hill, not down Bridge Street toward the river.",
+        "If you're at the Octagon you've gone a street too far and can walk it. If you're at Westport House you've gone to the estate, which is a grand day and the wrong supper.",
+        "It's popular. Arrive like you meant it."
+      ]
+    },
+    {
+      "from": "sage-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Down from High Street, Clock Tower as your hat-check, then the Newport road out of town.",
+        "Past the golf club on the left. Through Newport as if you lived there, which you nearly do.",
+        "Burrishoole is before Nevin's, bay side, unmarked in the way that matters. The kitchen window will confirm the mountain hasn't moved."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "the-pantry-corkscrew-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "The usual pilgrimage: house, Newport, skip the Castlebar turn, N59 until Westport starts dressing like a town.",
+        "Golf Course Road on the right at Carrowholly is the club — ignore it. On into the centre. Clock Tower, then Shop Street to the Octagon — the eight-sided bit with the St Patrick column and the Wyatt.",
+        "The Pantry & Corkscrew sits on the Octagon. If you only find the Clock Tower, you're one street north. If you find Tesco, you're at the station end of town.",
+        "Vegan, vegetarian, coeliac — they actually mean it. Park on Mill Street or James Street; Westport is a walking town pretending to need a car."
+      ]
+    },
+    {
+      "from": "the-pantry-corkscrew-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "From the Octagon, Newport direction, not down to the Quay. The Quay is for later and for fish.",
+        "N59 with the golf club waving on your left. Newport village, Circle K, then the inlet turn.",
+        "If the seven-arch viaduct appears you're in Newport too deep. Back west a minute. Burrishoole. Drive. Mountain. Kettle."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "arno-s-bistro-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Newport, N59, Westport. Don't peel off for Castlebar in the village — Arno is French, not in Castlebar.",
+        "Golf Course Road is a signed right at Carrowholly if you were playing. You're not. Stay on for the Mall and the Clock Tower.",
+        "Arno's is 3 Market Lane, the other alley off Bridge Street from Brewery Place. Arnaud and Donal, local stuff with a French accent, Wednesday to Sunday from five, which is a hint to stop having lunch at four.",
+        "If you arrive at noon you'll be looking at a locked door and a wine list in the window, which is a form of torture. If you hit the Sheebeen you've gone out the Louisburgh road and the night is getting longer."
+      ]
+    },
+    {
+      "from": "arno-s-bistro-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Out the Newport road before you get philosophical about the wine list. N59, not R335.",
+        "Golf club left, Newport, past the pumps, Burrishoole on the bay.",
+        "Miss the turn and Nevin's will pour you a nightcap you didn't budget. Turn around. The Reek in the window is the digestif."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "the-bella-vita-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "East, Newport, through, N59 to Westport. The road is the same one as every other Westport dinner; the pasta is not.",
+        "Golf Course Road signed right at Carrowholly — skip it. Clock Tower. Bella Vita is just up High Street from it, left side as you walk up, Italian, wine list that caused the trip.",
+        "If you go down Bridge Street looking for it you'll find sweets and cheese instead. Up from the tower. Book it or stand in the street pretending you like the rain.",
+        "If you reach Il Volcano first, you're in the right neighbourhood and the wrong reservation."
+      ]
+    },
+    {
+      "from": "the-bella-vita-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Back past the Clock Tower and out toward Newport like Cinderella with leftovers.",
+        "N59, golf club on the left, through Newport, don't take Castlebar unless you want a very different night.",
+        "Burrishoole, bay side. Nevin's is the you've-gone-too-far. The mountain in the window does not take bookings."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "il-volcano-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "House to Newport to Westport on the N59. Castlebar Road is a trap for the inattentive. Don't be.",
+        "Carrowholly's Golf Course Road, then streets. Il Volcano — they spell it Vulcano when they're feeling Italian — is 9 High Street, family-run, grand for a crowd.",
+        "Clock Tower first, then up. If you can park once and walk to three restaurants, you're winning. If you're at Westport House, the volcano is behind you in town.",
+        "Good for larger groups. The alley with An Port Mór is nearby and is the other kind of evening."
+      ]
+    },
+    {
+      "from": "il-volcano-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "High Street back to the tower, then the Newport road. Leave the Octagon for people who still need a pizza.",
+        "Club on the left, village, Circle K, Burrishoole before the pub at Tiernaur.",
+        "If Croagh Patrick is getting bigger in the windscreen you're going the right way. If it's getting smaller, turn around, you're emigrating."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "this-must-be-the-place-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "The name is a promise. Down the drive, Newport, N59, Westport, the whole procession.",
+        "When you see the Clock Tower, do not walk down Bridge Street toward the river. This Must Be The Place is on High Street, immediately behind the clock: coffee, bread, cakes, wine, sandwiches — a shop that wants to be your bag.",
+        "If you walk down Bridge Street you'll pass Aunty Nellie's and Savoir Fare and wonder if you were supposed to stop at all of them. You were. This one is the back of the clock.",
+        "If you reach the Octagon you've gone through Shop Street. Come back one block. The harbour does not make sandwiches."
+      ]
+    },
+    {
+      "from": "this-must-be-the-place-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "From the clock, Newport road. Do not be lured down to the estate for a log flume unless that was the plan all along.",
+        "N59 home. Golf club, Newport, pumps, Burrishoole.",
+        "The turn is the one you'd miss if you were eating a bun. If Nevin's appears, the bun is gone and so is the turn. Come back."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "aunty-nellie-s-sweet-shop-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "A serious journey for a bag of sweets, which is the correct attitude. Newport, not Castlebar, N59 to Westport.",
+        "Golf Course Road on the right at Carrowholly — skip it. Clock Tower, down Bridge Street. Aunty Nellie's is the old-style sweet shop at 12/13, a big hit with anyone who is secretly nine.",
+        "Closes six. If you arrive at the Octagon, walk back toward the tower and down the slope. If you arrive at Tesco, you have gone grocery shopping by accident.",
+        "Savoir Fare is on the same street if the children have not yet spent the budget. Pace yourselves."
+      ]
+    },
+    {
+      "from": "aunty-nellie-s-sweet-shop-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Up Bridge Street, Clock Tower, Newport road, like a getaway driver with liquorice.",
+        "Golf club left. Through Newport. Circle K is your friend. Burrishoole is the quiet turn on the water.",
+        "If you see the seven arches you're too deep in the village. West a minute. The mountain in the window does not need sweets. The occupants do."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "supervalu-o-connors-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "This is the big shop. Newport, N59, Westport, same as dinner but with a trolley.",
+        "Golf Course Road on the right at Carrowholly — not today. Into town. SuperValu is on Shop Street, a few doors from the Octagon. Pedestrian front, car park around the back on the Mill Street side. Fish and shellfish counter; Keem Bay salmon if you're lucky. Hosts can even have it sent to the house, which is cheating and allowed.",
+        "If you find Tesco on Altamont by the train station you've gone to the south-edge weekly shop. Lidl is out by Hotel Westport. This one is in town.",
+        "If you end up at the Clock Tower looking confused, ask anyone for SuperValu. In Westport that's like asking for the church."
+      ]
+    },
+    {
+      "from": "supervalu-o-connors-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Boot full of bags, Newport road, not the Quay. The Quay is where the fish were before they were in the bags.",
+        "N59, golf club, Newport, past Circle K unless you need diesel to match the salmon.",
+        "Burrishoole, bay side. Nevin's means the frozen stuff is thawing while you admire a church. Turn around. Home, kettle, freeze the fish."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "tesco-westport",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Weekly shop energy. Drive to Newport, through, N59 to Westport, then don't stop at the Clock Tower like a tourist.",
+        "Tesco is the full-size one on the edge of town — Westpoint, Altamount Street. Keep going until Westport starts looking like a ring road with ambitions.",
+        "If you're at SuperValu on Shop Street you're in the centre doing the host-pick fish shop. Tesco is the other errand, down by the station. If you're at Lidl you're near the bakery and can do both if you're brave.",
+        "Golf Course Road happens before all of this, a signed right at Carrowholly. Use it as a milestone, not a distraction, unless you brought clubs to Tesco, in which case we need to talk."
+      ]
+    },
+    {
+      "from": "tesco-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Out of the car park and find the N59 for Newport. Do not invent a shortcut through housing estates; Mayo already did that and called it Altamount.",
+        "Golf club on the left once you're properly on the road home. Through the village, pumps, Burrishoole.",
+        "If the viaduct appears, too far into Newport. If Nevin's appears, too far the other way. The house is the argument between them."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "lidl-westport",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Newport, N59, Westport. Lidl sits with Cornrua Bakery out toward New Road / The Demesne, near Hotel Westport — not the Clock Tower souvenir version of town.",
+        "Golf Course Road on the right at Carrowholly means you're close. Then follow Lidl / Hotel Westport / New Road before you get sentimental about the Clock Tower.",
+        "If you park at SuperValu you've done the in-town shop. If you park at Tesco you're at Westpoint by the station. Lidl is the third point of the triangle, by the sourdough.",
+        "Closed-feeling on a Sunday compared to the centre. Plan accordingly."
+      ]
+    },
+    {
+      "from": "lidl-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Find the Newport road again. New Road is not the N59; don't live there.",
+        "Once you're on the N59, golf club left, Newport, Circle K, Burrishoole on the bay.",
+        "The turn is quieter than Lidl. If you reach Tiernaur you've brought the shopping on a pub crawl. Come back a minute."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "cornrua-bakery-westport",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Bakers' hours, so leave the house like you mean it. Newport, N59, Westport.",
+        "Past Carrowholly, then don't go hunting the Clock Tower. Cornrua is on New Road, The Demesne — prize-winning sourdough, coffee, jams, wine. Closed Mondays. Tuesday to Saturday they pack up around one, which is a farmer's idea of lunch.",
+        "Lidl is next door-ish. If you arrive at three you'll get a locked door and a smell of what you missed. Book loaves ahead or be early.",
+        "If you reach the Quay, you have gone for a walk with no bread. Come back inland a street or two."
+      ]
+    },
+    {
+      "from": "cornrua-bakery-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Loaves on the seat, not under the shopping. Newport road.",
+        "N59, golf club, village, pumps, Burrishoole.",
+        "If you stop at Nevin's with fresh bread you will eat it in the car park and that's between you and the church. The mountain in the window prefers it on a plate."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "westport-house",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Newport, skip Castlebar, N59 to Westport. When you hit the Clock Tower you are not there yet — that's town. The estate is through town toward the Quay.",
+        "Keep going until Westport House's gates appear like someone parked a country house on the harbour. Three hundred years of it, plus a train, swan pedalos and a log flume, which the original owners did not install.",
+        "If you stop at the Sheebeen you've gone out the Louisburgh road past the harbour. The House is the big one in the trees, not the thatched pub.",
+        "Day pass for the children. Adults pretend it's for the children."
+      ]
+    },
+    {
+      "from": "westport-house",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Back through town the way you came. Clock Tower, then N59 for Newport, not R335 for Croagh Patrick unless the children have a second wind you don't.",
+        "Golf club on the left. Newport, Circle K, Burrishoole.",
+        "If everyone is asleep in the back, don't miss the turn — Nevin's is a rude awakening. Home is the quiet drive with the mountain."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "westport-woods-riding-centre",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Newport, N59, Westport, then through town toward the Quays — same direction as Westport House, harbour side.",
+        "The pick-up is at Westport Woods Hotel on Quay Road. The horses live a few minutes out at Bohea; they come and get you, which is the correct power dynamic.",
+        "If you end up at the Clock Tower, keep going down toward the water, not back to Newport. If you end up at the Sheebeen you're on the Louisburgh road and the horses will not be impressed.",
+        "Beach rides when the tide allows. Book ahead. Bring the number."
+      ]
+    },
+    {
+      "from": "westport-woods-riding-centre",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 16,
+      "how": "drive",
+      "irish": [
+        "Quay Road back into town, Clock Tower, N59 Newport. Do not follow the R335 just because Croagh Patrick looks rideable. It isn't, not by you.",
+        "Golf club, village, pumps, Burrishoole bay side.",
+        "If you smell the stables all the way home, that's a souvenir. The mountain in the window doesn't care."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "westport-golf-club",
+      "mins": 15,
+      "km": 12,
+      "how": "drive",
+      "irish": [
+        "The shortest Westport trip, because you don't go into Westport. Down the drive, Newport, through the village, N59 south.",
+        "Coming from Newport, Golf Course Road is a signed right at Carrowholly, bay side, then about a kilometre to the clubhouse. It is not sitting on the N59 verge waiting to be noticed.",
+        "If you reach the Mall or the Clock Tower, turn around and go back out the Newport road. The club is the lane you passed while looking for the town. That's the smith-barn manoeuvre, only with better fairways.",
+        "Book a tee time. Close to home is how you get complacent."
+      ]
+    },
+    {
+      "from": "westport-golf-club",
+      "to": "lime-kiln-house",
+      "mins": 15,
+      "km": 12,
+      "how": "drive",
+      "irish": [
+        "Back along Golf Course Road to the N59. Town is left. Home is right, toward Newport.",
+        "Through the village, past Circle K. Pass the Abbey sign, over the steel Burrishoole bridge, bad left bend, then slow — left down the small road with the barn, not Furnace inland.",
+        "If you drove into Westport by habit, the Clock Tower will mock you. Turn around. The kitchen window is waiting with the same mountain you just played toward."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "cronin-s-sheebeen-the-shebeen-rosbeg",
+      "mins": 25,
+      "km": 18,
+      "how": "drive",
+      "irish": [
+        "Newport, N59, Westport — then don't stop. Through town toward the harbour and out the Louisburgh road, the R335.",
+        "Past Westport Harbour the road gets ideas about the bay. Cronin's Sheebeen is the thatched pub at Rosbeg, just outside town, looking at Clew Bay like it owns the lease.",
+        "About a kilometre and a half past the harbour. If you get to Murrisk and the Famine Monument you've gone to The Tavern and Croagh Patrick, which is a different chowder.",
+        "Call ahead for tables. Famous fish. Kids' menu. If you wanted the Clock Tower restaurants you should have stopped twenty minutes ago."
+      ]
+    },
+    {
+      "from": "cronin-s-sheebeen-the-shebeen-rosbeg",
+      "to": "lime-kiln-house",
+      "mins": 25,
+      "km": 18,
+      "how": "drive",
+      "irish": [
+        "Back toward Westport harbour, through town, N59 for Newport. Do not keep going to Louisburgh unless Doolough was the plan and nobody told the driver.",
+        "Clock Tower, golf club on the left, Newport village, Circle K.",
+        "Burrishoole, bay side. The thatch is behind you. The mountain is in front of the sink. That's the deal."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "the-tavern-bar-murrisk",
+      "mins": 30,
+      "km": 22,
+      "how": "drive",
+      "irish": [
+        "Newport, N59, Westport, through town, out the Louisburgh road past the harbour. You'll pass the Sheebeen at Rosbeg — wave, don't stop, unless you will, in which case this is a different card.",
+        "Keep on the R335. Murrisk is at the foot of Croagh Patrick. The National Famine Monument is the needle by the water. The old abbey is in the fields. The Tavern is the gastropub that feeds people who have just climbed, or people who watched.",
+        "If you reach Louisburgh you've gone through Murrisk without looking up, which is a feat. If you start up the Reek in the car, reverse; that's a path.",
+        "Crab dishes. Post-climb pints. About half an hour from the house, longer behind a tractor of pilgrims."
+      ]
+    },
+    {
+      "from": "the-tavern-bar-murrisk",
+      "to": "lime-kiln-house",
+      "mins": 30,
+      "km": 22,
+      "how": "drive",
+      "irish": [
+        "Back the R335 toward Westport, not on to Louisburgh and Doolough unless the evening is getting mythic.",
+        "Past the Sheebeen, harbour, town, Clock Tower, N59 to Newport.",
+        "Golf club, village, Burrishoole. If you can still see Croagh Patrick in the mirror and the windscreen, you're between the climb and the kettle. That's the correct sandwich."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "caf-rua-castlebar",
+      "mins": 35,
+      "km": 28,
+      "how": "drive",
+      "irish": [
+        "For once, you do want Castlebar. Down the drive, Newport, and in the village take the Castlebar Road — the R311 — instead of staying on the N59 for Westport.",
+        "About twenty-five minutes inland. No bay, fewer excuses. Castlebar is the county town; it has streets that mean business.",
+        "The host pick is Rua Deli & Siopa on Spencer Street — cheeses, cured meats, smoked salmon, wines, cooked dishes. That's the deli, phone ending 6072. The original café is on New Antrim Street if you want a sit-down; don't mix them up and then blame Mayo.",
+        "Spencer Street is near the Mall and the courthouse. If you reach the Museum of Country Life at Turlough you've gone through town and out the far side. Turn around. The good stuff is in the middle."
+      ]
+    },
+    {
+      "from": "caf-rua-castlebar",
+      "to": "lime-kiln-house",
+      "mins": 35,
+      "km": 28,
+      "how": "drive",
+      "irish": [
+        "Back the R311 to Newport, not the N5 to Westport unless you fancy a loop for the photos.",
+        "When you hit Newport's main street, turn west toward Mulranny / Achill, past Circle K. Do not keep toward Castlebar. You already did Castlebar.",
+        "Burrishoole on the bay side. Nevin's is still the too-far. The mountain in the window will look smug that you went inland."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "atlantic-drive-achill",
+      "mins": 40,
+      "km": 32,
+      "how": "drive",
+      "irish": [
+        "Mulranny direction from the house. N59 along the north shore, past Nevin's, through Mulranny's causeway, then the R319 across Corraun — do not stay on the N59 north for Ballycroy.",
+        "Cross the Michael Davitt Bridge onto the island. Drive away from the bridge into Achill Sound village. About 500 metres on, at a bit of wood, look left — several signs, including Atlantic Drive. Take that. Straight on is the boring-but-valid road to Keel.",
+        "The Drive runs the south of the island: Kildavnet church and Granuaile's tower, Cloughmore (right at the T, not down to the pier), then the road getting dramatic toward Dooega and Minaun.",
+        "If Keel strand appears you've stayed on the R319 and skipped the loop. Fill up in Mulranny; Achill's Cashel pump keeps its own hours."
+      ]
+    },
+    {
+      "from": "atlantic-drive-achill",
+      "to": "lime-kiln-house",
+      "mins": 40,
+      "km": 32,
+      "how": "drive",
+      "irish": [
+        "Back to Achill Sound however the loop spat you out — Cashel, or reverse the coast, either way the bridge is the door.",
+        "Michael Davitt Bridge, Mulranny, N59 toward Newport. The causeway, then Nevin's, then Burrishoole on the bay before the village.",
+        "If you see Circle K you've come through Newport. That's fine if you meant it. The house is the turn you keep missing when the sky has been too interesting."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "kildavnet-castle-achill",
+      "mins": 45,
+      "km": 35,
+      "how": "drive",
+      "irish": [
+        "West, Mulranny, Achill Sound, over the swing bridge. Same as the Atlantic Drive, because Kildavnet is on it.",
+        "After Achill Sound village, left onto the Drive. Along the Sound: Shraheens, Derreens, then the old church, graveyard, and Granuaile's tower house by the little harbour and the lifeboat station.",
+        "If you get to Darby's Point and Achillbeg staring at you, you've gone a few minutes past the castle — turn back along the water. If you're in Keel you're on the wrong side of the island.",
+        "It's one of Grace O'Malley's. The Grainne Uaile in Newport was named after her; this is the stone version. She had better security."
+      ]
+    },
+    {
+      "from": "kildavnet-castle-achill",
+      "to": "lime-kiln-house",
+      "mins": 45,
+      "km": 35,
+      "how": "drive",
+      "irish": [
+        "Back along the Sound to Achill Sound village, over the bridge, Mulranny, N59 home.",
+        "Don't take a creative boreen over Minaun unless you like sheep more than dinner. The N59 is the grown-up.",
+        "Nevin's, then Burrishoole, bay side. The tower doesn't follow you. The mountain in the window will do."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "the-beehive-keel-achill",
+      "mins": 50,
+      "km": 42,
+      "how": "drive",
+      "irish": [
+        "Mulranny road, N59, causeway, Achill Sound, over the Michael Davitt Bridge. Then stay on the main R319 toward Keel — do not take the Atlantic Drive left unless you want an hour of scenery before your soup.",
+        "Through the island until Keel: the long strand on your left, Minaun above, the village strung along the road. The Beehive is Patricia and Stephen Joyce — food, and the kind of craft shop that makes you poor in a good way.",
+        "If you reach Dooagh and the road to Keem, you've gone through Keel. Turn back. Keem is a bay, not a café.",
+        "About fifty minutes. Fill up before the bridge. Check the wind; Keel is where Mayo stores it."
+      ]
+    },
+    {
+      "from": "the-beehive-keel-achill",
+      "to": "lime-kiln-house",
+      "mins": 50,
+      "km": 42,
+      "how": "drive",
+      "irish": [
+        "R319 back to Achill Sound, not the Atlantic Drive unless the evening is long and the driver is still speaking to you.",
+        "Bridge, Mulranny, N59, Nevin's, Burrishoole. The north shore of the bay will try to slow you down. Let it a little.",
+        "If Circle K appears, you overshot. Come back a minute. The Beehive bags can go on the table under the mountain."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "achill-lamb-hq-keel",
+      "mins": 50,
+      "km": 42,
+      "how": "drive",
+      "irish": [
+        "Same Achill run as The Beehive: Mulranny, N59, causeway, over the Michael Davitt Bridge, R319 to Keel. Do not take the Atlantic Drive left unless the lamb can wait an hour.",
+        "Keel East is the village end as you come in — Calvey's Achill Lamb HQ, the farm store and butcher. If you land at The Beehive you've overshot by a shop and can walk it.",
+        "If you reach Dooagh and the Keem road you've gone through the village. Turn back. Sunday they're closed, so don't make a pilgrimage of it on the Sabbath.",
+        "About fifty minutes. Fill up at Doherty's in Mulranny. The lamb is the point of the island, according to the island."
+      ]
+    },
+    {
+      "from": "achill-lamb-hq-keel",
+      "to": "lime-kiln-house",
+      "mins": 50,
+      "km": 42,
+      "how": "drive",
+      "irish": [
+        "R319 back to the Sound, not Keem, not the Atlantic Drive unless the cooler bag is well iced.",
+        "Bridge, Mulranny, N59, Nevin's, Burrishoole, bay side. If Circle K appears you overshot the house for petrol, which the lamb does not require.",
+        "The mountain in the window will watch you put it in the fridge. That's allowed."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "pure-magic-surf-kite-school-keel",
+      "mins": 50,
+      "km": 42,
+      "how": "drive",
+      "irish": [
+        "West, Mulranny, Achill Sound, over the Michael Davitt Bridge. Then the island has opinions.",
+        "Pure Magic's lodge is on Slievemore Road, Dugort, looking over Keel Lough — not a hut on Keel strand. Easiest: R319 to Cashel / Ted's, then north via Bunacurry and Valley toward Doogort, and the lodge is on the Slievemore road before you drop into the village. Or go to Keel and cut north over the saddle.",
+        "If you stay in Keel looking for a surf shop you've missed it. If you reach Golden Strand you've gone past on the north side. Bring wetsuits. The Atlantic has not heard of August.",
+        "About fifty minutes. Fill up at Doherty's in Mulranny; the island pump at Cashel keeps shopkeeper hours."
+      ]
+    },
+    {
+      "from": "pure-magic-surf-kite-school-keel",
+      "to": "lime-kiln-house",
+      "mins": 50,
+      "km": 42,
+      "how": "drive",
+      "irish": [
+        "Wetsuits in a bag, R319 to the Sound, bridge, Mulranny, N59 toward Newport.",
+        "Causeway, Nevin's, Burrishoole on the bay. Salt on the seats is a souvenir; sand in the kettle is a failure.",
+        "If you still have the ocean in your ears, the mountain in the window will wait. Don't miss the turn because you're humming."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "doogort-beaches-achill",
+      "mins": 55,
+      "km": 45,
+      "how": "drive",
+      "irish": [
+        "Mulranny, Achill Sound, over the bridge, R319 as if for Keel — then north at Cashel / Ted's via Bunacurry and Valley. Do not stay west to Keel strand.",
+        "Doogort sits under Slievemore: Silver Strand at the foot of the mountain, Golden Strand with the dunes a bit east. Two Blue Flags, which is Achill showing off. Valley House is the pub.",
+        "The Deserted Village is on the Slievemore slope — park at the cemetery, walk up. If Keel strand is on your left you stayed on the west road and missed the turn at Cashel.",
+        "If you reach Keem you've gone to the end of Ireland. Fill up on the mainland. Fifty-odd minutes, plus staring."
+      ]
+    },
+    {
+      "from": "doogort-beaches-achill",
+      "to": "lime-kiln-house",
+      "mins": 55,
+      "km": 45,
+      "how": "drive",
+      "irish": [
+        "Back over the island to Achill Sound. Don't follow a tractor up Slievemore and call it a shortcut.",
+        "Bridge, Mulranny, N59, the causeway, Nevin's, then Burrishoole before Newport's shops.",
+        "Sand in the footwells. Mountain in the window. If you hit Castlebar you have inverted the county. Turn around, no harm, plenty of harm actually, turn around."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "carne-golf-links-belmullet",
+      "mins": 70,
+      "km": 65,
+      "how": "drive",
+      "irish": [
+        "Mulranny direction, then keep going on the N59 when sane people turn for Achill. Through Ballycroy — Wild Nephin visitor centre and a café, not petrol — on to Bangor Erris, then left onto the R313 for Belmullet. If you stay on the N59 through Bangor you're away to Crossmolina.",
+        "Around the tip of Blacksod Bay to Carne, about ten minutes past Belmullet. Small sign, holiday homes, red-marked sheep, stone gate, dunes the size of apartment blocks. Denis is a member; talk to him before you just arrive with a hopeful face.",
+        "About an hour. Fill up at Circle K in Newport or Doherty's in Mulranny. Treat Mulranny as the last easy pump. There are no pumps at Carne. If you cross onto Achill you've taken a left you weren't offered.",
+        "This is not a hop for a forgotten toothbrush. If you reach Blacksod lighthouse you've gone down the Mullet. The golf is before that, in the dunes, looking like a trick."
+      ]
+    },
+    {
+      "from": "carne-golf-links-belmullet",
+      "to": "lime-kiln-house",
+      "mins": 70,
+      "km": 65,
+      "how": "drive",
+      "irish": [
+        "R313 back to Bangor, N59 south. Ballycroy, Mulranny, the causeway, the long exhale.",
+        "Nevin's, then Burrishoole on the bay. You will know the house because you will be ready for it.",
+        "If you see Croagh Patrick and it is not in a kitchen window yet, keep going a minute. If you see Circle K, you overshot and can buy a drink to celebrate the round."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "enniscrone-golf-club",
+      "mins": 70,
+      "km": 70,
+      "how": "drive",
+      "irish": [
+        "The other way entirely — not Achill, not Mulranny. Down the drive, Newport, and take the Castlebar Road, the R311. Croagh Patrick should get smaller in the mirror.",
+        "Castlebar, then N58 to Foxford, N26 to Ballina, then the R297 along the east side of Killala Bay into Enniscrone. The N59 toward Sligo bypasses the village inland — you must take the R297. The club is Bartragh, southwest edge of town, on the dunes, not the promenade seaweed baths.",
+        "If you hit Easky you've gone through Enniscrone and out the far side. If you take the R314 for Céide Fields you're on the Mayo shore of the bay and the golf is on the Sligo shore.",
+        "Don't try a creative shortcut through the mountains unless you like sheep more than tee times. About an hour."
+      ]
+    },
+    {
+      "from": "enniscrone-golf-club",
+      "to": "lime-kiln-house",
+      "mins": 70,
+      "km": 70,
+      "how": "drive",
+      "irish": [
+        "R297 back to Ballina, Foxford, Castlebar, R311 into Newport. West through the village, past Circle K. Pass the Abbey turning, over the steel bridge, bad left bend, then the small road left with the barn — not Furnace inland.",
+        "Do not come home via Achill or the Céide coast. That is not a shortcut. That is a holiday.",
+        "Nevin's Newfield Inn means you nearly made it and then didn't. Turn around. The mountain in the window will look like a pitch-and-putt after Carne's cousin. That's fine."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "shore-walk-from-the-house",
+      "mins": 5,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "No car. If you're looking for the keys you've already failed this one.",
+        "Down the drive and turn right along the small road. It takes you to the shore of the inlet — Lough Furnace's saltwater cousin, depending on the tide and your poetry.",
+        "A short stroll. If you need directions longer than that you've overthought it. If you reach the N59 you're on the main road in your walking shoes, which is a different hobby.",
+        "Burrishoole Abbey is a longer right if you want ruins with your seaweed. The house will not move while you're gone. Probably."
+      ]
+    },
+    {
+      "from": "shore-walk-from-the-house",
+      "to": "lime-kiln-house",
+      "mins": 5,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "Turn around. The sea does not loop back to the kettle on its own.",
+        "Up the small road, up the drive. The house is the one you left, with Croagh Patrick in the window if you timed the weather.",
+        "If you come out on the N59, you're at the top of the system. Turn toward the inlet, not Mulranny. Mulranny is a car job."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "western-way-from-the-house",
+      "mins": 5,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "Still no car. Boots, not flip-flops. The Western Way is the proper walk off the house — longer, hillier, the sort of thing that makes lunch taste earned.",
+        "From the drive, onto the way. Follow the markers, not a confident dog. The inlet stays in the plot; the N59 is the enemy of a good walk.",
+        "If you find yourself at Nevin's you've walked to the pub, which is a valid Western Way variant but not the brochure.",
+        "If you're in the car you're on the wrong adventure. Park it. The mountain is for looking at and, if you're ambitious, for later."
+      ]
+    },
+    {
+      "from": "western-way-from-the-house",
+      "to": "lime-kiln-house",
+      "mins": 5,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "Follow the way back. When the inlet and Croagh Patrick agree, you're close.",
+        "The house is at the bottom of the thinking. If you pop out at Newport village you've walked the commute and can call for a lift, which is cheating and allowed once.",
+        "Kettle. Boots off. If your legs argue, the shore walk was the other button."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "rental-clew-bay-westport",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Bikes, then. Down the drive, turn for Newport — you're going through the village and on to Westport, not out to Mulranny.",
+        "N59 along the bay, through Newport, keep going south. Do not peel off for Castlebar. The Castlebar Road is honest and completely the wrong country for a Greenway bike.",
+        "Clew Bay Bike Hire is on the Newport Road (The Paddock) as you come into Westport — before you get tangled in James Street. Yellow pin. Book ahead; August is busy.",
+        "About twenty minutes unless you're behind a tractor and a caravan having a philosophical disagreement."
+      ]
+    },
+    {
+      "from": "rental-clew-bay-westport",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Back out the Newport Road, N59 north. Through Newport, then west — Mulranny / Achill, not Castlebar.",
+        "Past Circle K, Abbey sign is a pass. Steel bridge, bad left, then the small road with the barn.",
+        "If Furnace is on your right you overshot. Red door, stone house, pillars, cattle grid, up the drive."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "rental-westport-bike-hire",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Same start: Newport, then Westport. You're going into the town this time, not stopping on the Newport Road.",
+        "Through Newport on the N59, into Westport. James Street is in the centre — near the Octagon end of the shops.",
+        "Westport Bike Hire is there. If you land at Clew Bay on the Newport Road you've stopped one shop too early, which is still bikes, so no harm.",
+        "Twenty minutes. Book ahead."
+      ]
+    },
+    {
+      "from": "rental-westport-bike-hire",
+      "to": "lime-kiln-house",
+      "mins": 20,
+      "km": 15,
+      "how": "drive",
+      "irish": [
+        "Out of town the Newport Road, N59 north. Through the village, then west for home, not Castlebar.",
+        "Circle K, Abbey sign, steel bridge, bad left, small road, barn. The usual sermon.",
+        "Red door, stone house, pillars, cattle grid. If your legs are already tired, you have not even started the Greenway yet."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "rental-clew-bay-mulranny",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "This time you do go Mulranny. Down the drive, turn west, not for Newport.",
+        "N59 along the inlet past Tiernaur church and Nevin's. Keep going; the bikes are at the hotel, not the pub.",
+        "Mulranny announces itself with the causeway. Clew Bay Bike Hire is at Mulranny Park Hotel — the big yellow pile looking at the islands. Don't go hunting in Westport for this one.",
+        "About twenty-five minutes. Book ahead; they can shuttle to Achill if you want the wind at your back."
+      ]
+    },
+    {
+      "from": "rental-clew-bay-mulranny",
+      "to": "lime-kiln-house",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "Out of the hotel car park and east, Newport way. The causeway is pretty. Do not photograph it from the middle of the N59.",
+        "Nevin's, then watch for Burrishoole — the house is before the village, bay side.",
+        "If you hit Circle K you've overshot and arrived at petrol. Come back a minute. Barn, red door, stone house, pillars, cattle grid."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "walk-derrada",
+      "mins": 10,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "Boots. Down the drive, then you're looking for the Furnace turning — inland, the one Louisa told you not to take in the car. For this walk, that's the point.",
+        "Derrada Community Centre is a few minutes up that road. Map board, coloured arrows, three loops. Green if the children are coming; blue around the lough; red if you meant it.",
+        "Do not start from Newport and drive in unless it's pouring. You are already at the trailhead's front door."
+      ]
+    },
+    {
+      "from": "walk-derrada",
+      "to": "lime-kiln-house",
+      "mins": 10,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "Back down the Furnace road toward the N59. The house lane is the bay-side turn you already know — not further inland to the Marine Institute.",
+        "If you pop out on the steel bridge you've overshot and can enjoy the inlet anyway. Kettle from here is minutes."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "burrishoole-abbey-lough",
+      "mins": 8,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "The little Burrishoole road, not Furnace inland. The abbey is the ruined friary on the inlet, a few hundred metres. You could throw a scone at it from the kitchen if you had the arm.",
+        "Tide in, it's a postcard. Tide out, it's mud and atmosphere. Both count."
+      ]
+    },
+    {
+      "from": "burrishoole-abbey-lough",
+      "to": "lime-kiln-house",
+      "mins": 8,
+      "km": 1,
+      "how": "walk",
+      "irish": [
+        "Back the little road. The house is the one with the mountain in the window. If you reach the N59 you've gone the scenic extra and can still see Croagh Patrick, which is showing off."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "croagh-patrick",
+      "mins": 30,
+      "km": 22,
+      "how": "drive",
+      "irish": [
+        "Newport, N59, Westport, out the Louisburgh road. Murrisk is at the foot of the Reek — National Famine Monument by the water, car park, then the path. You cannot drive up it, and people have tried.",
+        "Start early if it's a clear day; the cone gets busy. Sticks help. The Tavern at the bottom is the traditional bribe for whoever waited.",
+        "If you reach Louisburgh you missed the mountain, which is not small. Turn around."
+      ]
+    },
+    {
+      "from": "croagh-patrick",
+      "to": "lime-kiln-house",
+      "mins": 30,
+      "km": 22,
+      "how": "drive",
+      "irish": [
+        "Down the Reek, into the car, R335 back to Westport, N59 to Newport, west, steel bridge, barn, red door, pillars. Your legs will vote for the kettle.",
+        "Do not detour via Doolough unless you still have a day in you. You do not."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "mulranny-beach-causeway",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "Mulranny, not Newport. N59 along the bay, past Nevin's, causeway village. The beach and boardwalk are below the hotel — down the steps toward the saltmarsh, not into Achill.",
+        "Blue arrows for the shorter causeway loop; red for Lookout Hill. About twenty-five minutes in the car, then the walking starts."
+      ]
+    },
+    {
+      "from": "mulranny-beach-causeway",
+      "to": "lime-kiln-house",
+      "mins": 25,
+      "km": 20,
+      "how": "drive",
+      "irish": [
+        "Back up to the N59, east toward Newport. House before the village, bay side. If Circle K appears you were dreaming of ice cream and missed the boreen."
+      ]
+    },
+    {
+      "from": "lime-kiln-house",
+      "to": "walk-kiladoon-beach-loop",
+      "mins": 50,
+      "km": 44,
+      "how": "drive",
+      "irish": [
+        "Newport, N59, Westport — same as the Reek, but keep going. Out the Louisburgh road past Murrisk. Don't turn for the mountain.",
+        "Louisburgh, then the R378 toward Killeen / Killadoon — not the Doolough / Leenane road. Seven-and-a-bit kilometres and the cemetery is on your right. That's the trailhead for both loops.",
+        "White arrows for the beach and Cross Lough; green for the bog. Tide out, walk the strand; tide in, the stones. About fifty minutes in the car, then two hours on your feet."
+      ]
+    },
+    {
+      "from": "walk-kiladoon-beach-loop",
+      "to": "lime-kiln-house",
+      "mins": 50,
+      "km": 44,
+      "how": "drive",
+      "irish": [
+        "Back the R378 to Louisburgh, R335 to Westport, N59 to Newport, west, steel bridge, barn, red door. If you fancy Doolough on the way home, that's a different afternoon.",
+        "Do not follow the white or green arrows back to Newport. They do not know the house."
+      ]
+    }
+  ]
+}

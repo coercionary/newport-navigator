@@ -6,7 +6,29 @@
       "name": "Lime Kiln House",
       "lat": 53.8983135,
       "lng": -9.5837183,
-      "eircode": "F28X380"
+      "eircode": "F28X380",
+      "hostName": "Louisa",
+      "hostTel": "+353876573840",
+      "approach": [
+        "Through Newport, bearing left past Circle K onto the Achill / Mulranny road (that's the N59 — not the Castlebar N5).",
+        "About 2 km after Circle K you pass a signpost and turning for Burrishoole Abbey. Keep going — that isn't the house lane yet.",
+        "About 2.5 km after Circle K you drive over the Burrishoole bridge (the new steel one).",
+        "If you overshoot the left, a turning to Furnace is on your right — use it to turn around. Don't follow Furnace inland (Lough Furnace / Marine Institute is the wrong house).",
+        "On the small road: sloped-roof barn on the right as you turn, then a modern bungalow with a red front door on your right, an old stone two-storey on your left. Stone-pillar gateway on your right, gate tied back; over the cattle grid and up the drive."
+      ],
+      "fromBridge": [
+        "Stay on the N59 toward Carrowsallagh / Mulranny — 750 m.",
+        "Turn left — 300 m.",
+        "Slight right — 450 m. Lime Kiln House is on the right, up the drive."
+      ],
+      "approachFromWest": [
+        "Coming from Mulranny, Achill, or Nevin's, stay on the N59 toward Newport. The house turn is before the village — and before the steel Burrishoole bridge.",
+        "If you cross the steel bridge heading for Newport, you've already passed the small road. Turn around.",
+        "Turn right off the N59 (bay side) — 300 m.",
+        "Slight right — 450 m. Lime Kiln House is on the right, up the drive.",
+        "Don't follow a turning inland to Furnace / Lough Furnace / the Marine Institute — that's the wrong house.",
+        "Landmarks: sloped-roof barn, red-door bungalow, old stone two-storey, stone-pillar gateway with the gate tied back. Over the cattle grid and up the drive."
+      ]
     },
     "updated": "2026-08-13",
     "schemaVersion": 1
@@ -29,7 +51,9 @@
       "lat": 53.8983135,
       "lng": -9.5837183,
       "desc": "Your home for the week — near Burrishoole, just west of Newport, above a tidal inlet with Croagh Patrick from the kitchen window.",
-      "info": "Eircode F28X380 · Wi-Fi (no password) · underfloor heating"
+      "info": "Eircode F28X380 · Wi-Fi (no password) · underfloor heating",
+      "tel": "+353876573840",
+      "telLabel": "Louisa"
     },
     {
       "id": "newport-village",
@@ -58,8 +82,8 @@
       "host": true,
       "emoji": "🍺",
       "name": "Grainne Uaile Pub, Newport",
-      "lat": 53.8878,
-      "lng": -9.5432,
+      "lat": 53.8832,
+      "lng": -9.546,
       "desc": "Host pick — good pub lunch/supper, very family friendly with a kids' menu and outdoor seating. Over the bridge in Newport.",
       "info": "Trad music Thursdays ~9.30pm"
     },
@@ -81,8 +105,8 @@
       "host": true,
       "emoji": "🍽️",
       "name": "An Port Mór, Westport",
-      "lat": 53.7995,
-      "lng": -9.5175,
+      "lat": 53.79901,
+      "lng": -9.52194,
       "desc": "Host pick — award-winning restaurant in an alley off Bridge Street using locally sourced produce. Booking essential.",
       "info": "Book ahead",
       "tel": "+3539826730"
@@ -117,8 +141,8 @@
       "host": true,
       "emoji": "🧀",
       "name": "Savoir Fare, Westport",
-      "lat": 53.8,
-      "lng": -9.52,
+      "lat": 53.79913,
+      "lng": -9.5227,
       "desc": "Host pick — Alain Morice's spot on Bridge Street; Irish artisan cheeses & charcuterie, wine and bread.",
       "info": "Closes 6pm",
       "tel": "+3539860095"
@@ -129,8 +153,8 @@
       "host": true,
       "emoji": "🍷",
       "name": "Sage, Westport",
-      "lat": 53.7993,
-      "lng": -9.5188,
+      "lat": 53.79815,
+      "lng": -9.52309,
       "desc": "Host pick — very popular restaurant on High Street, just above the Clock Tower.",
       "tel": "+3539856700"
     },
@@ -140,8 +164,8 @@
       "host": true,
       "emoji": "🥗",
       "name": "The Pantry & Corkscrew, Westport",
-      "lat": 53.8003,
-      "lng": -9.5182,
+      "lat": 53.79893,
+      "lng": -9.52535,
       "desc": "Host pick — friendly spot with a good range of vegan, vegetarian and gluten-free options.",
       "tel": "+3539826977"
     },
@@ -151,9 +175,9 @@
       "host": true,
       "emoji": "🇫🇷",
       "name": "Arno's Bistro, Westport",
-      "lat": 53.7998,
-      "lng": -9.5172,
-      "desc": "Host pick — French chef Arnaud + Mayo head chef Donal; fresh local products with a French touch and a great wine list.",
+      "lat": 53.79895,
+      "lng": -9.5222,
+      "desc": "Host pick — French chef Arnaud + Mayo head chef Donal; fresh local products with a French touch and a great wine list. On Market Lane, off Bridge Street by the Clock.",
       "info": "Open Wed–Sun from 5pm",
       "tel": "+3539824684"
     },
@@ -163,8 +187,8 @@
       "host": true,
       "emoji": "🍝",
       "name": "The Bella Vita, Westport",
-      "lat": 53.7991,
-      "lng": -9.5185,
+      "lat": 53.79807,
+      "lng": -9.52291,
       "desc": "Host pick — excellent Italian just up from the Clock Tower (left side), with a good wine menu.",
       "info": "Book ahead",
       "tel": "+3539829771"
@@ -175,9 +199,9 @@
       "host": true,
       "emoji": "🍕",
       "name": "Il Volcano, Westport",
-      "lat": 53.7997,
-      "lng": -9.5165,
-      "desc": "Host pick — family-run Italian, good for families and larger groups, and good value.",
+      "lat": 53.79766,
+      "lng": -9.52315,
+      "desc": "Host pick — family-run Italian further up High Street, good for families and larger groups, and good value.",
       "tel": "+3539824888"
     },
     {
@@ -186,9 +210,9 @@
       "host": true,
       "emoji": "🥖",
       "name": "Cornrua Bakery, Westport",
-      "lat": 53.7975,
-      "lng": -9.5105,
-      "desc": "Host pick — prize-winning sourdough bakery near Lidl/Hotel Westport. Book loaves ahead or arrive early; coffee, jams, wine on site.",
+      "lat": 53.80218,
+      "lng": -9.52582,
+      "desc": "Host pick — prize-winning sourdough bakery on New Road (The Demesne), beside Lidl. Book loaves ahead or arrive early; coffee, jams, wine on site.",
       "info": "Closed Mondays",
       "tel": "+353879348975"
     },
@@ -198,9 +222,9 @@
       "host": true,
       "emoji": "🥪",
       "name": "This Must Be The Place, Westport",
-      "lat": 53.8001,
-      "lng": -9.5207,
-      "desc": "Host pick — coffee shop plus takeaway bread, cakes, wine, sandwiches and fruit, by the clock at the top of Bridge Street."
+      "lat": 53.7983,
+      "lng": -9.52346,
+      "desc": "Host pick — coffee shop plus takeaway bread, cakes, wine, sandwiches and fruit, on High Street immediately behind the Clock Tower."
     },
     {
       "id": "aunty-nellie-s-sweet-shop-westport",
@@ -208,8 +232,8 @@
       "host": true,
       "emoji": "🍬",
       "name": "Aunty Nellie's Sweet Shop, Westport",
-      "lat": 53.7999,
-      "lng": -9.52,
+      "lat": 53.79887,
+      "lng": -9.5226,
       "desc": "Host pick — old-style sweet shop on Bridge Street, a big hit with the kids.",
       "info": "Closes 6pm",
       "tel": "+3539824526"
@@ -241,8 +265,8 @@
       "host": false,
       "emoji": "🎶",
       "name": "Matt Molloy's Pub, Westport",
-      "lat": 53.7998,
-      "lng": -9.5205,
+      "lat": 53.79918,
+      "lng": -9.52268,
       "desc": "Westport institution owned by a member of The Chieftains — live trad music seven nights a week."
     },
     {
@@ -251,8 +275,8 @@
       "host": false,
       "emoji": "🍲",
       "name": "The Cobbler's Bar, Westport",
-      "lat": 53.8,
-      "lng": -9.5203,
+      "lat": 53.79906,
+      "lng": -9.5252,
       "desc": "Restored historic pub in the town centre — Killary mussels, Guinness beef pie, cosy atmosphere."
     },
     {
@@ -261,8 +285,8 @@
       "host": false,
       "emoji": "🐟",
       "name": "The Helm, Westport Quay",
-      "lat": 53.8033,
-      "lng": -9.5432,
+      "lat": 53.80022,
+      "lng": -9.54762,
       "desc": "Down at Westport Quay — daily fresh fish landings and generous portions with a harbour setting."
     },
     {
@@ -301,9 +325,9 @@
       "host": true,
       "emoji": "🐟",
       "name": "SuperValu (O'Connors), Westport",
-      "lat": 53.8007,
-      "lng": -9.5168,
-      "desc": "Host pick — big supermarket on Mill Street with a great fresh fish & shellfish counter. Stocks Keem Bay smoked organic salmon (hosts can arrange delivery to the house).",
+      "lat": 53.7986,
+      "lng": -9.52461,
+      "desc": "Host pick — big supermarket on Shop Street (car park around the back, Mill Street side) with a great fresh fish & shellfish counter. Stocks Keem Bay smoked organic salmon (hosts can arrange delivery to the house).",
       "info": "Main big-shop"
     },
     {
@@ -312,9 +336,9 @@
       "host": true,
       "emoji": "🛍️",
       "name": "Tesco Westport",
-      "lat": 53.7928,
-      "lng": -9.5235,
-      "desc": "Host pick — full-size Tesco on the edge of Westport for a big weekly shop."
+      "lat": 53.79681,
+      "lng": -9.51012,
+      "desc": "Host pick — full-size Tesco on Altamont Street (Castlebar Road) on the east side of town, for a big weekly shop."
     },
     {
       "id": "lidl-westport",
@@ -322,9 +346,9 @@
       "host": true,
       "emoji": "🥫",
       "name": "Lidl Westport",
-      "lat": 53.7972,
-      "lng": -9.51,
-      "desc": "Host pick — discount supermarket in Westport, handy near Cornrua Bakery."
+      "lat": 53.80264,
+      "lng": -9.52453,
+      "desc": "Host pick — discount supermarket on New Road, north of The Mall, handy beside Cornrua Bakery."
     },
     {
       "id": "doherty-s-centra-mulranny",
@@ -337,24 +361,157 @@
       "desc": "Host pick — friendly Mulranny shop with a pub, petrol station and post office; handy for basics en route to Achill."
     },
     {
+      "id": "achill-lamb-hq-keel",
+      "cat": "food",
+      "host": false,
+      "emoji": "🥩",
+      "name": "Achill Lamb HQ, Keel East",
+      "lat": 53.97595,
+      "lng": -10.08141,
+      "desc": "Calvey's farm store and butcher in Keel East — Mayo Blackface mountain lamb from the Slievemore slopes, raised on heather and sea mist. Call in for chops, a rack, or a box for the freezer. Farm tours April–October.",
+      "info": "Mon–Sat 9–6 · closed Sunday · Eircode F28 A9N2",
+      "tel": "+3539843158",
+      "telLabel": "Calvey's",
+      "plan": "Next door to The Beehive — same Keel stop."
+    },
+    {
       "id": "pharmacy-westport",
       "cat": "shop",
       "host": false,
       "emoji": "💊",
       "name": "Pharmacy, Westport",
-      "lat": 53.7996,
-      "lng": -9.5188,
-      "desc": "Town-centre pharmacy for holiday essentials. Check hours."
+      "lat": 53.7994,
+      "lng": -9.52254,
+      "desc": "Golden's Pharmacy on Bridge Street for holiday essentials. Check hours."
     },
     {
       "id": "great-western-greenway-newport",
       "cat": "beach",
       "host": true,
+      "bike": "stop",
+      "gwKm": 11,
       "emoji": "🚲",
-      "name": "Great Western Greenway (Newport)",
-      "lat": 53.8869,
-      "lng": -9.547,
-      "desc": "Host pick — 42 km traffic-free cycle/walk trail on an old railway line, Westport–Newport–Mulranny–Achill. The Newport→Achill section is especially scenic. Check the wind direction first!"
+      "name": "Newport viaduct (Greenway)",
+      "lat": 53.88334,
+      "lng": -9.54611,
+      "desc": "Host pick — join the Great Western Greenway at the seven-arch viaduct. 11 km to Westport, 18 km to Mulranny, 31 km to Achill Sound. Check the wind first. The bike-hire icon on older maps is Greenway Bicycle Hire on Main Street — that shop is closed; hire in Westport or Mulranny.",
+      "info": "Traffic-free old railway. You cannot drive it."
+    },
+    {
+      "id": "gw-westport",
+      "cat": "do",
+      "host": false,
+      "bike": "stop",
+      "gwKm": 0,
+      "emoji": "🚲",
+      "name": "Westport (start / finish)",
+      "lat": 53.80923,
+      "lng": -9.52742,
+      "desc": "Official start of the Greenway, just off the N59 toward Newport. 11 km to Newport, 18 km more to Mulranny, 13 km more to Achill Sound. Visitor maps mark the whole Greenway 44 km with 250 m of ascent."
+    },
+    {
+      "id": "gw-kilmeena",
+      "cat": "do",
+      "host": false,
+      "bike": "stop",
+      "gwKm": 5,
+      "emoji": "🚲",
+      "name": "Kilmeena (Greenway)",
+      "lat": 53.84682,
+      "lng": -9.55019,
+      "desc": "Halfway Westport–Newport on the Greenway — about 5 km from the Westport trailhead, 6 km to the Newport viaduct. Quiet farmland beside the N59."
+    },
+    {
+      "id": "gw-burrishoole",
+      "cat": "do",
+      "host": false,
+      "bike": "stop",
+      "gwKm": 14,
+      "emoji": "🚲",
+      "name": "Burrishoole Abbey (Greenway)",
+      "lat": 53.90369,
+      "lng": -9.5762,
+      "desc": "Greenway nearest the house, by Burrishoole Abbey on the visitor map — about 3 km west of Newport, 15 km to Mulranny. Walk down from Lime Kiln House and pick up the trail; the abbey is a short dip off toward the inlet."
+    },
+    {
+      "id": "gw-rosturk",
+      "cat": "do",
+      "host": false,
+      "bike": "stop",
+      "gwKm": 23,
+      "emoji": "🚲",
+      "name": "Rosturk (Greenway)",
+      "lat": 53.90923,
+      "lng": -9.68994,
+      "desc": "Mid-way Newport–Mulranny on the Greenway. Rockfleet Castle (Grace O'Malley) is a short dip off the trail toward the bay."
+    },
+    {
+      "id": "gw-mulranny",
+      "cat": "do",
+      "host": false,
+      "bike": "stop",
+      "gwKm": 29,
+      "emoji": "🚲",
+      "name": "Mulranny (Greenway)",
+      "lat": 53.90777,
+      "lng": -9.77438,
+      "desc": "Causeway village — 18 km from Newport, 13 km to Achill Sound. Beach, hotel, and bike hire at the Mulranny Park Hotel."
+    },
+    {
+      "id": "gw-achill",
+      "cat": "do",
+      "host": false,
+      "bike": "stop",
+      "gwKm": 42,
+      "emoji": "🚲",
+      "name": "Achill Sound (start / finish)",
+      "lat": 53.93145,
+      "lng": -9.92425,
+      "desc": "End of the Greenway at Achill Sound (Polranny) — the other start / finish on the visitor map, by the Michael Davitt Bridge. 42 km of traffic-free trail from Westport (maps mark 44 km including town). Prevailing wind is often at your back if you start here and ride east."
+    },
+    {
+      "id": "rental-clew-bay-westport",
+      "cat": "do",
+      "host": true,
+      "bike": "rental",
+      "emoji": "🚲",
+      "name": "Clew Bay Bike Hire, Westport",
+      "lat": 53.79963,
+      "lng": -9.51655,
+      "desc": "Host-useful hire on the Newport Road (The Paddock) — hybrids, e-bikes, kids' bikes, trailers. Shops also in Mulranny and Achill so you can ride one way with the wind. Book ahead.",
+      "info": "Drive ~20 min from the house · +353 98 24818",
+      "tel": "+3539824818",
+      "telLabel": "Clew Bay",
+      "plan": "Best if you want a one-way Greenway (they shuttle bikes / people)."
+    },
+    {
+      "id": "rental-westport-bike-hire",
+      "cat": "do",
+      "host": false,
+      "bike": "rental",
+      "emoji": "🚲",
+      "name": "Westport Bike Hire, James Street",
+      "lat": 53.79985,
+      "lng": -9.52414,
+      "desc": "In the centre of Westport, minutes from the Greenway. Hybrids and e-bikes; optional shuttle to their Achill shop so you can ride back. Book ahead.",
+      "info": "Drive ~20 min from the house · +353 86 088 0882 · Eircode F28 DY94",
+      "tel": "+353860880882",
+      "telLabel": "Westport Bike Hire"
+    },
+    {
+      "id": "rental-clew-bay-mulranny",
+      "cat": "do",
+      "host": true,
+      "bike": "rental",
+      "emoji": "🚲",
+      "name": "Clew Bay Bike Hire, Mulranny",
+      "lat": 53.90699,
+      "lng": -9.78194,
+      "desc": "Same operator as Westport — at Mulranny Park Hotel. Closest hire if you're heading west from the house. Ride 13 km to Achill or 18 km back to Newport. Book ahead.",
+      "info": "Drive ~25 min west from the house · +353 98 24818",
+      "tel": "+3539824818",
+      "telLabel": "Clew Bay",
+      "plan": "Nearest shop to Lime Kiln House — no need to go into Westport."
     },
     {
       "id": "shore-walk-from-the-house",
@@ -364,7 +521,8 @@
       "name": "Shore walk from the house",
       "lat": 53.901,
       "lng": -9.587,
-      "desc": "Host pick — walk down the drive and turn right along the small road; it takes you right down to the shore. A lovely short stroll on the doorstep."
+      "desc": "Host pick — walk down the drive and turn right along the small road; it takes you right down to the shore. A lovely short stroll on the doorstep.",
+      "walk": {"km": 1, "mins": 20, "grade": "Easy"}
     },
     {
       "id": "western-way-from-the-house",
@@ -374,7 +532,27 @@
       "name": "Western Way (from the house)",
       "lat": 53.905,
       "lng": -9.595,
-      "desc": "Host pick — for a longer, more challenging walk; the Western Way is accessible directly from the house."
+      "desc": "Host pick — join the National Waymarked Way from the house (yellow arrow on black). As long as you like; through Newport toward Westport, or north past Lough Furnace into the Nephin Begs. Boots, not flip-flops.",
+      "walk": {"grade": "Moderate", "marks": "Yellow arrow (national waymark)"}
+    },
+    {
+      "id": "walk-derrada",
+      "cat": "beach",
+      "host": true,
+      "emoji": "🥾",
+      "name": "Derrada loop walks",
+      "lat": 53.9038,
+      "lng": -9.5861,
+      "desc": "Host-useful — three waymarked loops from Derrada Community Centre, about a 10-minute walk from the house (signposted Furnace off the N59, not the house lane). Green is the family one; blue circles Lough Furnace; red is the long hill day.",
+      "info": "Trailhead: Derrada Community Centre · follow coloured arrows",
+      "walk": {
+        "loops": [
+          {"name": "Lettermaghera (green)", "km": 8, "mins": 120, "grade": "Moderate", "marks": "Green arrows"},
+          {"name": "Furnace (blue)", "km": 10, "mins": 150, "grade": "Hard", "marks": "Blue arrows"},
+          {"name": "Oghillies (red)", "km": 12, "mins": 180, "grade": "Hard", "marks": "Red arrows"}
+        ]
+      },
+      "plan": "The doorstep walks — start here, not in town."
     },
     {
       "id": "doogort-beaches-achill",
@@ -424,7 +602,25 @@
       "name": "Croagh Patrick",
       "lat": 53.76,
       "lng": -9.658,
-      "desc": "Ireland's holy mountain — a 2–3 hr there-and-back climb with panoramic Clew Bay views. Start at the Murrisk car park."
+      "desc": "Ireland's holy mountain — a 2–3 hr there-and-back climb with panoramic Clew Bay views. Start at the Murrisk car park.",
+      "walk": {"km": 7, "mins": 180, "grade": "Hard", "marks": "Pilgrim path from Murrisk"}
+    },
+    {
+      "id": "walk-kiladoon-beach-loop",
+      "cat": "beach",
+      "host": false,
+      "emoji": "🥾",
+      "name": "Killeen loop walks",
+      "lat": 53.71281,
+      "lng": -9.88421,
+      "desc": "Two easy loops from Killeen Cemetery, past Louisburgh. White arrows go to Killadoon strand (tide out, walk the sand; tide in, the stones) and Cross Lough. Green arrows do the White Stone bog circuit on country lanes. Same trailhead, same 82 m of climb, pick a colour.",
+      "info": "Trailhead: Killeen Cemetery · R378, 7.7 km from Louisburgh · dogs not allowed",
+      "walk": {
+        "loops": [
+          {"name": "Kiladoon Beach (white)", "km": 6.4, "mins": 120, "grade": "Easy", "marks": "White arrows"},
+          {"name": "White Stone Bog (green)", "km": 7.2, "mins": 120, "grade": "Easy", "marks": "Green arrows"}
+        ]
+      }
     },
     {
       "id": "mulranny-beach-causeway",
@@ -434,7 +630,13 @@
       "name": "Mulranny Beach & causeway",
       "lat": 53.906,
       "lng": -9.777,
-      "desc": "Blue-Flag beach with a boardwalk across the saltmarsh, ~30 min north along Clew Bay."
+      "desc": "Blue-Flag beach with a boardwalk across the saltmarsh, ~30 min north along Clew Bay. Two waymarked loops start at the pier / causeway.",
+      "walk": {
+        "loops": [
+          {"name": "Causeway loop (blue)", "km": 5, "mins": 90, "grade": "Moderate", "marks": "Blue arrows"},
+          {"name": "Lookout Hill (red)", "km": 6, "mins": 140, "grade": "Moderate", "marks": "Red arrows"}
+        ]
+      }
     },
     {
       "id": "burrishoole-abbey-lough",
@@ -442,9 +644,10 @@
       "host": false,
       "emoji": "⛪",
       "name": "Burrishoole Abbey & Lough",
-      "lat": 53.911,
-      "lng": -9.582,
-      "desc": "Atmospheric ruined friary on a tidal lough just past Newport — signposted on the drive home; a short, scenic stop."
+      "lat": 53.8988,
+      "lng": -9.5723,
+      "desc": "Atmospheric ruined friary on a tidal inlet, a few hundred metres from the house on the little Burrishoole road — not the Furnace turn inland.",
+      "walk": {"km": 1, "mins": 20, "grade": "Easy"}
     },
     {
       "id": "doolough-valley",
@@ -462,8 +665,8 @@
       "host": true,
       "emoji": "🏰",
       "name": "Westport House",
-      "lat": 53.801,
-      "lng": -9.548,
+      "lat": 53.80069,
+      "lng": -9.53552,
       "desc": "Host pick — 300-year-old estate; buy a day pass for the train, swan pedalos and the ever-popular log flume. Great with children.",
       "tel": "+3539833333"
     },
@@ -486,7 +689,7 @@
       "name": "Atlantic Drive, Achill",
       "lat": 53.925,
       "lng": -10.04,
-      "desc": "Host pick — signposted right just beyond Achill Sound; spectacular coastal loop (dramatic in any weather), passing the fishing village of Dooega."
+      "desc": "Host pick — signposted left just beyond Achill Sound; spectacular coastal loop (dramatic in any weather), passing the fishing village of Dooega."
     },
     {
       "id": "westport-woods-riding-centre",
@@ -494,8 +697,8 @@
       "host": true,
       "emoji": "🐎",
       "name": "Westport Woods Riding Centre",
-      "lat": 53.8,
-      "lng": -9.555,
+      "lat": 53.79927,
+      "lng": -9.54084,
       "desc": "Host pick — lovely beach rides; pick-up point at the Westport Woods Hotel (head through town toward the Quays).",
       "tel": "+3539825811"
     },
@@ -505,8 +708,8 @@
       "host": true,
       "emoji": "🎣",
       "name": "Clew Bay fishing — Darragh Magee",
-      "lat": 53.8875,
-      "lng": -9.5455,
+      "lat": 53.885,
+      "lng": -9.548,
       "desc": "Host pick — custom catamaran for leisure and fishing trips on Clew Bay, based in Newport. Flexible and experienced; trips to suit your party, weather allowing.",
       "info": "Number may be incomplete in guide",
       "tel": "+35386388442"
@@ -516,10 +719,10 @@
       "cat": "do",
       "host": true,
       "emoji": "🏄",
-      "name": "Pure Magic Surf & Kite School, Keel",
-      "lat": 53.977,
-      "lng": -10.08,
-      "desc": "Host pick — surf school and kite school in Keel, Achill; wave riding on the beach and flat-water on Keel Lake. Bring wetsuits — it can be cold!"
+      "name": "Pure Magic Surf & Kite School, Dugort",
+      "lat": 53.9963,
+      "lng": -10.0546,
+      "desc": "Host pick — surf and kite school on Slievemore Road, Dugort, looking over Keel Lough; wave riding on Keel strand too. Bring wetsuits — it can be cold!"
     },
     {
       "id": "kildavnet-castle-achill",
@@ -659,6 +862,17 @@
       "lat": 53.83,
       "lng": -9.33,
       "desc": "Well-regarded parkland course near Castlebar, about 30 min east."
+    },
+    {
+      "id": "galway-city",
+      "cat": "do",
+      "host": false,
+      "emoji": "🎨",
+      "name": "Galway city",
+      "lat": 53.274,
+      "lng": -9.049,
+      "desc": "The city on the bay — Latin Quarter, Shop Street, Spanish Arch. About 1 hr 20 from the house; a good rainy-day or evening trip.",
+      "plan": "Day trip (~1 hr 20 via the N59). The long way round through Clifden is slower but a lovely coast road."
     }
   ]
 }

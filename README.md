@@ -29,6 +29,8 @@ sw.js                     # service worker — caches the app shell for offline 
 data/places.json          # curated place data — edit this to add/change host pins
 icons/                    # app icons (scalable SVG: icon.svg + icon-maskable.svg)
 docs/family-setup.md      # "get your phone ready before Ireland" sheet
+fly.toml                  # Fly.io app config
+Dockerfile                # static file server (gostatic on port 8080)
 ```
 
 > Icons are SVG so they stay crisp at any size. High-res PNG icons (192/512/maskable/apple-touch)
@@ -36,12 +38,13 @@ docs/family-setup.md      # "get your phone ready before Ireland" sheet
 
 ## Run it locally
 Because the app fetches `data/places.json`, it must be served over http (not opened as a `file://`).
+Uses port **8787** so it stays out of the way of other local services (including anything on 51xx).
 ```bash
 # from the project folder
-python3 -m http.server 8080
-# then visit http://localhost:8080
+python3 -m http.server 8787
+# then visit http://localhost:8787
 ```
-(or use any static server / the Live Server extension in Cursor/VS Code).
+(or use any static server / the Live Server extension in Cursor/VS Code — point it at 8787).
 
 ## Family pins (GPS drops)
 Curated places stay in `data/places.json`. Pins the family adds are **not** written there — they live in
@@ -75,7 +78,11 @@ same simple projection as the basemap; anything outside the core Newport–Achil
 ## Deploy
 Live at **[https://newport-navigator.fly.dev/](https://newport-navigator.fly.dev/)**. Open that link on each phone → **Add to Home Screen**.
 
-Redeploy after pulling these repo changes, then tap **Get latest** on any phone that already has the icon.
+```bash
+fly deploy
+```
+
+Then tap **Get latest** on any phone that already has the icon. This is a static PWA (no pin-sharing API yet).
 
 ## Roadmap
 - Fill in the expandable pin fields (hours, photos, longer write-ups) — content task.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=6.0, viewport-fit=cover"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"/>
 <title>Newport Navigator</title>
 <meta name="description" content="Family map for Lime Kiln House — Newport, Co. Mayo. Works offline."/>
 <link rel="manifest" href="manifest.webmanifest"/>
@@ -14,31 +14,87 @@
 <link rel="icon" href="icons/icon.svg"/>
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#243;background:#eef4f2;}
-  #topbar{position:sticky;top:0;z-index:50;}
-  header{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;box-shadow:0 2px 10px rgba(0,0,0,.18);}
+  html,body{margin:0;height:100%;height:100dvh;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#243;background:#d4cbb3;}
+  body{display:flex;flex-direction:column;}
+  #topbar{flex:0 0 auto;z-index:70;position:relative;}
+  header{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;box-shadow:0 2px 10px rgba(0,0,0,.18);}
   .headrow{display:flex;align-items:center;justify-content:space-between;gap:10px;}
   header h1{margin:0;font-size:16px;display:flex;align-items:center;gap:8px;}
   header p{margin:3px 0 0;font-size:12px;opacity:.92;}
   .upd{background:none;border:none;color:#fff;font:inherit;font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;margin:0;}
   .addbtn{flex:0 0 auto;background:#fff;color:#0f766e;border:none;border-radius:999px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;}
-  #filters{display:flex;gap:7px;overflow-x:auto;padding:9px 12px;background:#faf7f0;border-bottom:1px solid #e7e2d6;scrollbar-width:none;}
-  #filters::-webkit-scrollbar{display:none;}
-  .chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;border:1.5px solid #d8d2c4;background:#fff;border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;color:#4b5563;}
-  .chip .dot{width:10px;height:10px;border-radius:50%;}
-  .chip[data-on="true"]{color:#fff;border-color:transparent;}
-  .chip.star[data-on="true"]{background:#f59e0b;color:#fff;}
-  .chip.sep{border:none;background:transparent;width:1px;padding:0;border-left:1px solid #d8d2c4;height:20px;align-self:center;}
-  #stage{position:relative;width:100%;}
-  #stage svg{display:block;width:100%;height:auto;}
-  #pins{position:absolute;inset:0;}
-  .pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;}
-  .pin .bub{width:26px;height:26px;border-radius:50% 50% 50% 3px;transform:rotate(45deg);border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;}
-  .pin .bub span{transform:rotate(-45deg);font-size:12px;line-height:1;}
+  .headbtns{display:flex;align-items:center;gap:6px;flex:0 0 auto;}
+  .addbtn.alt{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.75);}
+  #modewrap{display:flex;padding:8px 12px 4px;background:#faf7f0;}
+  .modebtn{flex:1;border:1.5px solid #c4bba8;background:#fff;color:#4b5563;padding:7px 6px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.2;}
+  .modebtn + .modebtn{border-left-width:0;}
+  .modebtn:first-child{border-radius:9px 0 0 9px;}
+  .modebtn:last-child{border-radius:0 9px 9px 0;}
+  .modebtn[aria-pressed="true"]{position:relative;z-index:1;border-left-width:1.5px;color:#fff;}
+  .modebtn[data-mode="drive"][aria-pressed="true"]{background:#1d4ed8;border-color:#1d4ed8;}
+  .modebtn[data-mode="bike"][aria-pressed="true"]{background:#14532d;border-color:#14532d;}
+  .modebtn[data-mode="walk"][aria-pressed="true"]{background:#a16207;border-color:#a16207;}
+  #filterwrap{display:flex;align-items:center;gap:8px;padding:6px 12px;background:#faf7f0;border-bottom:1px solid #e7e2d6;min-height:40px;}
+  .filterbtn{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;border:1.5px solid #0f766e;background:#0f766e;color:#fff;border-radius:8px;padding:6px 10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .filterbtn[aria-expanded="true"]{background:#115e59;}
+  #filtersummary{display:flex;flex-wrap:wrap;gap:4px;align-items:center;min-width:0;flex:1;max-height:2.6em;overflow:hidden;}
+  #filtersummary .mini{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;line-height:1.3;}
+  #filtersummary .mini.star{background:#f59e0b;color:#fff;}
+  #filtersummary .mini.muted{background:#e7e2d6;color:#6b7280;}
+  #filterscrim{display:none;position:fixed;inset:0;z-index:55;background:rgba(15,30,28,.28);}
+  #filterscrim.show{display:block;}
+  #filtermenu{display:none;position:absolute;left:8px;right:8px;top:100%;z-index:60;background:#fff;border-radius:0 0 12px 12px;box-shadow:0 10px 28px rgba(0,0,0,.2);padding:8px 10px 12px;max-height:min(62dvh,420px);overflow-y:auto;}
+  #filtermenu.show{display:block;}
+  .frow{display:flex;align-items:center;gap:10px;width:100%;border:none;background:#fff;padding:10px 8px;border-radius:8px;font:inherit;font-size:14px;font-weight:600;color:#243;cursor:pointer;text-align:left;}
+  .frow:active{background:#f3f4f6;}
+  .fcheck{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:13px;color:#fff;background:#fff;}
+  .frow[aria-pressed="true"] .fcheck{background:#0f766e;border-color:#0f766e;}
+  .frow.star[aria-pressed="true"] .fcheck{background:#f59e0b;border-color:#f59e0b;}
+  .fdot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+  .fsep{height:1px;background:#e7e2d6;margin:4px 8px;}
+  .factions{display:flex;gap:8px;padding:8px 8px 0;}
+  .factions .cbtn{flex:1;text-align:center;}
+  #stage{flex:1 1 auto;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;background:#d4cbb3;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+  #mapfit{position:absolute;inset:0;overflow:hidden;--pin-scale:1;--lbl-opacity:1;--town-opacity:0;--pin-screen:1;--pin-labels:0;--lastmile-opacity:0;}
+  #mapfit svg{display:block;width:100%;height:100%;}
+  #mapzoom{position:absolute;right:10px;bottom:10px;z-index:5;display:flex;flex-direction:column;gap:6px;}
+  #mapzoom button{width:36px;height:36px;border:none;border-radius:8px;background:#fff;color:#0f766e;font-size:20px;font-weight:700;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.22);cursor:pointer;font-family:inherit;}
+  #mapzoom button:disabled{opacity:.35;cursor:default;}
+  #pins{position:absolute;inset:0;z-index:2;}
+  #yarn,#leads{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible;}
+  #yarn path{fill:none;stroke:#a21caf;stroke-width:1.1;stroke-linecap:round;stroke-dasharray:2.2 1.8;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));}
+  #leads path{fill:none;stroke:#5b4e34;stroke-width:0.45;stroke-linecap:round;opacity:.7;}
+  #leads circle{fill:#5b4e34;stroke:#fff;stroke-width:0.22;}
+  #yarn path.draw{animation:yarnin .4s ease-out;}
+  @keyframes yarnin{from{opacity:0}to{opacity:1}}
+  .pin.picked .bub{box-shadow:0 0 0 3px #fff,0 0 0 6px #a21caf,0 2px 5px rgba(0,0,0,.35);}
+  .pin.picked{z-index:4;}
+  #pins.finding .pin{opacity:.38;transition:opacity .2s;}
+  #pins.finding .pin.picked,#pins.finding .pin.irish-lit{opacity:1;}
+  .pin.irish-lit{z-index:5;}
+  .pin.irish-lit .bub{box-shadow:0 0 0 3px #fff,0 0 0 7px #14532d,0 0 14px rgba(20,83,45,.55);}
+  @keyframes irishpulse{50%{box-shadow:0 0 0 3px #fff,0 0 0 10px #166534,0 0 18px rgba(20,83,45,.7);}}
+  .pin.irish-lit .bub{animation:irishpulse 1.3s ease-in-out infinite;}
+  .pin{position:absolute;transform:translate(-50%,-100%) scale(var(--pin-screen,1));transform-origin:50% 100%;cursor:pointer;touch-action:manipulation;}
+  .pin .bub{width:28px;height:28px;border-radius:50% 50% 50% 3px;transform:rotate(45deg);border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;}
+  .pin .bub span{transform:rotate(-45deg);font-size:13px;line-height:1;}
+  .pin.home-pin{z-index:6;}
+  .pin.home-pin .bub{width:36px;height:36px;}
+  .pin.home-pin .bub span{font-size:17px;}
   .pin .st{position:absolute;top:-6px;right:-7px;width:14px;height:14px;border-radius:50%;background:#f59e0b;color:#fff;font-size:9px;line-height:14px;text-align:center;border:1.5px solid #fff;}
-  .note{padding:9px 14px;font-size:12px;color:#556;background:#faf7f0;border-top:1px solid #e7e2d6;}
+  .pin .plab{position:absolute;font-size:11px;font-weight:700;color:#243;background:rgba(255,252,245,.96);border:1px solid rgba(91,78,52,.2);padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;opacity:var(--pin-labels,0);box-shadow:0 1px 2px rgba(0,0,0,.12);line-height:1.2;}
+  #mapfit.show-pin-labels .pin .plab{pointer-events:auto;cursor:pointer;}
+  .pin.lab-s .plab{left:50%;top:100%;transform:translate(-50%,5px) scale(calc(1 / var(--pin-screen,1)));transform-origin:50% 0;}
+  .pin.lab-n .plab{left:50%;top:0;transform:translate(-50%,calc(-100% - 8px)) scale(calc(1 / var(--pin-screen,1)));transform-origin:50% 100%;}
+  .pin.lab-e .plab{left:100%;top:8px;transform:translate(6px,-50%) scale(calc(1 / var(--pin-screen,1)));transform-origin:0 50%;}
+  .pin.lab-w .plab{left:0;top:8px;transform:translate(calc(-100% - 6px),-50%) scale(calc(1 / var(--pin-screen,1)));transform-origin:100% 50%;}
+  .pin.lab-ne .plab{left:100%;top:0;transform:translate(5px,calc(-100% - 2px)) scale(calc(1 / var(--pin-screen,1)));transform-origin:0 100%;}
+  .pin.lab-nw .plab{left:0;top:0;transform:translate(calc(-100% - 5px),calc(-100% - 2px)) scale(calc(1 / var(--pin-screen,1)));transform-origin:100% 100%;}
+  .pin.lab-se .plab{left:100%;top:100%;transform:translate(5px,4px) scale(calc(1 / var(--pin-screen,1)));transform-origin:0 0;}
+  .pin.lab-sw .plab{left:0;top:100%;transform:translate(calc(-100% - 5px),4px) scale(calc(1 / var(--pin-screen,1)));transform-origin:100% 0;}
+  .note{flex:0 0 auto;padding:8px 14px calc(8px + env(safe-area-inset-bottom));font-size:12px;color:#556;background:#faf7f0;border-top:1px solid #e7e2d6;max-height:4.8em;overflow-y:auto;}
   .note b{color:#243;}
-  #card{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.22);padding:14px 16px calc(env(safe-area-inset-bottom) + 18px);transform:translateY(115%);transition:transform .25s;}
+  #card{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.22);padding:14px 16px calc(env(safe-area-inset-bottom) + 18px);transform:translateY(115%);transition:transform .25s;max-height:min(78dvh,640px);overflow-y:auto;}
   #card.open{transform:translateY(0);}
   #card .x{position:absolute;top:10px;right:12px;font-size:20px;color:#889;cursor:pointer;line-height:1;}
   .ct{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
@@ -53,17 +109,75 @@
   .cdir{background:#0f766e;color:#fff;}
   .cgoog{background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;}
   .ccall{background:#e6f4ea;color:#166534;border:1px solid #b7e0c4;}
-  .cedit{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;}
+  .cedit,.ccancel{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;}
   .cdel{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;}
   .csave{background:#0f766e;color:#fff;cursor:pointer;}
-  .ccancel{background:#fff;color:#4b5563;border:1px solid #d8d2c4;cursor:pointer;}
+  .cirish{background:#14532d;color:#fef9c3;border:none;}
+  .irishbox{margin:10px 0 0;padding:10px 12px;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0;}
+  .irishbox p{margin:0 0 8px;font-size:14px;line-height:1.45;color:#14532d;}
+  .irishbox p:last-child{margin:0;}
+  .irishbox .who{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#166534;margin:0 0 8px;}
   .field{margin:0 0 10px;}
   .field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#6b7280;margin-bottom:4px;}
   .field input,.field textarea{width:100%;border:1.5px solid #d8d2c4;border-radius:8px;padding:8px 10px;font:inherit;font-size:14px;color:#243;background:#fff;}
   .field textarea{min-height:72px;resize:vertical;}
   #toast{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:200;background:#1f2937;color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;}
   #toast.show{display:block;}
+  #people{display:none;position:fixed;inset:0;z-index:85;background:#faf7f0;overflow-y:auto;padding:calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 24px);}
+  #people.show{display:block;}
+  .peoplehead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+  .peoplehead h2{margin:0;font-size:18px;}
+  .psec{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#6b7280;margin:16px 0 8px;}
+  .person{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #e7e2d6;border-radius:12px;padding:12px;margin-bottom:8px;}
+  .pphoto{width:64px;height:64px;border-radius:50%;object-fit:cover;background:#e7e2d6;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-weight:700;color:#6b7280;font-size:18px;overflow:hidden;}
+  .pphoto img{width:100%;height:100%;object-fit:cover;}
+  .pbody{min-width:0;flex:1;}
+  .pname{font-size:16px;font-weight:700;margin:0 0 2px;}
+  .prole{font-size:12px;color:#6b7280;margin:0 0 6px;}
+  .pbio{font-size:13.5px;line-height:1.45;color:#374151;margin:0 0 8px;}
+  .pact{display:flex;flex-wrap:wrap;gap:6px;}
+  .phint{font-size:13px;color:#6b7280;margin:4px 0 12px;}
+  .lastmile .who,#lastmile .who{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#c2410c;margin:0 0 8px;}
+  #lastmile p,.lastmile p{margin:0 0 8px;font-size:13.5px;line-height:1.45;color:#7c2d12;}
+  #lastmile p:last-child,.lastmile p:last-child{margin:0;}
+  #card.lastmile-open{overflow:hidden;}
+  #lastmile{display:none;position:absolute;inset:0;z-index:4;background:#fffaf5;border-radius:16px 16px 0 0;padding:14px 16px calc(env(safe-area-inset-bottom) + 18px);overflow-y:auto;}
+  #lastmile.show{display:block;}
+  .lm-link{display:inline-block;margin:12px 0 0;background:none;border:none;padding:0;font:inherit;font-size:13.5px;font-weight:700;color:#c2410c;text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left;}
+  #lastmile .lm-steps{margin:0 0 14px;padding:0 0 0 1.2em;color:#7c2d12;}
+  #lastmile .lm-steps li{margin:0 0 8px;font-size:14.5px;line-height:1.45;font-weight:600;}
+  #lastmile .lm-steps li:last-child{margin:0 0 2px;}
+  #lastmile .lm-meta{margin:0 0 10px;font-size:12px;color:#9a3412;}
+  #mapfit.show-lastmile .lastmile-route{opacity:.92;}
+  #mapfit.drive-mode .nroad-line{stroke-width:calc(10.2 * var(--pin-scale,1));}
+  #mapfit.drive-mode .greenway,#mapfit.drive-mode .greenway-dash{opacity:.38;}
+  #mapfit.drive-mode .walkway{opacity:.28;}
+  #mapfit.bike-mode .greenway{stroke:#dc2626;stroke-width:calc(9 * var(--pin-scale,1));stroke-dasharray:none;}
+  #mapfit.bike-mode .greenway-dash{stroke-width:calc(3.4 * var(--pin-scale,1));opacity:1;}
+  #mapfit.bike-mode .walkway{opacity:.28;}
+  #mapfit.walk-mode .walkway{stroke:#ca8a04;stroke-width:calc(6.2 * var(--pin-scale,1));opacity:1;}
+  #mapfit.walk-mode .greenway,#mapfit.walk-mode .greenway-dash{opacity:.4;}
+  .gw-seg{fill:none;stroke:#eab308;stroke-width:calc(5.2 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round;opacity:0;}
+  #mapfit .gw-seg.on{opacity:.95;}
+  .pin.gw-pin .bub{background:#15803d;}
+  .pin.rental-pin .bub{background:#ca8a04;}
+  .pin.walk-pin .bub{background:#a16207;}
+  .cbtn.cbike{background:#14532d;color:#fefce8;}
+  .cbtn.cwalk{background:#a16207;color:#fffbeb;}
+  .walkloops{margin:0 0 10px;padding:8px 10px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;}
+  .walkloops p{margin:0 0 6px;font-size:13px;line-height:1.4;color:#7c4a03;}
+  .walkloops p:last-child{margin:0;}
+  .walkloops .who{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#a16207;margin:0 0 8px;}
+  .photopick{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .photopick input[type=file]{font-size:12px;}
   #loading{padding:40px 20px;text-align:center;color:#889;}
+  @media (max-width:400px){
+    header h1{font-size:15px;}
+    header p{font-size:11px;}
+    .addbtn{padding:7px 10px;font-size:12px;}
+    #homebtn .home-lbl{display:none;}
+    .modebtn{font-size:12px;padding:7px 4px;}
+  }
 </style>
 </head>
 <body>
@@ -74,35 +188,388 @@
       <h1>🧭 Newport Navigator</h1>
       <p>Lime Kiln House · Clew Bay · <button type="button" class="upd" id="getlatest">Get latest</button></p>
     </div>
-    <button type="button" class="addbtn" id="addpin">📍 Add pin</button>
+    <div class="headbtns">
+      <button type="button" class="addbtn alt" id="homebtn" aria-label="Go to Lime Kiln House">🏡 <span class="home-lbl">Home</span></button>
+      <button type="button" class="addbtn alt" id="peoplebtn">Contacts</button>
+      <button type="button" class="addbtn" id="addpin">📍 Add pin</button>
+    </div>
   </div>
 </header>
-<div id="filters"></div>
+<div id="modewrap" role="radiogroup" aria-label="How you're getting around">
+  <button type="button" class="modebtn" data-mode="drive" aria-pressed="true">🚗 Drive</button>
+  <button type="button" class="modebtn" data-mode="bike" aria-pressed="false">🚴 Bikes</button>
+  <button type="button" class="modebtn" data-mode="walk" aria-pressed="false">🚶 Walks</button>
 </div>
+<div id="filterwrap">
+  <button type="button" class="filterbtn" id="filterbtn" aria-expanded="false" aria-controls="filtermenu">Filters</button>
+  <div id="filtersummary"></div>
+</div>
+<div id="filtermenu" role="dialog" aria-label="Filters"></div>
+</div>
+<div id="filterscrim"></div>
 
 <div id="stage">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 712.0" id="basemap">
-    <rect width="1100" height="712.0" fill="#bfe0e8"/>
+  <div id="mapfit" class="drive-mode">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1545.0" preserveAspectRatio="none" id="basemap">
+    <rect x="-4000" y="-4000" width="9000" height="9000" fill="#d4cbb3"/>
+    <rect x="0" y="0" width="1100" height="1545.0" fill="#bfe0e8"/>
     <style>
-      .land{fill:#e9e0c8;stroke:#c9bd97;stroke-width:1.5}
+      .land{fill:#e9e0c8;stroke:#d2c6a3;stroke-width:0.6}
       .isle{fill:#d8cba6;stroke:#c9bd97;stroke-width:0.5}
+      .sand{fill:#efe3b8;stroke:#d4c48a;stroke-width:0.4}
+      .lake{fill:#bfe0e8;stroke:#b8ad8a;stroke-width:1.2}
       .peak{fill:#b7a77f;stroke:#8f7f57;stroke-width:1}.peakcross{stroke:#5b4e34;stroke-width:2}
-      .greenway{fill:none;stroke:#2f9e44;stroke-width:3;stroke-dasharray:2 7;stroke-linecap:round}
-      .road{fill:none;stroke:#e0b34d;stroke-width:2.5}
+      .greenway{fill:none;stroke:#dc2626;stroke-width:calc(5.6 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round}
+      .greenway-dash{fill:none;stroke:#fff;stroke-width:calc(2.1 * var(--pin-scale,1));stroke-dasharray:calc(6.5 * var(--pin-scale,1)) calc(5 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round;opacity:.95}
+      .walkway{fill:none;stroke:#eab308;stroke-width:calc(4.4 * var(--pin-scale,1));stroke-dasharray:calc(7 * var(--pin-scale,1)) calc(5.5 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+      .gw-seg{fill:none;stroke:#eab308;stroke-width:calc(5.2 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round;opacity:0}
+      .nroad{fill:none;stroke:#fff;stroke-width:calc(16 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round}
+      .nroad-line{fill:none;stroke:#c17f0a;stroke-width:calc(9 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round}
+      .rroad{fill:none;stroke:#fff8e8;stroke-width:calc(11 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round}
+      .rroad-line{fill:none;stroke:#a67c1a;stroke-width:calc(5.5 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round}
+      .lroad{fill:none;stroke:#fff6dc;stroke-width:calc(7 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round}
+      .lroad-line{fill:none;stroke:#8a7344;stroke-width:calc(2.8 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round}
+      .river{fill:none;stroke:#bfe0e8;stroke-width:calc(4 * var(--pin-scale,1));stroke-linecap:round}
+      .town{fill:#2c3340;stroke:#fff;stroke-width:1.6;transform:scale(var(--pin-scale,1));transform-box:fill-box;transform-origin:center}
+      .home{fill:#e11d48;stroke:#fff;stroke-width:1.6;transform:scale(var(--pin-scale,1));transform-box:fill-box;transform-origin:center}
+      #basemap text, #basemap .lbl-leg{opacity:var(--lbl-opacity,1)}
+      #basemap .westport-town text{opacity:1}
+      .westport-town{opacity:var(--town-opacity,0);pointer-events:none}
+      .townrd{fill:none;stroke:#f3ead2;stroke-width:0.34;stroke-linecap:round;stroke-linejoin:round}
+      .townrd-line{fill:none;stroke:#8d6e32;stroke-width:0.13;stroke-linecap:round;stroke-linejoin:round}
+      .townriver{fill:none;stroke:#bfe0e8;stroke-width:0.2;stroke-linecap:round}
+      .mall{fill:none;stroke:#c5d4a8;stroke-width:0.5;stroke-linecap:round}
+      .lbl-street{fill:#6b4b0e;font-size:calc(30px * var(--pin-scale,1));font-weight:700;font-family:-apple-system,BlinkMacSystemFont,sans-serif;paint-order:stroke fill;stroke:#fff;stroke-width:calc(4.5px * var(--pin-scale,1));text-anchor:middle;opacity:.88}
+      .lastmile-detail{opacity:var(--lastmile-opacity,0);pointer-events:none}
+      .lbl-lastmile{fill:#7c2d12;font-size:calc(20px * var(--pin-scale,1));font-weight:700;font-family:-apple-system,BlinkMacSystemFont,sans-serif;paint-order:stroke fill;stroke:#fffaf5;stroke-width:calc(3.2px * var(--pin-scale,1))}
+      .lastmile-route{fill:none;stroke:#c2410c;stroke-width:calc(4.4 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round;opacity:0}
+      .steel-deck{fill:none;stroke:#64748b;stroke-width:calc(17.5 * var(--pin-scale,1));stroke-linecap:butt}
+      .steel-rail{fill:none;stroke:#334155;stroke-width:calc(2.4 * var(--pin-scale,1));stroke-linecap:round}
+      .steel-post{fill:none;stroke:#334155;stroke-width:calc(1.8 * var(--pin-scale,1));stroke-linecap:round}
+      .clock{fill:#d4c4a0;stroke:#5b4e34;stroke-width:0.05}
+      .lbl-road{fill:#6b4b0e;font-size:13px;font-weight:bold;font-family:-apple-system,BlinkMacSystemFont,sans-serif;paint-order:stroke fill;stroke:#fff;stroke-width:3px}
+      .lbl-rdsm{fill:#6b4b0e;font-size:10px;font-weight:bold;font-family:-apple-system,BlinkMacSystemFont,sans-serif;paint-order:stroke fill;stroke:#fff;stroke-width:2.5px}
+      .lbl-leg{fill:#3f4a3a;font-size:10px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
       text{font-family:Georgia,serif}
       .lbl-bay{fill:#2b7a8c;font-style:italic;letter-spacing:3px;text-anchor:middle}
       .lbl-sea{fill:#7fb0bd;font-style:italic;letter-spacing:2px;text-anchor:middle}
       .lbl-land{fill:#7a6f4e;font-weight:bold;letter-spacing:1px;text-anchor:middle}
       .lbl-town{fill:#334;font-weight:bold;text-anchor:middle}
       .lbl-feat{fill:#6b5636;font-style:italic;text-anchor:middle}
+      .county{fill:none;stroke:#8a6b3a;stroke-width:calc(2.4 * var(--pin-scale,1));stroke-dasharray:calc(8 * var(--pin-scale,1)) calc(6 * var(--pin-scale,1));stroke-linecap:round;stroke-linejoin:round;opacity:0.8}
+      .lbl-county{fill:#8a6b3a;font-weight:bold;letter-spacing:5px;text-anchor:middle;opacity:0.42}
     </style>
-    <path d="M 250.0,0.0 L 1100.0,0.0 L 1100.0,712.0 L 510.0,712.0 L 540.0,601.8 L 640.0,517.0 L 400.0,464.5 L 500.0,471.3 L 600.0,461.1 L 664.0,445.8 L 720.0,420.4 L 755.0,401.8 L 750.0,356.0 L 748.0,305.1 L 754.7,259.5 L 680.0,237.3 L 600.0,233.9 L 522.0,227.2 L 440.0,213.6 L 380.0,203.4 L 360.0,118.7 L 300.0,33.9 Z" class="land"/><path d="M 360.0,194.9 L 310.0,84.8 L 240.0,42.4 L 160.0,67.8 L 100.0,127.1 L 110.0,194.9 L 180.0,237.3 L 280.0,228.9 L 335.0,211.9 L 360.0,194.9 Z" class="land"/><path d="M 330.0,423.8 L 370.0,406.8 L 400.0,381.4 L 360.0,356.0 L 320.0,381.4 Z" class="land"/><ellipse cx="640.0" cy="356.0" rx="9" ry="5" class="isle"/><ellipse cx="680.0" cy="322.1" rx="9" ry="5" class="isle"/><ellipse cx="720.0" cy="339.0" rx="9" ry="5" class="isle"/><ellipse cx="600.0" cy="330.6" rx="9" ry="5" class="isle"/><ellipse cx="660.0" cy="296.7" rx="9" ry="5" class="isle"/><ellipse cx="700.0" cy="372.9" rx="9" ry="5" class="isle"/><ellipse cx="620.0" cy="305.1" rx="9" ry="5" class="isle"/><ellipse cx="580.0" cy="356.0" rx="9" ry="5" class="isle"/><ellipse cx="740.0" cy="356.0" rx="9" ry="5" class="isle"/><ellipse cx="645.0" cy="262.8" rx="9" ry="5" class="isle"/><polygon points="620,449 642,415 664,449" class="peak"/><line x1="642" y1="415" x2="642" y2="405" class="peakcross"/><line x1="638" y1="409" x2="646" y2="409" class="peakcross"/><path d="M 779.1,406.8 L 754.7,259.5 L 522.0,227.2 L 380.0,203.4 L 300.0,169.5" class="greenway"/><path d="M 779.1,406.8 L 970.0,322.1" class="road"/><path d="M 755.0,401.8 L 500.0,471.3 L 400.0,464.5" class="road"/><path d="M 754.7,259.5 L 522.0,227.2 L 380.0,203.4" class="road"/><text x="640" y="373" class="lbl-bay" font-size="22">CLEW BAY</text><text x="230" y="144" class="lbl-land" font-size="16">ACHILL ISLAND</text><text x="755" y="251" class="lbl-town" font-size="13">NEWPORT</text><text x="780" y="420" class="lbl-town" font-size="13">WESTPORT</text><text x="522" y="217" class="lbl-town" font-size="12">MULRANNY</text><text x="500" y="483" class="lbl-town" font-size="11">LOUISBURGH</text><text x="970" y="312" class="lbl-town" font-size="11">CASTLEBAR</text><text x="360" y="407" class="lbl-land" font-size="10">CLARE I.</text><text x="642" y="471" class="lbl-feat" font-size="10">CROAGH PATRICK</text><text x="150" y="542" class="lbl-sea" font-size="15">ATLANTIC OCEAN</text>
+    <defs>
+      <clipPath id="chartclip"><rect x="0" y="0" width="1100" height="1545.0"/></clipPath>
+    </defs>
+    <path d="M 71.7,513.3 L 88.8,508.5 L 89.9,515.1 L 121.2,532.0 L 127.3,531.4 L 122.2,524.6 L 126.3,519.4 L 152.9,525.7 L 176.7,514.5 L 183.2,532.4 L 207.5,517.0 L 222.4,517.0 L 239.8,535.4 L 231.3,552.3 L 234.9,554.4 L 231.1,562.6 L 234.3,565.0 L 228.4,582.7 L 236.3,589.8 L 234.0,594.2 L 260.3,584.5 L 262.6,595.9 L 280.7,608.7 L 273.1,616.1 L 280.3,627.6 L 306.1,647.1 L 319.0,645.0 L 315.1,642.4 L 324.6,615.5 L 320.8,600.8 L 308.5,599.0 L 329.2,589.4 L 321.5,583.1 L 335.8,569.6 L 322.1,572.0 L 322.5,565.3 L 326.2,558.1 L 328.7,564.4 L 333.7,559.7 L 333.4,543.6 L 337.4,541.6 L 331.8,541.2 L 342.3,528.1 L 317.5,526.2 L 322.3,532.0 L 309.2,541.9 L 317.9,550.3 L 298.7,544.7 L 308.0,544.7 L 306.1,537.0 L 312.8,529.1 L 310.8,516.0 L 305.1,517.6 L 314.3,503.4 L 307.4,493.0 L 331.1,485.7 L 294.7,439.3 L 291.4,450.9 L 279.7,462.1 L 264.1,457.1 L 253.8,464.1 L 239.9,446.8 L 220.1,447.5 L 197.6,467.1 L 194.4,478.5 L 169.3,479.9 L 162.2,476.8 L 161.2,467.9 L 140.4,469.6 L 126.8,458.6 L 124.1,472.9 L 128.7,474.9 L 127.8,483.0 L 103.5,503.5 L 88.6,501.8 L 71.7,513.3 Z" class="land"/>
+    <path d="M 86.8,338.7 L 91.5,341.3 L 104.6,326.4 L 112.8,328.7 L 113.8,315.1 L 94.0,325.4 L 96.5,330.4 L 89.6,331.1 L 96.2,334.3 L 86.8,338.7 Z" class="land"/>
+    <path d="M 110.3,302.5 L 114.6,313.4 L 121.8,304.3 L 133.3,306.7 L 121.8,289.6 L 111.7,293.8 L 114.2,301.8 L 110.3,302.5 Z" class="land"/>
+    <path d="M 130.4,381.1 L 139.1,385.9 L 147.9,378.5 L 140.3,373.7 L 130.4,381.1 Z" class="land"/>
+    <path d="M 150.5,376.8 L 163.5,376.7 L 157.4,371.5 L 150.5,376.8 Z" class="land"/>
+    <path d="M 163.7,213.2 L 171.7,212.2 L 165.2,207.0 L 163.7,213.2 Z" class="land"/>
+    <path d="M 165.0,882.0 L 170.2,883.8 L 168.5,892.1 L 195.7,886.8 L 206.9,880.3 L 202.7,871.5 L 211.8,865.1 L 203.6,858.5 L 191.5,866.8 L 180.8,861.6 L 165.0,882.0 Z" class="land"/>
+    <path d="M 167.9,334.4 L 178.5,353.1 L 186.4,350.5 L 201.1,362.7 L 212.5,363.7 L 228.0,347.9 L 220.9,344.5 L 222.4,333.3 L 201.8,325.9 L 206.5,310.6 L 222.7,314.0 L 215.7,294.2 L 230.6,284.5 L 203.8,274.1 L 202.0,267.8 L 219.3,262.7 L 223.5,252.6 L 241.4,256.1 L 246.5,243.8 L 236.7,223.9 L 254.6,225.2 L 266.3,237.5 L 269.7,231.8 L 264.1,222.5 L 273.4,218.9 L 254.4,193.0 L 269.3,195.5 L 272.4,190.1 L 264.4,177.4 L 280.9,176.2 L 284.4,194.6 L 311.6,219.2 L 316.3,214.1 L 328.5,221.0 L 341.5,217.0 L 335.3,221.1 L 338.1,232.9 L 332.0,222.6 L 325.7,225.9 L 326.7,238.5 L 320.5,246.3 L 316.8,242.0 L 310.2,248.9 L 299.1,236.5 L 286.4,237.7 L 309.9,249.7 L 322.9,276.6 L 325.3,268.2 L 336.5,273.8 L 329.7,284.5 L 308.6,274.6 L 310.5,283.1 L 306.2,288.7 L 316.2,293.0 L 328.0,312.5 L 335.5,301.9 L 342.2,303.9 L 343.3,314.5 L 355.9,322.8 L 330.7,318.0 L 321.3,332.3 L 282.3,342.0 L 294.0,352.4 L 301.2,368.7 L 304.2,384.6 L 298.2,396.6 L 315.9,390.4 L 329.6,398.0 L 335.9,389.3 L 358.9,383.3 L 353.6,374.4 L 360.6,367.5 L 353.2,359.9 L 353.0,350.5 L 362.1,348.2 L 364.9,355.0 L 361.8,361.0 L 367.6,362.7 L 367.6,348.7 L 375.6,345.3 L 372.3,335.7 L 381.3,332.0 L 372.2,330.0 L 371.5,322.3 L 375.1,318.2 L 371.6,322.9 L 375.7,329.4 L 390.8,326.4 L 401.2,333.3 L 405.3,328.9 L 402.1,321.4 L 405.7,320.6 L 405.0,311.4 L 419.6,298.8 L 405.7,312.6 L 408.7,315.8 L 406.1,319.3 L 410.4,319.2 L 403.7,323.9 L 416.4,335.4 L 383.5,337.7 L 392.4,342.0 L 392.4,352.6 L 402.9,355.6 L 396.8,367.6 L 380.1,365.4 L 376.5,369.8 L 378.2,381.5 L 371.4,385.1 L 394.7,381.7 L 404.8,390.5 L 387.7,387.0 L 387.8,394.8 L 379.9,397.7 L 383.6,404.4 L 378.7,410.2 L 363.8,385.8 L 363.2,404.4 L 358.3,414.7 L 347.4,417.8 L 348.1,429.6 L 354.5,436.1 L 359.3,464.6 L 362.7,455.2 L 357.3,445.3 L 369.3,456.3 L 379.0,453.6 L 366.2,460.3 L 377.7,473.6 L 391.0,476.8 L 389.1,464.4 L 394.3,460.3 L 392.6,470.4 L 411.8,492.3 L 404.0,499.5 L 406.9,491.1 L 394.2,485.7 L 393.0,525.7 L 401.2,530.1 L 402.1,522.3 L 409.5,522.9 L 406.2,525.8 L 418.5,546.9 L 421.8,540.2 L 419.3,528.7 L 411.2,523.1 L 423.3,528.2 L 427.7,521.8 L 423.8,512.2 L 436.7,512.8 L 430.4,516.9 L 434.0,529.0 L 431.3,531.7 L 437.2,536.8 L 434.0,546.5 L 441.5,550.0 L 436.1,558.3 L 439.6,576.5 L 434.4,581.1 L 439.6,597.2 L 433.2,596.5 L 428.2,594.5 L 419.8,571.9 L 429.2,577.7 L 435.2,571.2 L 431.9,571.3 L 430.8,562.6 L 434.6,560.8 L 430.3,545.0 L 421.4,554.4 L 408.2,549.6 L 402.1,531.7 L 396.5,537.0 L 365.5,535.2 L 357.5,545.8 L 357.3,540.1 L 347.0,536.0 L 348.6,554.7 L 341.3,553.5 L 337.2,568.5 L 353.4,567.4 L 341.3,589.3 L 330.0,595.5 L 329.2,605.7 L 335.9,623.6 L 328.9,632.6 L 331.3,641.0 L 320.7,642.2 L 325.6,649.3 L 319.0,651.3 L 336.1,652.4 L 349.6,663.3 L 406.1,649.5 L 423.9,638.9 L 437.2,618.1 L 451.0,616.4 L 443.8,612.2 L 450.4,605.3 L 475.8,624.3 L 487.5,619.7 L 478.0,619.7 L 472.8,611.1 L 497.6,613.4 L 491.2,616.9 L 496.0,618.4 L 509.9,610.2 L 506.7,613.2 L 511.3,610.1 L 506.7,613.2 L 512.5,615.5 L 518.2,612.3 L 527.7,612.1 L 524.1,616.0 L 535.3,617.8 L 538.9,615.8 L 534.2,619.3 L 534.5,624.9 L 536.6,625.5 L 540.0,622.5 L 537.6,619.7 L 547.5,613.1 L 550.1,617.4 L 546.4,619.3 L 549.6,621.3 L 543.1,625.2 L 550.0,630.3 L 551.4,627.8 L 545.7,624.3 L 554.2,623.1 L 559.4,618.1 L 568.2,617.6 L 569.1,620.2 L 560.9,626.3 L 564.0,627.3 L 573.6,621.8 L 572.0,620.0 L 573.6,618.6 L 573.6,620.3 L 581.0,620.4 L 577.9,625.6 L 578.8,628.4 L 582.9,629.4 L 587.3,627.9 L 582.9,623.7 L 588.7,623.1 L 586.8,620.5 L 589.8,621.1 L 597.7,616.3 L 597.9,616.2 L 597.9,616.2 L 599.2,616.2 L 599.3,616.2 L 599.5,616.1 L 599.6,616.1 L 600.3,616.8 L 600.2,621.6 L 595.5,623.9 L 596.4,626.2 L 594.1,627.8 L 600.1,627.7 L 605.2,621.1 L 603.2,616.3 L 603.2,616.2 L 603.3,616.0 L 603.4,615.9 L 603.5,615.8 L 607.1,616.4 L 611.0,609.6 L 609.1,607.1 L 611.2,608.2 L 612.0,613.9 L 611.3,613.8 L 610.8,613.8 L 610.7,613.9 L 610.6,614.1 L 610.6,614.3 L 610.5,614.5 L 608.2,616.1 L 606.8,621.0 L 617.0,623.6 L 615.1,625.7 L 616.4,627.5 L 625.0,624.8 L 625.2,627.4 L 620.5,628.7 L 625.5,630.1 L 625.9,631.0 L 626.1,631.0 L 626.1,631.0 L 626.1,631.0 L 623.4,632.1 L 625.6,634.0 L 625.3,634.2 L 624.5,634.4 L 624.5,634.4 L 624.1,634.1 L 620.7,631.6 L 615.6,632.3 L 615.3,632.3 L 615.1,632.4 L 614.8,632.5 L 613.5,632.6 L 608.1,633.0 L 607.9,633.0 L 607.7,633.0 L 607.6,633.2 L 607.6,633.3 L 608.0,635.6 L 599.1,638.0 L 604.2,639.4 L 614.8,637.2 L 613.1,634.2 L 619.0,634.5 L 620.5,637.7 L 615.9,636.7 L 617.8,641.7 L 606.6,639.8 L 606.0,643.5 L 599.8,646.0 L 627.2,643.8 L 617.6,648.6 L 609.1,647.9 L 602.6,651.5 L 607.1,653.8 L 618.5,650.3 L 619.4,652.2 L 607.1,655.4 L 599.4,653.1 L 599.9,655.5 L 593.6,654.6 L 587.9,658.0 L 621.8,658.3 L 621.3,660.5 L 616.6,657.5 L 614.3,659.6 L 609.9,658.3 L 607.2,663.1 L 621.1,663.9 L 625.4,670.8 L 619.1,669.0 L 619.0,665.8 L 615.1,664.1 L 611.1,666.6 L 596.4,667.4 L 619.0,669.2 L 618.5,672.0 L 610.3,672.4 L 618.6,675.4 L 615.4,678.2 L 619.9,679.7 L 605.6,675.0 L 600.1,677.5 L 612.3,678.3 L 611.3,680.7 L 599.1,678.9 L 599.1,675.7 L 605.3,673.6 L 593.6,668.9 L 595.7,673.1 L 588.4,677.0 L 607.0,683.0 L 613.4,681.2 L 618.0,683.2 L 597.5,684.9 L 592.3,681.5 L 587.2,685.1 L 581.3,683.5 L 575.5,686.3 L 574.6,691.7 L 581.1,695.7 L 573.5,702.5 L 580.4,704.1 L 587.6,698.6 L 592.8,701.2 L 585.9,705.4 L 574.6,705.3 L 576.5,710.4 L 583.2,711.7 L 578.0,711.8 L 586.4,714.5 L 579.2,715.1 L 582.7,718.3 L 571.2,710.7 L 568.3,710.4 L 568.1,715.1 L 591.1,725.8 L 589.1,725.9 L 590.9,729.3 L 585.3,725.8 L 586.1,727.5 L 581.5,726.4 L 577.0,721.7 L 573.1,722.2 L 571.5,723.6 L 574.5,725.4 L 571.4,725.6 L 575.8,730.5 L 586.0,733.8 L 582.9,729.6 L 591.8,732.6 L 594.0,730.0 L 599.7,734.1 L 594.8,734.4 L 593.7,737.9 L 590.5,738.4 L 592.8,742.1 L 599.1,742.3 L 594.5,738.5 L 600.3,737.6 L 617.4,741.7 L 617.6,740.9 L 617.5,740.7 L 617.5,740.6 L 619.2,739.7 L 620.7,739.0 L 617.5,740.3 L 609.4,736.5 L 614.7,733.4 L 614.8,733.3 L 614.9,733.4 L 615.0,733.4 L 630.0,739.2 L 625.4,742.2 L 630.7,744.4 L 630.9,744.6 L 631.1,744.7 L 631.4,744.7 L 631.7,744.7 L 631.3,740.0 L 633.1,742.0 L 633.1,742.1 L 633.1,742.1 L 633.1,742.1 L 633.1,740.3 L 632.4,745.4 L 620.2,742.1 L 627.1,749.2 L 616.8,746.3 L 614.0,750.7 L 620.8,753.1 L 613.8,757.3 L 605.5,755.5 L 613.1,761.0 L 601.5,765.3 L 603.3,772.0 L 583.1,768.1 L 582.9,773.4 L 566.3,774.5 L 579.2,768.8 L 560.5,761.5 L 556.4,762.7 L 557.3,769.9 L 543.2,769.7 L 539.7,762.6 L 551.3,745.1 L 540.7,761.7 L 505.4,775.6 L 461.5,780.0 L 455.4,777.0 L 455.5,769.7 L 446.7,769.0 L 412.2,786.5 L 349.6,795.3 L 345.8,809.1 L 353.6,811.2 L 351.4,821.0 L 356.6,831.6 L 337.6,883.4 L 348.5,911.7 L 342.5,925.3 L 342.0,941.9 L 368.2,945.9 L 363.7,952.9 L 375.4,962.3 L 371.5,960.6 L 370.0,967.2 L 444.6,1008.7 L 512.2,1006.2 L 533.2,990.6 L 552.5,1011.7 L 582.9,1002.8 L 603.2,1013.6 L 617.3,996.2 L 624.1,1001.5 L 623.1,1012.7 L 632.4,1036.2 L 658.4,1041.1 L 681.9,1062.7 L 729.1,1059.8 L 777.4,1047.2 L 789.3,1060.9 L 782.9,1082.9 L 794.9,1092.2 L 809.7,1087.6 L 808.7,1079.3 L 816.5,1071.7 L 822.4,1071.8 L 820.4,1085.2 L 836.9,1080.9 L 837.6,1089.4 L 833.3,1091.2 L 841.7,1111.4 L 841.4,1124.8 L 875.8,1146.0 L 874.8,1171.9 L 893.6,1174.1 L 896.2,1182.2 L 910.0,1177.8 L 917.9,1182.8 L 938.0,1168.3 L 954.5,1175.6 L 969.7,1153.0 L 982.7,1153.6 L 988.3,1124.1 L 1014.8,1108.8 L 1017.8,1098.2 L 1031.9,1096.4 L 1039.5,1077.0 L 1028.1,1063.2 L 1024.4,1043.2 L 1055.4,1033.4 L 1048.6,1014.6 L 1061.0,1009.2 L 1066.4,1016.1 L 1068.5,1008.0 L 1076.2,1005.5 L 1070.0,987.4 L 1081.1,975.9 L 1083.0,955.6 L 1077.2,952.0 L 1083.2,938.5 L 1100.0,932.0 L 1100.0,459.7 L 1086.2,437.8 L 1079.6,447.1 L 1045.7,445.9 L 1052.4,438.3 L 1048.0,434.5 L 1049.6,409.6 L 1087.8,382.0 L 1084.1,365.0 L 1096.9,357.7 L 1092.2,343.2 L 1100.0,341.1 L 1100.0,286.7 L 1060.1,278.2 L 1042.9,263.3 L 1036.1,275.5 L 1019.4,270.7 L 1016.4,289.6 L 978.4,287.6 L 979.9,280.8 L 949.8,263.7 L 948.1,255.0 L 951.2,254.4 L 945.9,244.7 L 948.5,235.9 L 930.3,224.8 L 937.4,218.8 L 934.4,210.5 L 898.4,197.0 L 896.6,201.4 L 888.7,196.5 L 891.5,188.2 L 884.3,190.8 L 893.3,185.7 L 895.2,181.4 L 889.0,177.8 L 895.3,171.0 L 902.3,168.3 L 896.1,177.0 L 898.1,180.9 L 905.4,174.0 L 910.1,159.7 L 906.7,149.9 L 890.1,150.5 L 890.6,159.3 L 876.9,170.4 L 870.8,165.2 L 849.9,179.6 L 858.6,168.4 L 878.5,163.2 L 875.3,161.7 L 890.4,147.7 L 890.7,132.2 L 898.3,112.5 L 892.8,96.6 L 886.1,97.5 L 882.1,108.1 L 867.9,106.3 L 870.3,118.2 L 860.9,120.5 L 859.7,106.2 L 863.6,104.6 L 865.9,85.2 L 861.4,75.3 L 851.0,66.0 L 802.6,55.4 L 790.8,42.7 L 786.6,44.4 L 788.4,55.2 L 768.3,71.5 L 760.9,87.6 L 753.3,81.1 L 751.1,68.3 L 721.1,63.3 L 704.1,70.3 L 669.3,52.0 L 664.0,55.6 L 667.6,56.9 L 663.5,64.7 L 654.7,67.8 L 640.4,64.0 L 641.4,55.7 L 627.7,65.3 L 620.2,62.9 L 619.6,48.9 L 589.6,52.3 L 591.2,46.6 L 576.8,43.9 L 561.3,52.2 L 555.9,46.5 L 554.0,56.3 L 540.9,61.9 L 532.9,51.5 L 521.8,57.4 L 506.9,48.5 L 502.9,58.0 L 502.3,48.5 L 494.4,41.6 L 476.6,41.7 L 469.0,25.3 L 453.9,34.0 L 451.4,27.6 L 446.4,38.1 L 448.0,21.5 L 445.3,25.6 L 441.4,19.6 L 438.3,28.8 L 429.7,21.4 L 421.9,23.9 L 402.5,39.2 L 402.3,47.1 L 384.5,48.7 L 389.1,70.2 L 382.5,75.2 L 396.6,74.9 L 395.7,85.0 L 402.7,78.7 L 417.7,92.3 L 439.4,83.6 L 452.7,99.1 L 458.7,96.4 L 460.5,105.9 L 444.0,99.3 L 435.4,87.8 L 425.5,96.8 L 428.9,109.4 L 471.2,131.9 L 471.2,139.6 L 488.6,130.7 L 493.1,119.1 L 485.1,133.4 L 498.8,153.9 L 494.4,142.0 L 484.0,133.8 L 470.1,144.5 L 429.2,120.3 L 421.8,98.9 L 378.3,115.1 L 375.8,135.4 L 369.5,137.4 L 375.5,145.7 L 369.0,151.9 L 371.9,157.8 L 394.9,182.2 L 367.8,168.3 L 359.1,174.6 L 371.5,177.5 L 372.6,188.7 L 340.6,196.8 L 316.2,196.3 L 285.8,180.9 L 304.1,182.7 L 286.7,144.9 L 293.0,146.4 L 307.8,183.4 L 318.9,186.1 L 316.5,176.8 L 342.4,175.9 L 335.9,168.0 L 341.7,159.9 L 352.2,161.2 L 361.3,140.5 L 357.2,135.0 L 363.2,121.0 L 341.5,130.5 L 335.5,113.2 L 329.6,133.9 L 331.0,148.4 L 322.7,149.1 L 327.2,135.3 L 323.6,131.0 L 331.2,125.4 L 329.8,119.4 L 318.1,122.7 L 317.1,116.6 L 304.8,116.2 L 304.5,105.8 L 298.7,106.0 L 295.1,94.1 L 284.2,94.1 L 282.7,86.9 L 288.0,78.9 L 273.5,72.3 L 268.2,78.3 L 275.0,86.3 L 258.2,88.9 L 251.0,101.8 L 254.1,103.4 L 233.4,99.7 L 236.3,108.8 L 210.3,120.2 L 217.2,132.1 L 209.4,132.6 L 215.9,139.5 L 209.9,136.9 L 209.0,147.8 L 199.5,147.9 L 217.4,151.9 L 218.6,167.7 L 206.1,156.1 L 191.6,152.5 L 188.5,157.9 L 230.6,175.1 L 231.6,188.4 L 225.3,200.9 L 209.6,200.6 L 199.9,213.8 L 207.4,238.5 L 194.4,275.3 L 182.1,285.2 L 175.8,311.0 L 178.3,331.1 L 167.9,334.4 Z" class="land"/>
+    <path d="M 168.2,197.9 L 182.1,202.4 L 170.9,193.3 L 168.2,197.9 Z" class="land"/>
+    <path d="M 233.2,761.7 L 285.4,759.6 L 312.4,750.2 L 312.9,742.8 L 321.0,736.4 L 319.1,729.2 L 303.9,728.4 L 293.8,710.0 L 286.5,707.8 L 278.4,724.7 L 236.2,742.0 L 240.1,749.5 L 233.2,761.7 Z" class="land"/>
+    <path d="M 244.7,851.4 L 253.0,861.5 L 258.1,859.1 L 244.7,851.4 Z" class="land"/>
+    <path d="M 299.7,651.3 L 304.0,656.0 L 301.3,657.6 L 311.7,658.5 L 306.7,664.2 L 320.1,668.5 L 319.3,654.5 L 299.7,651.3 Z" class="land"/>
+    <path d="M 333.9,485.9 L 340.3,499.0 L 347.4,498.4 L 343.2,486.7 L 346.4,496.7 L 354.9,489.5 L 360.0,500.1 L 360.9,478.9 L 365.6,474.6 L 333.9,485.9 Z" class="land"/>
+    <path d="M 372.3,493.5 L 380.1,511.3 L 375.7,520.8 L 388.6,514.2 L 391.1,501.2 L 384.7,486.3 L 380.9,485.2 L 378.7,495.0 L 372.3,493.5 Z" class="land"/>
+    <path d="M 377.6,43.9 L 384.7,44.9 L 380.8,39.2 L 377.6,43.9 Z" class="land"/>
+    <path d="M 426.0,534.8 L 431.8,536.3 L 429.4,530.5 L 426.0,534.8 Z" class="land"/>
+    <path d="M 484.6,631.7 L 491.1,633.7 L 492.3,624.6 L 484.6,631.7 Z" class="land"/>
+    <path d="M 548.4,699.1 L 562.3,698.2 L 554.7,706.2 L 559.9,707.6 L 556.9,709.6 L 567.4,705.0 L 563.8,695.0 L 548.4,699.1 Z" class="land"/>
+    <path d="M 905.6,182.5 L 951.1,212.6 L 940.7,194.2 L 905.6,182.5 Z" class="land"/>
+    <path d="M 36.4,1008.8 L 41.5,1012.5 L 49.4,1002.8 L 63.8,1007.0 L 69.1,1000.9 L 47.5,986.6 L 36.4,1008.8 Z" class="land"/>
+    <path d="M 64.8,1015.4 L 66.6,1021.2 L 70.9,1016.7 L 64.8,1015.4 Z" class="land"/>
+    <path d="M 67.9,1088.1 L 80.5,1081.3 L 73.8,1079.2 L 67.9,1088.1 Z" class="land"/>
+    <path d="M 69.2,973.7 L 73.8,987.9 L 91.5,996.7 L 113.5,994.2 L 114.7,999.1 L 109.0,999.6 L 122.4,1004.6 L 137.8,986.7 L 126.0,981.7 L 134.7,976.6 L 134.3,969.4 L 117.5,962.6 L 110.8,966.0 L 112.6,976.9 L 97.9,969.7 L 92.2,976.4 L 92.6,985.1 L 83.9,982.4 L 80.7,969.5 L 69.2,973.7 Z" class="land"/>
+    <path d="M 116.3,1086.0 L 134.7,1093.6 L 160.7,1089.1 L 160.9,1103.2 L 168.9,1109.4 L 166.7,1114.3 L 231.9,1129.3 L 234.0,1134.8 L 241.3,1130.9 L 242.5,1137.9 L 226.4,1141.6 L 208.3,1136.3 L 217.8,1133.1 L 186.7,1119.0 L 166.7,1118.1 L 192.9,1130.0 L 166.1,1126.6 L 171.8,1135.7 L 183.1,1135.4 L 187.9,1143.1 L 175.7,1140.8 L 190.3,1151.0 L 205.9,1150.3 L 235.7,1165.4 L 257.6,1162.3 L 238.7,1170.9 L 246.7,1180.7 L 270.3,1172.5 L 264.3,1174.8 L 264.9,1182.6 L 259.7,1180.8 L 260.7,1191.6 L 214.7,1161.0 L 204.7,1163.0 L 196.0,1172.2 L 212.3,1181.7 L 202.3,1188.7 L 219.4,1185.5 L 224.4,1189.2 L 217.3,1190.0 L 222.9,1194.3 L 248.5,1197.4 L 229.4,1201.1 L 225.6,1221.3 L 217.7,1226.7 L 203.0,1215.4 L 210.2,1221.8 L 206.0,1229.7 L 205.4,1218.8 L 198.6,1211.8 L 171.5,1202.3 L 165.0,1221.8 L 153.9,1222.1 L 153.6,1233.0 L 144.3,1236.6 L 147.7,1238.9 L 129.2,1261.5 L 133.3,1269.6 L 157.2,1252.7 L 181.3,1277.2 L 184.2,1262.3 L 192.4,1265.8 L 206.6,1258.4 L 205.6,1268.6 L 209.0,1268.3 L 217.0,1249.0 L 221.7,1249.4 L 226.2,1258.9 L 246.8,1266.1 L 245.0,1290.4 L 250.3,1297.7 L 266.8,1305.3 L 301.9,1302.2 L 302.6,1308.2 L 292.8,1312.7 L 304.5,1317.0 L 304.3,1322.6 L 313.8,1318.4 L 304.8,1313.6 L 310.4,1304.3 L 325.6,1307.4 L 342.2,1293.8 L 338.2,1270.6 L 342.4,1257.3 L 353.8,1250.0 L 350.9,1248.0 L 361.5,1245.5 L 355.5,1251.0 L 365.5,1259.0 L 389.4,1239.7 L 376.8,1228.0 L 411.4,1245.4 L 404.8,1250.8 L 392.4,1241.0 L 387.9,1247.5 L 393.3,1252.6 L 383.3,1250.9 L 384.7,1258.4 L 376.8,1254.1 L 364.8,1261.5 L 363.3,1268.0 L 369.8,1273.1 L 367.4,1287.7 L 382.7,1294.7 L 386.4,1286.8 L 382.7,1277.1 L 388.4,1273.0 L 391.9,1276.1 L 388.9,1286.4 L 396.7,1285.3 L 396.5,1270.7 L 403.3,1271.0 L 415.4,1254.0 L 434.5,1256.9 L 415.2,1263.8 L 414.2,1270.3 L 419.9,1277.3 L 444.1,1269.4 L 435.0,1274.8 L 430.0,1288.0 L 436.2,1284.5 L 441.5,1289.3 L 437.2,1293.5 L 446.9,1291.6 L 426.3,1297.0 L 416.0,1304.3 L 419.5,1307.1 L 415.5,1313.4 L 414.0,1306.9 L 405.3,1304.8 L 379.9,1320.9 L 361.2,1321.0 L 359.9,1331.6 L 365.5,1332.5 L 358.2,1341.5 L 371.3,1334.3 L 373.3,1341.8 L 364.6,1346.9 L 366.5,1357.5 L 354.0,1361.7 L 356.3,1373.3 L 346.7,1374.8 L 355.2,1387.9 L 365.6,1383.0 L 362.4,1388.6 L 367.3,1395.8 L 373.4,1389.3 L 374.3,1395.8 L 381.2,1392.1 L 383.4,1382.7 L 377.9,1370.2 L 381.4,1369.7 L 388.9,1379.0 L 387.6,1386.1 L 401.8,1379.8 L 403.8,1394.2 L 408.6,1398.6 L 410.8,1392.1 L 413.8,1401.4 L 419.1,1395.9 L 414.4,1383.1 L 420.2,1381.9 L 421.7,1400.7 L 438.3,1402.8 L 443.0,1412.9 L 447.9,1409.2 L 445.6,1417.3 L 453.8,1422.5 L 452.6,1408.9 L 483.7,1401.0 L 487.2,1394.5 L 484.3,1378.2 L 504.1,1367.6 L 500.5,1357.6 L 506.5,1357.5 L 514.0,1337.9 L 499.9,1332.9 L 514.9,1335.0 L 526.1,1325.9 L 524.2,1319.3 L 537.9,1319.8 L 546.2,1301.4 L 543.3,1297.2 L 558.8,1291.8 L 559.4,1297.8 L 563.2,1295.6 L 552.6,1317.0 L 565.9,1304.5 L 572.1,1312.1 L 560.3,1312.7 L 562.0,1324.9 L 568.7,1328.9 L 552.7,1341.0 L 554.7,1347.8 L 570.1,1349.8 L 537.2,1359.4 L 566.0,1372.0 L 574.6,1364.6 L 592.1,1365.3 L 593.9,1358.1 L 588.9,1349.8 L 577.5,1349.5 L 587.2,1342.6 L 590.5,1321.7 L 583.2,1319.0 L 578.0,1306.0 L 584.3,1301.3 L 587.1,1310.4 L 593.9,1303.2 L 607.1,1307.7 L 607.2,1297.4 L 598.6,1295.9 L 607.3,1295.1 L 605.1,1291.9 L 609.9,1287.9 L 606.3,1285.2 L 632.1,1276.2 L 625.9,1283.1 L 618.8,1277.7 L 616.6,1285.3 L 628.1,1289.9 L 610.9,1288.0 L 607.0,1300.8 L 612.2,1305.9 L 616.3,1299.6 L 625.2,1301.2 L 629.4,1311.7 L 624.2,1304.2 L 620.8,1310.0 L 609.8,1307.3 L 592.6,1315.3 L 590.2,1328.9 L 601.3,1342.3 L 605.3,1335.7 L 605.8,1350.1 L 612.1,1343.6 L 620.8,1353.4 L 630.0,1351.3 L 616.9,1373.7 L 623.0,1386.4 L 628.9,1383.0 L 624.7,1388.5 L 624.0,1404.5 L 622.3,1385.2 L 615.6,1380.3 L 619.5,1364.2 L 613.0,1349.4 L 607.9,1355.7 L 614.6,1366.3 L 602.7,1373.7 L 608.4,1377.7 L 607.5,1389.1 L 597.7,1372.5 L 571.5,1378.0 L 571.4,1392.1 L 581.6,1395.8 L 577.7,1399.3 L 583.5,1412.8 L 581.3,1420.0 L 589.9,1418.7 L 592.2,1424.6 L 587.5,1431.6 L 590.9,1438.7 L 573.5,1455.1 L 564.2,1477.7 L 567.6,1493.9 L 577.3,1503.5 L 587.8,1491.9 L 600.5,1497.2 L 610.5,1463.9 L 602.0,1449.8 L 618.0,1435.5 L 629.6,1437.8 L 617.5,1430.0 L 621.6,1423.6 L 636.5,1439.6 L 625.8,1443.0 L 624.6,1453.6 L 614.5,1459.3 L 621.5,1477.9 L 630.6,1462.3 L 628.1,1483.9 L 633.8,1487.5 L 627.3,1486.0 L 624.6,1496.1 L 651.0,1516.9 L 676.3,1512.4 L 679.3,1506.3 L 695.1,1509.9 L 704.0,1501.2 L 745.2,1501.4 L 774.5,1489.8 L 814.0,1494.0 L 818.2,1487.4 L 882.7,1479.3 L 888.7,1485.3 L 932.8,1483.8 L 966.4,1478.2 L 970.0,1472.3 L 962.7,1476.7 L 958.6,1469.9 L 974.8,1466.0 L 970.4,1472.3 L 977.3,1469.2 L 971.9,1480.4 L 976.8,1471.3 L 1021.9,1458.7 L 1017.0,1451.8 L 1024.4,1454.0 L 1035.4,1437.4 L 1034.3,1448.3 L 1027.2,1449.1 L 1025.9,1455.7 L 1065.7,1450.6 L 1065.2,1462.0 L 1082.6,1462.8 L 1079.1,1456.4 L 1083.9,1450.8 L 1100.0,1450.5 L 1100.0,1467.5 L 1078.8,1469.9 L 1067.9,1483.4 L 1089.8,1484.1 L 1089.1,1491.0 L 1055.3,1501.4 L 1100.0,1493.9 L 1100.0,1494.7 L 1058.1,1510.2 L 1062.3,1511.2 L 1057.8,1515.9 L 1062.8,1516.7 L 1078.1,1511.0 L 1066.7,1520.4 L 1080.4,1522.5 L 1061.3,1529.0 L 1081.5,1527.5 L 1091.2,1534.1 L 1100.0,1532.4 L 1100.0,1545.0 L 1100.0,1545.0 L 1100.0,932.0 L 1083.2,938.5 L 1077.2,952.0 L 1083.0,955.6 L 1081.1,975.9 L 1070.0,987.4 L 1076.2,1005.5 L 1068.5,1008.0 L 1066.4,1016.1 L 1061.0,1009.2 L 1048.6,1014.6 L 1055.4,1033.4 L 1024.4,1043.2 L 1028.1,1063.2 L 1039.5,1077.0 L 1031.9,1096.4 L 1017.8,1098.2 L 1014.8,1108.8 L 988.3,1124.1 L 982.7,1153.6 L 969.7,1153.0 L 962.6,1169.5 L 953.2,1175.8 L 936.2,1168.6 L 917.9,1182.8 L 910.0,1177.8 L 896.2,1182.2 L 893.6,1174.1 L 874.8,1171.9 L 875.8,1146.0 L 841.4,1124.8 L 841.7,1111.4 L 833.3,1091.2 L 837.6,1089.4 L 836.9,1080.9 L 819.7,1084.8 L 822.4,1071.8 L 809.1,1078.6 L 808.5,1088.7 L 796.7,1092.5 L 782.9,1082.9 L 789.3,1060.9 L 777.4,1047.2 L 729.1,1059.8 L 681.9,1062.7 L 658.4,1041.1 L 632.4,1036.2 L 623.1,1012.7 L 624.1,1001.5 L 617.3,996.2 L 603.2,1013.6 L 582.9,1002.8 L 552.5,1011.7 L 534.7,995.3 L 532.6,1002.5 L 519.9,1003.9 L 515.2,1017.5 L 486.6,1011.7 L 443.5,1021.4 L 374.5,976.5 L 369.4,979.1 L 394.5,994.6 L 393.7,1000.4 L 372.7,989.0 L 354.3,992.8 L 350.0,1000.3 L 359.5,1003.1 L 348.9,1002.4 L 345.4,1011.0 L 327.9,1015.6 L 302.5,1012.5 L 277.5,997.6 L 260.4,1003.7 L 237.3,998.0 L 235.1,1007.8 L 240.7,1010.7 L 240.1,1020.5 L 257.5,1041.1 L 304.0,1050.3 L 292.2,1055.1 L 297.2,1063.9 L 285.6,1059.7 L 282.3,1067.4 L 274.7,1063.3 L 275.6,1070.0 L 291.6,1065.8 L 311.4,1075.7 L 299.1,1079.8 L 289.9,1070.0 L 281.8,1077.5 L 289.3,1083.2 L 272.4,1080.5 L 276.9,1086.4 L 273.6,1086.7 L 258.8,1065.5 L 266.8,1063.3 L 263.9,1055.5 L 239.0,1048.7 L 224.2,1055.2 L 215.0,1044.7 L 204.3,1048.6 L 185.7,1041.9 L 182.7,1048.0 L 171.9,1045.7 L 200.5,1072.9 L 177.2,1063.5 L 169.1,1068.8 L 155.2,1057.2 L 157.1,1061.9 L 150.8,1072.4 L 155.2,1074.8 L 149.0,1074.6 L 150.6,1068.7 L 145.3,1063.4 L 137.5,1064.8 L 123.4,1072.4 L 127.0,1079.5 L 116.3,1086.0 Z" class="land"/>
+    <path d="M 131.2,1100.7 L 145.2,1106.1 L 137.2,1110.2 L 141.3,1114.9 L 159.7,1111.0 L 154.1,1095.6 L 148.4,1093.5 L 131.2,1100.7 Z" class="land"/>
+    <path d="M 143.0,1145.2 L 168.8,1147.1 L 159.2,1140.3 L 143.0,1145.2 Z" class="land"/>
+    <path d="M 145.9,1136.4 L 155.5,1136.7 L 161.4,1128.5 L 150.9,1126.1 L 151.2,1133.3 L 145.9,1136.4 Z" class="land"/>
+    <path d="M 171.7,1289.4 L 175.6,1292.8 L 179.8,1283.8 L 175.9,1280.7 L 171.7,1289.4 Z" class="land"/>
+    <path d="M 234.5,1038.9 L 239.3,1045.3 L 245.0,1042.0 L 234.5,1038.9 Z" class="land"/>
+    <path d="M 237.6,1276.4 L 244.0,1278.3 L 243.2,1273.2 L 237.6,1276.4 Z" class="land"/>
+    <path d="M 290.1,1376.6 L 295.1,1386.1 L 303.7,1373.3 L 290.1,1376.6 Z" class="land"/>
+    <path d="M 327.0,1322.4 L 334.8,1322.6 L 336.7,1312.9 L 328.9,1312.6 L 327.0,1322.4 Z" class="land"/>
+    <path d="M 332.5,1403.0 L 340.1,1411.4 L 344.4,1407.8 L 332.5,1403.0 Z" class="land"/>
+    <path d="M 344.9,1266.4 L 348.6,1267.3 L 346.1,1275.2 L 351.3,1287.7 L 347.5,1306.2 L 361.4,1308.4 L 362.1,1301.6 L 351.9,1291.5 L 364.0,1288.3 L 361.7,1278.7 L 349.0,1274.8 L 357.0,1272.0 L 355.7,1257.4 L 347.3,1258.0 L 350.0,1263.9 L 344.9,1266.4 Z" class="land"/>
+    <path d="M 356.9,1414.3 L 363.1,1416.6 L 369.2,1407.0 L 356.9,1414.3 Z" class="land"/>
+    <path d="M 373.6,1406.2 L 392.0,1411.9 L 392.3,1422.9 L 399.9,1428.5 L 403.3,1423.7 L 389.4,1392.9 L 373.6,1406.2 Z" class="land"/>
+    <path d="M 397.8,1401.1 L 407.9,1398.2 L 400.4,1392.3 L 397.8,1401.1 Z" class="land"/>
+    <path d="M 414.3,1426.0 L 420.7,1426.5 L 431.2,1411.0 L 422.1,1409.9 L 414.3,1426.0 Z" class="land"/>
+    <path d="M 434.3,1446.8 L 440.4,1448.7 L 438.2,1443.0 L 434.3,1446.8 Z" class="land"/>
+    <path d="M 462.7,1504.5 L 482.2,1507.4 L 485.5,1502.4 L 495.9,1508.3 L 492.4,1493.7 L 496.0,1482.4 L 476.9,1482.2 L 479.5,1490.7 L 475.4,1496.0 L 480.8,1498.3 L 462.7,1504.5 Z" class="land"/>
+    <path d="M 462.7,1461.6 L 470.3,1468.8 L 468.9,1454.3 L 462.7,1461.6 Z" class="land"/>
+    <path d="M 463.1,1481.0 L 472.0,1479.9 L 467.5,1474.8 L 463.1,1481.0 Z" class="land"/>
+    <path d="M 463.9,1490.8 L 477.5,1488.3 L 468.5,1484.3 L 463.9,1490.8 Z" class="land"/>
+    <path d="M 470.6,1471.5 L 474.0,1480.6 L 482.1,1480.1 L 476.3,1462.8 L 471.7,1461.1 L 470.6,1471.5 Z" class="land"/>
+    <path d="M 475.1,1436.2 L 483.9,1443.2 L 484.5,1437.0 L 488.2,1438.8 L 475.1,1436.2 Z" class="land"/>
+    <path d="M 491.9,1460.6 L 496.9,1474.1 L 508.1,1475.2 L 496.4,1487.9 L 500.9,1502.8 L 507.9,1501.7 L 508.8,1511.2 L 527.5,1505.5 L 523.1,1509.4 L 537.2,1513.5 L 552.9,1505.9 L 549.8,1500.4 L 556.4,1488.9 L 555.4,1461.6 L 546.7,1457.2 L 540.5,1443.2 L 547.4,1450.8 L 553.1,1447.5 L 553.1,1441.4 L 546.1,1439.6 L 549.5,1435.8 L 547.0,1432.6 L 538.9,1434.0 L 541.9,1438.8 L 525.1,1436.3 L 525.2,1450.2 L 491.9,1460.6 Z" class="land"/>
+    <path d="M 493.2,1435.0 L 497.4,1449.1 L 510.2,1445.0 L 498.9,1432.5 L 493.2,1435.0 Z" class="land"/>
+    <path d="M 493.8,1418.1 L 496.5,1422.0 L 499.2,1414.6 L 493.8,1418.1 Z" class="land"/>
+    <path d="M 501.3,1415.6 L 517.6,1423.5 L 515.6,1429.4 L 502.5,1425.6 L 518.4,1439.1 L 523.6,1436.0 L 523.4,1428.9 L 550.9,1427.6 L 551.1,1420.8 L 566.2,1415.6 L 554.7,1406.0 L 542.8,1410.9 L 539.9,1404.1 L 523.1,1398.7 L 507.0,1405.5 L 501.3,1415.6 Z" class="land"/>
+    <path d="M 522.2,1384.8 L 524.3,1392.9 L 542.0,1387.3 L 538.6,1379.8 L 522.2,1384.8 Z" class="land"/>
+    <path d="M 538.5,1344.2 L 551.0,1339.0 L 543.8,1336.5 L 538.5,1344.2 Z" class="land"/>
+    <path d="M 548.5,1397.4 L 561.7,1395.9 L 562.2,1404.4 L 570.4,1397.6 L 560.1,1393.5 L 567.1,1387.6 L 560.7,1384.4 L 550.6,1388.9 L 548.5,1397.4 Z" class="land"/>
+    <path d="M 569.1,1436.6 L 572.6,1444.8 L 577.8,1439.1 L 575.9,1432.2 L 569.1,1436.6 Z" class="land"/>
+    <path d="M 579.7,1433.0 L 587.1,1431.7 L 585.2,1425.4 L 579.7,1433.0 Z" class="land"/>
+    <path d="M 588.5,1341.6 L 596.8,1344.6 L 593.4,1338.5 L 588.5,1341.6 Z" class="land"/>
+    <path d="M 592.1,1353.5 L 596.3,1361.4 L 601.4,1351.2 L 592.1,1353.5 Z" class="land"/>
+    <path d="M 1022.4,1518.4 L 1046.4,1527.4 L 1040.8,1523.8 L 1057.2,1516.1 L 1040.8,1511.5 L 1022.4,1518.4 Z" class="land"/>
+    <path d="M 953.4,242.7 L 959.0,255.8 L 955.1,261.6 L 979.9,280.8 L 977.6,286.7 L 982.0,289.5 L 1016.4,289.6 L 1019.4,270.7 L 1036.1,275.5 L 1042.9,263.3 L 1060.1,278.2 L 1100.0,286.7 L 1100.0,340.1 L 1092.2,343.2 L 1096.9,357.7 L 1084.1,365.0 L 1087.8,382.0 L 1049.6,409.6 L 1048.0,434.5 L 1052.4,438.3 L 1045.7,445.9 L 1079.6,447.1 L 1086.2,437.8 L 1100.0,459.7 L 1100.0,89.4 L 1060.9,91.1 L 1041.9,84.6 L 1017.2,88.7 L 1020.4,97.5 L 1014.4,106.4 L 1018.3,114.6 L 984.8,179.4 L 986.2,194.0 L 954.8,205.7 L 971.5,212.7 L 978.3,208.3 L 960.6,218.6 L 963.2,237.0 L 953.4,242.7 Z" class="land"/>
+    <ellipse cx="392.9" cy="719.3" rx="7.9" ry="3.9" class="isle"/>
+    <ellipse cx="369.3" cy="699.2" rx="6.3" ry="3.1" class="isle"/>
+    <ellipse cx="416.4" cy="690.0" rx="5.5" ry="3.1" class="isle"/>
+    <path d="M 564.4,707.2 L 567.4,704.8 L 565.2,699.8 L 566.4,698.0 L 563.8,695.0 L 548.4,699.0 L 553.1,700.0 L 561.9,697.9 L 562.8,700.9 L 554.6,706.5 L 559.5,706.8 L 556.9,709.6 L 560.4,709.9 L 566.0,709.3 L 563.2,707.7 L 564.4,707.2 Z" class="isle"/>
+    <path d="M 558.2,692.3 L 562.9,687.6 L 568.3,686.8 L 562.3,684.8 L 553.4,690.2 L 558.2,692.3 Z" class="isle"/>
+    <path d="M 574.3,681.0 L 576.1,681.0 L 575.2,679.5 L 585.5,678.2 L 581.9,676.8 L 570.0,678.3 L 574.3,681.0 Z" class="isle"/>
+    <path d="M 550.5,717.9 L 553.3,717.5 L 549.6,716.0 L 552.0,711.6 L 547.9,710.9 L 544.4,717.5 L 550.5,717.9 Z" class="isle"/>
+    <path d="M 547.0,671.0 L 549.3,670.5 L 547.8,668.1 L 549.7,665.6 L 543.5,667.4 L 543.2,670.0 L 547.0,671.0 Z" class="isle"/>
+    <path d="M 592.6,666.5 L 595.0,664.6 L 591.9,662.9 L 582.3,663.0 L 592.6,666.5 Z" class="isle"/>
+    <path d="M 568.6,721.6 L 570.7,721.1 L 569.5,718.4 L 564.2,718.5 L 565.5,721.2 L 568.6,721.6 Z" class="isle"/>
+    <path d="M 544.2,681.9 L 555.4,678.1 L 551.8,677.3 L 542.5,681.6 L 544.2,681.9 Z" class="isle"/>
+    <path d="M 566.2,730.2 L 559.7,727.8 L 568.7,734.2 L 569.2,732.7 L 566.2,730.2 Z" class="isle"/>
+    <path d="M 562.0,724.6 L 558.6,722.1 L 551.1,721.2 L 562.0,724.6 Z" class="isle"/>
+    <path d="M 540.5,630.0 L 536.7,629.1 L 532.9,632.1 L 537.9,632.4 L 540.5,630.0 Z" class="isle"/>
+    <path d="M 565.2,666.7 L 566.8,665.4 L 563.4,663.4 L 559.7,666.3 L 565.2,666.7 Z" class="isle"/>
+    <path d="M 561.7,747.7 L 562.3,746.1 L 558.0,745.4 L 555.0,748.1 L 561.7,747.7 Z" class="isle"/>
+    <path d="M 533.0,679.7 L 536.7,679.5 L 537.0,674.6 L 534.4,675.2 L 531.3,680.2 L 533.0,679.7 Z" class="isle"/>
+    <path d="M 564.3,740.8 L 568.1,739.7 L 567.4,738.1 L 564.1,737.5 L 561.2,740.2 L 564.3,740.8 Z" class="isle"/>
+    <path d="M 521.5,633.3 L 515.7,632.0 L 514.8,633.8 L 518.6,635.1 L 521.5,633.3 Z" class="isle"/>
+    <path d="M 572.6,639.9 L 567.2,638.0 L 566.6,640.6 L 572.6,639.9 Z" class="isle"/>
+    <path d="M 569.6,676.7 L 571.0,676.5 L 567.1,674.1 L 562.4,674.8 L 569.6,676.7 Z" class="isle"/>
+    <path d="M 592.9,644.2 L 589.9,642.9 L 583.9,644.5 L 592.9,644.2 Z" class="isle"/>
+    <path d="M 599.9,664.0 L 604.0,662.7 L 599.7,660.8 L 597.5,662.8 L 599.9,664.0 Z" class="isle"/>
+    <path d="M 557.3,684.7 L 560.7,684.1 L 557.8,681.9 L 553.3,683.1 L 557.3,684.7 Z" class="isle"/>
+    <path d="M 535.8,672.1 L 536.8,668.0 L 534.5,666.7 L 532.7,669.3 L 535.8,672.1 Z" class="isle"/>
+    <path d="M 548.1,703.4 L 548.9,701.2 L 546.3,700.3 L 542.9,703.1 L 548.1,703.4 Z" class="isle"/>
+    <path d="M 537.3,684.5 L 541.2,681.8 L 534.0,683.3 L 536.1,685.5 L 537.3,684.5 Z" class="isle"/>
+    <path d="M 192.5,520.8 L 227.9,523.5 L 227.9,516.8 L 192.5,514.1 Z" class="sand"/>
+    <path d="M 117.9,522.1 L 127.3,527.4 L 133.6,522.1 L 124.1,516.8 Z" class="sand"/>
+    <path d="M 263.2,466.2 L 286.8,468.8 L 286.8,460.9 L 263.2,458.2 Z" class="sand"/>
+    <path d="M 432.1,615.3 L 467.5,612.6 L 467.5,606.0 L 432.1,608.6 Z" class="sand"/>
+    <path d="M 575.1,761.8 L 585.4,748.5 L 581.4,745.9 L 572.0,759.2 Z" class="sand"/>
+    <path d="M 475.4,785.8 L 491.1,783.1 L 491.1,777.8 L 475.4,780.5 Z" class="sand"/>
+    <path d="M 608.9,607.8 L 607.3,605.8 L 612.0,603.5 L 614.6,598.7 L 617.7,598.4 L 618.5,601.7 L 622.4,601.9 L 623.5,598.5 L 619.7,597.3 L 623.4,592.9 L 620.5,594.2 L 614.2,592.4 L 617.6,585.4 L 614.9,582.0 L 602.4,586.5 L 606.4,587.1 L 601.5,592.2 L 607.9,590.7 L 605.9,593.3 L 610.4,594.0 L 609.5,595.7 L 612.5,596.6 L 611.3,597.7 L 606.7,594.6 L 603.6,596.8 L 602.6,604.1 L 608.9,607.8 Z" class="lake"/>
+    <path d="M 615.3,547.4 L 614.7,553.9 L 612.4,556.3 L 614.1,558.3 L 613.8,564.1 L 610.9,568.2 L 613.6,565.0 L 618.0,567.0 L 613.1,572.6 L 616.6,573.1 L 612.6,578.7 L 605.1,580.3 L 601.6,585.5 L 602.6,583.4 L 599.9,582.5 L 601.9,579.4 L 602.0,565.1 L 604.5,558.3 L 603.8,550.5 L 602.1,545.4 L 597.7,544.3 L 596.6,539.8 L 602.1,533.1 L 604.2,533.4 L 612.6,537.2 L 615.3,547.4 Z" class="lake"/>
+    <ellipse cx="202.7" cy="502.1" rx="15.7" ry="6.3" class="lake"/>
+    <g clip-path="url(#chartclip)" aria-hidden="true">
+      <path class="county" d="M 1120.5,467.7 L 1104.8,467.3 L 1086.2,437.8 L 1079.6,447.1 L 1045.7,445.9 L 1052.4,438.3 L 1048.0,434.5 L 1049.6,409.6 L 1087.8,382.0 L 1084.1,365.0 L 1096.9,357.7 L 1092.2,343.2 L 1111.5,338.1 L 1126.0,322.1 L 1103.5,303.5 L 1102.1,295.1 L 1110.4,288.9 L 1060.1,278.2 L 1042.9,263.3 L 1036.1,275.5 L 1019.4,270.7 L 1016.4,289.6 L 978.4,287.6 L 979.9,280.8 L 949.8,263.7 L 948.5,235.9"/>
+      <path class="county" d="M 375.4,962.3 L 370.0,967.2 L 444.6,1008.7 L 477.7,1009.3 L 512.2,1006.2 L 533.2,990.6 L 552.5,1011.7 L 582.9,1002.8 L 603.2,1013.6 L 617.3,996.2 L 632.4,1036.2 L 658.4,1041.1 L 681.9,1062.7 L 777.4,1047.2 L 789.3,1060.9 L 782.9,1082.9 L 794.9,1092.2 L 809.7,1087.6 L 816.5,1071.7 L 822.4,1071.8 L 820.4,1085.2 L 836.9,1080.9 L 841.4,1124.8 L 875.8,1146.0 L 874.8,1171.9 L 917.9,1182.8 L 938.0,1168.3 L 954.5,1175.6 L 969.7,1153.0 L 982.7,1153.6 L 988.3,1124.1 L 1031.9,1096.4 L 1039.5,1077.0 L 1024.4,1043.2 L 1055.4,1033.4 L 1048.6,1014.6 L 1076.2,1005.5 L 1070.0,987.4 L 1081.1,975.9 L 1083.0,955.6 L 1077.2,952.0 L 1105.7,929.8"/>
+    </g>
+    <polygon points="543.7,781.9 529.6,803.9 557.9,803.9" class="peak"/>
+    <line x1="543.7" y1="781.9" x2="543.7" y2="774.0" class="peakcross"/>
+    <line x1="537.4" y1="777.2" x2="550.0" y2="777.2" class="peakcross"/>
+    <polygon points="237.3,447.8 226.3,468.2 248.3,468.2" class="peak"/>
+    <polygon points="221.6,522.8 212.1,540.1 231.0,540.1" class="peak"/>
+    <polygon points="408.6,940.1 392.9,963.7 424.3,963.7" class="peak"/>
+    <polygon points="770.0,447.6 757.4,469.6 782.6,469.6" class="peak"/>
+    <path d="M 650.6,745.9 L 628.6,765.9 L 573.6,796.5 L 526.4,805.8 L 482.4,787.1" class="lroad"/>
+    <path d="M 650.6,745.9 L 628.6,765.9 L 573.6,796.5 L 526.4,805.8 L 482.4,787.1" class="lroad-line"/>
+    <path d="M 482.4,787.1 L 432.1,788.5 L 392.9,789.8 L 361.4,791.2" class="lroad"/>
+    <path d="M 482.4,787.1 L 432.1,788.5 L 392.9,789.8 L 361.4,791.2" class="lroad-line"/>
+    <path d="M 603.2,608.9 L 604.3,612.3 L 604.2,613.1 L 604.2,613.7 L 604.5,614.0 L 604.3,615.3 L 603.4,615.8 L 603.2,615.8" class="lroad"/>
+    <path d="M 603.2,608.9 L 604.3,612.3 L 604.2,613.1 L 604.2,613.7 L 604.5,614.0 L 604.3,615.3 L 603.4,615.8 L 603.2,615.8" class="lroad-line"/>
+    <path d="M 603.2,615.8 L 602.1,615.9" class="lroad"/>
+    <path d="M 603.2,615.8 L 602.1,615.9" class="lroad-line"/>
+    <path d="M 604.3,615.1 L 603.1,615.2 L 602.2,614.7 L 602.1,614.9" class="lroad"/>
+    <path d="M 604.3,615.1 L 603.1,615.2 L 602.2,614.7 L 602.1,614.9" class="lroad-line"/>
+    <path d="M 618.8,614.3 L 618.5,614.5 L 618.1,614.5 L 616.5,614.1 L 615.9,613.8 L 615.5,613.7 L 611.8,614.1" class="lroad"/>
+    <path d="M 618.8,614.3 L 618.5,614.5 L 618.1,614.5 L 616.5,614.1 L 615.9,613.8 L 615.5,613.7 L 611.8,614.1" class="lroad-line"/>
+    <path d="M 600.9,609.1 L 598.4,605.9 L 598.1,605.7 L 597.2,605.6 L 596.6,605.2 L 596.1,604.2 L 596.1,603.6" class="lroad"/>
+    <path d="M 600.9,609.1 L 598.4,605.9 L 598.1,605.7 L 597.2,605.6 L 596.6,605.2 L 596.1,604.2 L 596.1,603.6" class="lroad-line"/>
+    <path d="M 319.8,574.1 L 318.2,606.0 L 326.1,628.7 L 333.9,644.6 L 290.7,632.7 L 259.3,606.0 L 243.6,579.4 L 235.7,548.8 L 227.9,519.5" class="lroad"/>
+    <path d="M 319.8,574.1 L 318.2,606.0 L 326.1,628.7 L 333.9,644.6 L 290.7,632.7 L 259.3,606.0 L 243.6,579.4 L 235.7,548.8 L 227.9,519.5" class="lroad-line"/>
+    <path d="M 259.3,522.1 L 267.1,499.4 L 275.0,468.8" class="lroad"/>
+    <path d="M 259.3,522.1 L 267.1,499.4 L 275.0,468.8" class="lroad-line"/>
+    <path d="M 650.6,745.9 L 640.4,746.5 L 634.5,746.8 L 631.2,747.2" class="lroad"/>
+    <path d="M 650.6,745.9 L 640.4,746.5 L 634.5,746.8 L 631.2,747.2" class="lroad-line"/>
+    <path d="M 561.0,776.5 L 551.6,788.5 L 543.7,799.2" class="lroad"/>
+    <path d="M 561.0,776.5 L 551.6,788.5 L 543.7,799.2" class="lroad-line"/>
+    <path d="M 172.9,512.8 L 149.3,514.1 L 123.4,516.8" class="lroad"/>
+    <path d="M 172.9,512.8 L 149.3,514.1 L 123.4,516.8" class="lroad-line"/>
+    <path d="M 650.6,745.9 L 645.4,752.4 L 633.3,757.6 L 619.5,769.8 L 604.3,774.2 L 601.3,771.7 L 590.6,769.9 L 587.2,770.3 L 582.8,773.6 L 574.4,775.1 L 561.0,776.5 L 544.0,770.8 L 529.2,773.1 L 522.2,771.4 L 520.4,773.7 L 510.9,777.4 L 482.4,787.1" class="rroad"/>
+    <path d="M 650.6,745.9 L 645.4,752.4 L 633.3,757.6 L 619.5,769.8 L 604.3,774.2 L 601.3,771.7 L 590.6,769.9 L 587.2,770.3 L 582.8,773.6 L 574.4,775.1 L 561.0,776.5 L 544.0,770.8 L 529.2,773.1 L 522.2,771.4 L 520.4,773.7 L 510.9,777.4 L 482.4,787.1" class="rroad-line"/>
+    <path d="M 482.4,787.1 L 475.4,852.4 L 467.5,905.7 L 459.6,972.2" class="rroad"/>
+    <path d="M 482.4,787.1 L 475.4,852.4 L 467.5,905.7 L 459.6,972.2" class="rroad-line"/>
+    <path d="M 450.2,603.4 L 392.9,596.7 L 353.6,586.0 L 319.8,574.1 L 282.9,552.7 L 251.4,532.7 L 227.9,519.5 L 208.2,511.5 L 172.9,512.8" class="rroad"/>
+    <path d="M 450.2,603.4 L 392.9,596.7 L 353.6,586.0 L 319.8,574.1 L 282.9,552.7 L 251.4,532.7 L 227.9,519.5 L 208.2,511.5 L 172.9,512.8" class="rroad-line"/>
+    <path d="M 650.6,745.9 L 730.7,716.6 L 785.7,692.5 L 826.2,673.9" class="nroad"/>
+    <path d="M 650.6,745.9 L 730.7,716.6 L 785.7,692.5 L 826.2,673.9" class="nroad-line"/>
+    <path d="M 650.6,745.9 L 649.8,747.8 L 650.9,740.1 L 639.6,727.9 L 641.5,718.8 L 625.1,700.3 L 632.2,675.7 L 631.8,661.8 L 639.9,654.0 L 637.3,647.2 L 629.8,640.8 L 632.8,629.7 L 632.4,628.4 L 632.3,627.0 L 631.3,625.3 L 630.6,622.5 L 629.8,621.4 L 627.0,619.5 L 623.3,617.6 L 618.8,614.3 L 616.5,612.8 L 610.8,609.6 L 608.2,608.1 L 607.4,608.0 L 603.2,608.9 L 602.7,609.0 L 600.9,609.1 L 591.5,610.4 L 584.2,610.7 L 575.0,610.6 L 565.2,606.0 L 536.4,603.3 L 506.2,610.5 L 450.2,603.4" class="nroad"/>
+    <path d="M 650.6,745.9 L 649.8,747.8 L 650.9,740.1 L 639.6,727.9 L 641.5,718.8 L 625.1,700.3 L 632.2,675.7 L 631.8,661.8 L 639.9,654.0 L 637.3,647.2 L 629.8,640.8 L 632.8,629.7 L 632.4,628.4 L 632.3,627.0 L 631.3,625.3 L 630.6,622.5 L 629.8,621.4 L 627.0,619.5 L 623.3,617.6 L 618.8,614.3 L 616.5,612.8 L 610.8,609.6 L 608.2,608.1 L 607.4,608.0 L 603.2,608.9 L 602.7,609.0 L 600.9,609.1 L 591.5,610.4 L 584.2,610.7 L 575.0,610.6 L 565.2,606.0 L 536.4,603.3 L 506.2,610.5 L 450.2,603.4" class="nroad-line"/>
+    <path d="M 450.2,603.4 L 443.9,566.1 L 432.1,526.1 L 422.7,486.2 L 428.2,426.2" class="nroad"/>
+    <path d="M 450.2,603.4 L 443.9,566.1 L 432.1,526.1 L 422.7,486.2 L 428.2,426.2" class="nroad-line"/>
+    <path d="M 654.6,746.7 L 659.4,746.2 L 660.0,741.8 L 655.5,734.5 L 646.3,733.6 L 647.5,730.7 L 639.5,728.3 L 638.7,725.0 L 640.3,718.3 L 629.7,707.4 L 625.0,700.1 L 628.5,682.9 L 632.0,674.2 L 634.4,674.6 L 635.8,672.6 L 631.7,663.3 L 633.4,660.1 L 639.1,656.5 L 639.9,652.7 L 637.2,647.0 L 631.2,642.7 L 629.6,639.7 L 629.5,636.2 L 631.6,634.9 L 631.9,634.6 L 631.4,631.7 L 632.8,629.8 L 630.2,622.2 L 610.4,606.9 L 608.6,608.1 L 608.0,607.8 L 598.7,603.1 L 588.5,604.1 L 584.4,601.8 L 583.4,599.1 L 580.5,601.2 L 566.5,598.6 L 542.5,603.1 L 533.6,599.9 L 525.6,601.9 L 517.1,600.2 L 514.5,600.4 L 505.3,601.2 L 498.0,603.6 L 483.8,599.0 L 469.0,600.4 L 462.5,599.0 L 455.6,600.2 L 452.3,602.3 L 452.3,602.9 L 447.7,603.8 L 435.9,597.3 L 428.4,595.7 L 425.7,591.1 L 425.5,583.4 L 415.2,568.6 L 407.6,548.5 L 396.2,539.6 L 378.1,541.3 L 359.3,546.7 L 351.4,552.5 L 340.2,567.6 L 334.5,570.8 L 332.2,572.4 L 321.3,572.2 L 320.7,569.1 L 313.1,555.1 L 311.7,554.2 L 307.6,556.5 L 304.4,554.4" class="greenway"/>
+    <path d="M 654.6,746.7 L 659.4,746.2 L 660.0,741.8 L 655.5,734.5 L 646.3,733.6 L 647.5,730.7 L 639.5,728.3 L 638.7,725.0 L 640.3,718.3 L 629.7,707.4 L 625.0,700.1 L 628.5,682.9 L 632.0,674.2 L 634.4,674.6 L 635.8,672.6 L 631.7,663.3 L 633.4,660.1 L 639.1,656.5 L 639.9,652.7 L 637.2,647.0 L 631.2,642.7 L 629.6,639.7 L 629.5,636.2 L 631.6,634.9 L 631.9,634.6 L 631.4,631.7 L 632.8,629.8 L 630.2,622.2 L 610.4,606.9 L 608.6,608.1 L 608.0,607.8 L 598.7,603.1 L 588.5,604.1 L 584.4,601.8 L 583.4,599.1 L 580.5,601.2 L 566.5,598.6 L 542.5,603.1 L 533.6,599.9 L 525.6,601.9 L 517.1,600.2 L 514.5,600.4 L 505.3,601.2 L 498.0,603.6 L 483.8,599.0 L 469.0,600.4 L 462.5,599.0 L 455.6,600.2 L 452.3,602.3 L 452.3,602.9 L 447.7,603.8 L 435.9,597.3 L 428.4,595.7 L 425.7,591.1 L 425.5,583.4 L 415.2,568.6 L 407.6,548.5 L 396.2,539.6 L 378.1,541.3 L 359.3,546.7 L 351.4,552.5 L 340.2,567.6 L 334.5,570.8 L 332.2,572.4 L 321.3,572.2 L 320.7,569.1 L 313.1,555.1 L 311.7,554.2 L 307.6,556.5 L 304.4,554.4" class="greenway-dash"/>
+    <path id="gwseg" class="gw-seg" d=""/>
+    <path class="walkway" d="M 554.4,869.3 L 531.6,847.0 L 527.2,838.3 L 529.5,837.4 L 532.1,833.2 L 538.3,832.2 L 540.3,829.0 L 551.1,823.8 L 550.3,821.9 L 552.4,817.2 L 547.9,816.1 L 551.8,810.9 L 563.2,806.0 L 571.0,810.0 L 578.3,810.2 L 580.2,808.5 L 589.1,795.4 L 591.5,789.0 L 598.1,788.3 L 600.6,785.5 L 605.2,784.1 L 603.4,779.0 L 604.7,774.7 L 611.6,771.9 L 611.2,763.2 L 614.8,759.4 L 614.2,757.1 L 615.7,755.3 L 623.5,752.2 L 628.0,748.5 L 633.8,752.6 L 642.0,752.8 L 648.7,751.3 L 654.1,748.3 L 650.4,744.4 L 651.7,742.5 L 650.7,739.7 L 646.5,736.3 L 646.7,731.2 L 662.6,732.7 L 664.1,731.2 L 665.8,733.3 L 670.7,719.4 L 669.3,706.0 L 666.4,701.4 L 666.9,697.7 L 668.5,696.5 L 669.7,682.9 L 675.6,679.4 L 673.7,673.8 L 668.7,667.1 L 667.0,660.8 L 667.2,650.8 L 664.3,648.1 L 661.7,641.5 L 653.1,636.4 L 645.0,637.4 L 638.9,634.6 L 631.8,634.8 L 632.3,627.2 L 630.2,622.2 L 627.5,620.0 L 628.8,609.4 L 626.2,598.9 L 625.9,586.6 L 624.9,586.6 L 624.8,581.1 L 623.3,580.3 L 622.0,575.5 L 623.0,566.6 L 620.8,550.0 L 621.6,544.2 L 619.3,542.2 L 623.9,527.2 L 622.3,516.5 L 616.9,509.6 L 619.5,502.3 L 611.0,496.6 L 611.3,485.2 L 607.7,478.4 L 596.7,464.9 L 596.8,452.2 L 595.7,449.0 L 591.0,444.0 L 588.3,434.1 L 589.3,431.5 L 594.3,429.7 L 595.6,425.1 L 593.1,420.7 L 587.4,416.9 L 583.8,410.8"/>
+    <path class="walkway" d="M 602.1,614.9 L 600.7,612.4 L 598.9,610.7 L 597.8,609.5"/>
+    <path class="walkway" d="M 560.1,767.4 L 554.7,774.5 L 549.6,782.1 L 545.4,790.5 L 542.7,799.3"/>
+    <path d="M 450.2,603.3 L 432.1,546.1 L 414.9,480.8 L 432.1,399.6 L 463.6,333.0 L 483.2,285.0" class="nroad"/>
+    <path d="M 450.2,603.3 L 432.1,546.1 L 414.9,480.8 L 432.1,399.6 L 463.6,333.0 L 483.2,285.0" class="nroad-line"/>
+    <path d="M 483.2,285.0 L 416.4,253.1 L 353.6,213.1 L 282.1,181.1" class="rroad"/>
+    <path d="M 483.2,285.0 L 416.4,253.1 L 353.6,213.1 L 282.1,181.1" class="rroad-line"/>
+    <path d="M 482.4,787.2 L 471.4,879.1 L 459.6,972.3 L 495.0,998.9 L 514.6,1018.9" class="rroad"/>
+    <path d="M 482.4,787.2 L 471.4,879.1 L 459.6,972.3 L 495.0,998.9 L 514.6,1018.9" class="rroad-line"/>
+    <path d="M 514.6,1018.9 L 447.9,1038.9 L 362.2,1064.2 L 316.6,1077.5 L 282.9,1118.8 L 258.5,1160.1" class="nroad"/>
+    <path d="M 514.6,1018.9 L 447.9,1038.9 L 362.2,1064.2 L 316.6,1077.5 L 282.9,1118.8 L 258.5,1160.1" class="nroad-line"/>
+    <path d="M 258.5,1160.1 L 479.3,1192.0 L 636.4,1205.4 L 810.1,1241.3 L 919.3,1362.5 L 1022.2,1446.4" class="nroad"/>
+    <path d="M 258.5,1160.1 L 479.3,1192.0 L 636.4,1205.4 L 810.1,1241.3 L 919.3,1362.5 L 1022.2,1446.4" class="nroad-line"/>
+    <path d="M 826.2,673.9 L 864.3,586.0 L 903.6,479.5 L 942.1,325.0" class="nroad"/>
+    <path d="M 826.2,673.9 L 864.3,586.0 L 903.6,479.5 L 942.1,325.0" class="nroad-line"/>
+    <circle class="town" cx="650.6" cy="745.9" r="3.5"/>
+    <circle class="town" cx="632.5" cy="630.0" r="3.5"/>
+    <circle class="town" cx="450.2" cy="603.4" r="3.2"/>
+    <circle class="town" cx="319.8" cy="574.1" r="2.8"/>
+    <circle class="town" cx="208.2" cy="511.5" r="2.8"/>
+    <circle class="town" cx="482.4" cy="787.1" r="2.8"/>
+    <circle class="town" cx="826.2" cy="673.9" r="3.2"/>
+    <circle class="town" cx="561.0" cy="776.5" r="2.4"/>
+    <circle class="town" cx="1022.2" cy="1446.4" r="3.5"/>
+    <circle class="home" cx="602.1" cy="614.9" r="5.5"/>
+    <g class="steel-bridge" aria-hidden="true">
+      <path class="steel-deck" d="M 610.50,609.45 L 611.90,610.22"/>
+      <path class="steel-rail" d="M 610.37,609.70 L 611.77,610.47"/>
+      <path class="steel-rail" d="M 610.63,609.20 L 612.03,609.97"/>
+      <path class="steel-post" d="M 610.63,609.20 L 610.37,609.70"/>
+      <path class="steel-post" d="M 611.10,609.46 L 610.84,609.96"/>
+      <path class="steel-post" d="M 611.56,609.71 L 611.30,610.21"/>
+      <path class="steel-post" d="M 612.03,609.97 L 611.77,610.47"/>
+    </g>
+    <path class="lastmile-route" d="M 632.4,628.4 L 632.3,627.0 L 631.3,625.3 L 630.6,622.5 L 629.8,621.4 L 627.0,619.5 L 623.3,617.6 L 620.6,615.6 L 616.5,612.8 L 608.2,608.1 L 607.4,608.0 L 603.2,608.9 L 604.3,612.4 L 604.2,613.1 L 604.2,613.7 L 604.5,614.0 L 604.3,615.1 L 603.1,615.2 L 602.2,614.7 L 602.1,614.9"/>
+    <g class="lastmile-detail" aria-hidden="true">
+      <text class="lbl-lastmile" x="611.2" y="612.2" text-anchor="middle">steel bridge</text>
+      <text class="lbl-lastmile" x="618.2" y="616.8" text-anchor="start">Abbey — keep going</text>
+      <text class="lbl-lastmile" x="605.6" y="611.6" text-anchor="start">← Lime Kiln</text>
+      <text class="lbl-lastmile" x="597.2" y="604.6" text-anchor="end">Furnace — turn around</text>
+    </g>
+    <text class="lbl-road" x="542.1" y="589.6">N59</text>
+    <text class="lbl-road" x="436.1" y="495.3">N59</text>
+    <text class="lbl-road" x="737.0" y="699.6">N5</text>
+    <text class="lbl-road" x="524.9" y="786.0">R335</text>
+    <text class="lbl-road" x="249.9" y="534.6">R319</text>
+    <text class="lbl-rdsm" x="573.6" y="812.8">R330</text>
+    <text class="lbl-rdsm" x="275.0" y="621.1">Atlantic Drive</text>
+    <text class="lbl-rdsm" x="575.0" y="606.0" fill="#1f7a32">Greenway</text>
+    <text class="lbl-road" x="810" y="1228">N59</text>
+    <text x="495.0" y="701.2" class="lbl-bay" font-size="22">CLEW BAY</text>
+    <text x="176.8" y="487.5" class="lbl-land" font-size="15">ACHILL ISLAND</text>
+    <text x="658.4" y="624.2" class="lbl-town" font-size="13">NEWPORT</text>
+    <text x="650.6" y="762.5" class="lbl-town" font-size="13">WESTPORT</text>
+    <text x="450.2" y="589.6" class="lbl-town" font-size="12">MULRANNY</text>
+    <text x="482.4" y="803.3" class="lbl-town" font-size="11">LOUISBURGH</text>
+    <text x="825.0" y="661.9" class="lbl-town" font-size="11">CASTLEBAR</text>
+    <text x="208.2" y="501.6" class="lbl-town" font-size="10">KEEL</text>
+    <text x="119.4" y="506.3" class="lbl-town" font-size="9">KEEM</text>
+    <text x="298.6" y="459.2" class="lbl-town" font-size="9">DOOGORT</text>
+    <text x="319.8" y="562.9" class="lbl-town" font-size="9">ACHILL SOUND</text>
+    <text x="618.0" y="622.0" class="lbl-town" font-size="9">BURRISHOOLE</text>
+    <text x="564.1" y="768.8" class="lbl-town" font-size="9">MURRISK</text>
+    <text x="353.6" y="801.8" class="lbl-town" font-size="9">ROONAGH</text>
+    <text x="282.9" y="779.8" class="lbl-land" font-size="10">CLARE ISLAND</text>
+    <text x="202.7" y="864.6" class="lbl-land" font-size="9">INISHTURK</text>
+    <text x="543.7" y="826.9" class="lbl-feat" font-size="10">CROAGH PATRICK</text>
+    <text x="237.3" y="443.5" class="lbl-feat" font-size="9">Slievemore</text>
+    <text x="408.6" y="979.3" class="lbl-feat" font-size="9">Mweelrea</text>
+    <text x="770.0" y="443.5" class="lbl-feat" font-size="9">Nephin</text>
+    <text x="624.0" y="560.4" class="lbl-feat" font-size="8">L. Feeagh</text>
+    <text x="628.0" y="596.2" class="lbl-feat" font-size="8">L. Furnace</text>
+    <text x="149.3" y="819.0" class="lbl-sea" font-size="15">ATLANTIC OCEAN</text>
+    <g transform="translate(24,1448)" class="lbl-leg" font-family="-apple-system,BlinkMacSystemFont,sans-serif">
+      <path d="M0,6 L40,6" fill="none" stroke="#c17f0a" stroke-width="5" stroke-linecap="round"/>
+      <text x="48" y="10">N road</text>
+      <path d="M0,22 L40,22" fill="none" stroke="#a67c1a" stroke-width="3.2" stroke-linecap="round"/>
+      <text x="48" y="26">R road</text>
+      <path d="M0,38 L40,38" fill="none" stroke="#1f7a32" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/>
+      <text x="48" y="42">Greenway</text>
+      <path d="M0,54 L40,54" fill="none" stroke="#8a6b3a" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/>
+      <text x="48" y="58">County</text>
+      <rect x="0" y="68" width="120" height="4" fill="#334"/>
+      <text x="0" y="86">10 km</text>
+      <polygon points="120,64 116,78 120,74 124,78" fill="#334"/>
+      <text x="120" y="62" text-anchor="middle" fill="#334" font-size="11" font-weight="700">N</text>
+    </g>
+  
+    <text x="282" y="181" class="lbl-town" font-size="11">BELMULLET</text>
+    <text x="258" y="1160" class="lbl-town" font-size="11">CLIFDEN</text>
+    <text x="515" y="1019" class="lbl-town" font-size="10">LEENANE</text>
+    <text x="942" y="325" class="lbl-town" font-size="11">BALLINA</text>
+    <text x="1022" y="1430" class="lbl-town" font-size="13">GALWAY</text>
+    <text x="415" y="481" class="lbl-town" font-size="9">BALLYCROY</text>
+    <text x="720" y="500" class="lbl-county" font-size="28">CO. MAYO</text>
+    <text x="1005" y="195" class="lbl-county" font-size="18">CO. SLIGO</text>
+    <g class="westport-town" aria-hidden="true">
+      <path class="mall" d="M 650.20,744.56 L 653.10,746.70"/>
+      <path class="townriver" d="M 653.40,746.50 L 651.50,745.20 L 650.30,744.50 L 647.20,745.40 L 642.50,747.00 L 632.50,746.30"/>
+      <path class="townrd" d="M 631.00,745.62 L 631.19,746.12 L 632.95,747.32 L 638.07,747.55 L 642.83,748.77 L 645.63,748.30 L 646.70,747.45 L 647.50,747.60 L 648.30,747.10"/>
+      <path class="townrd-line" d="M 631.00,745.62 L 631.19,746.12 L 632.95,747.32 L 638.07,747.55 L 642.83,748.77 L 645.63,748.30 L 646.70,747.45 L 647.50,747.60 L 648.30,747.10"/>
+      <path class="townrd" d="M 645.77,734.17 L 645.94,735.33 L 647.43,737.19 L 650.48,739.52 L 651.43,741.26 L 651.69,742.56 L 650.35,744.36"/>
+      <path class="townrd-line" d="M 645.77,734.17 L 645.94,735.33 L 647.43,737.19 L 650.48,739.52 L 651.43,741.26 L 651.69,742.56 L 650.35,744.36"/>
+      <path class="townrd" d="M 663.25,740.75 L 661.61,741.01 L 656.89,743.00 L 654.42,743.85 L 653.42,744.36"/>
+      <path class="townrd-line" d="M 663.25,740.75 L 661.61,741.01 L 656.89,743.00 L 654.42,743.85 L 653.42,744.36"/>
+      <path class="townrd" d="M 665.81,733.34 L 663.02,738.93 L 662.77,740.76"/>
+      <path class="townrd-line" d="M 665.81,733.34 L 663.02,738.93 L 662.77,740.76"/>
+      <path class="townrd" d="M 653.85,747.01 L 654.36,747.06 L 662.99,752.85 L 665.16,754.99 L 664.87,756.09 L 664.97,759.31"/>
+      <path class="townrd-line" d="M 653.85,747.01 L 654.36,747.06 L 662.99,752.85 L 665.16,754.99 L 664.87,756.09 L 664.97,759.31"/>
+      <path class="townrd" d="M 646.91,757.04 L 646.32,754.70 L 645.13,750.37 L 644.70,748.45"/>
+      <path class="townrd-line" d="M 646.91,757.04 L 646.32,754.70 L 645.13,750.37 L 644.70,748.45"/>
+      <path class="townrd" d="M 650.81,743.74 L 648.98,742.91 L 646.30,743.66"/>
+      <path class="townrd-line" d="M 650.81,743.74 L 648.98,742.91 L 646.30,743.66"/>
+      <path class="townrd" d="M 653.35,746.57 L 650.35,744.36"/>
+      <path class="townrd-line" d="M 653.35,746.57 L 650.35,744.36"/>
+      <path class="townrd" d="M 650.05,744.77 L 652.71,746.65"/>
+      <path class="townrd-line" d="M 650.05,744.77 L 652.71,746.65"/>
+      <path class="townrd" d="M 651.35,745.20 L 650.86,745.49 L 649.85,748.06"/>
+      <path class="townrd-line" d="M 651.35,745.20 L 650.86,745.49 L 649.85,748.06"/>
+      <path class="townrd" d="M 649.85,748.06 L 648.75,747.12 L 648.64,746.67"/>
+      <path class="townrd-line" d="M 649.85,748.06 L 648.75,747.12 L 648.64,746.67"/>
+      <path class="townrd" d="M 650.25,750.62 L 649.96,750.23 L 649.74,748.37 L 649.85,748.06"/>
+      <path class="townrd-line" d="M 650.25,750.62 L 649.96,750.23 L 649.74,748.37 L 649.85,748.06"/>
+      <path class="townrd" d="M 649.85,748.06 L 653.85,747.01"/>
+      <path class="townrd-line" d="M 649.85,748.06 L 653.85,747.01"/>
+      <path class="townrd" d="M 648.64,746.67 L 650.17,744.61"/>
+      <path class="townrd-line" d="M 648.64,746.67 L 650.17,744.61"/>
+      <path class="townrd" d="M 648.30,747.10 L 648.24,746.75 L 648.64,746.67"/>
+      <path class="townrd-line" d="M 648.30,747.10 L 648.24,746.75 L 648.64,746.67"/>
+      <path class="townrd" d="M 653.42,744.36 L 654.52,746.37 L 654.36,747.06"/>
+      <path class="townrd-line" d="M 653.42,744.36 L 654.52,746.37 L 654.36,747.06"/>
+      <path class="townrd" d="M 647.20,748.54 L 647.93,747.47"/>
+      <path class="townrd-line" d="M 647.20,748.54 L 647.93,747.47"/>
+      <path class="townrd" d="M 647.20,748.54 L 650.06,749.92"/>
+      <path class="townrd-line" d="M 647.20,748.54 L 650.06,749.92"/>
+      <path class="townrd" d="M 652.71,746.65 L 653.35,746.57 L 653.85,747.01"/>
+      <path class="townrd-line" d="M 652.71,746.65 L 653.35,746.57 L 653.85,747.01"/>
+      <text class="lbl-street" x="650.4" y="746.6">Bridge St</text>
+      <text class="lbl-street" x="648.9" y="747.1" transform="rotate(-40 648.9 747.1)">Shop St</text>
+      <text class="lbl-street" x="650.1" y="749.4" transform="rotate(90 650.1 749.4)">High St</text>
+      <text class="lbl-street" x="651.8" y="747.3" transform="rotate(-8 651.8 747.3)">Mill St</text>
+      <text class="lbl-street" x="651.6" y="745.0" transform="rotate(-35 651.6 745.0)">The Mall</text>
+      <text class="lbl-street" x="648.3" y="746.45">Octagon</text>
+      <text class="lbl-street" x="638.5" y="746.85" transform="rotate(-4 638.5 746.85)">The Quay</text>
+      <text class="lbl-street" x="649.2" y="745.7" transform="rotate(-50 649.2 745.7)">James St</text>
+      <text class="lbl-street" x="648.2" y="743.2">New Road</text>
+      <rect class="clock" x="649.42" y="747.88" width="0.36" height="0.36" rx="0.04"/>
+      <text class="lbl-street" x="649.60" y="747.72">Clock</text>
+    </g>
+    <rect x="0" y="0" width="1100" height="1545.0" fill="none" stroke="#9a917c" stroke-width="1.2"/>
   </svg>
+  <svg id="yarn" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path id="yarnpath" d=""/></svg>
+  <svg id="leads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
   <div id="pins"></div>
+  </div>
+  <div id="mapzoom">
+    <button type="button" id="zoomin" aria-label="Zoom in">+</button>
+    <button type="button" id="zoomout" aria-label="Zoom out">−</button>
+  </div>
 </div>
 <div class="note" id="offmap"><span id="loading">Loading places…</span></div>
 
-<div id="card"><div class="x" onclick="closeCard()">&times;</div><div id="cardbody"></div></div>
+<div id="card"><div class="x" onclick="closeCard()">&times;</div><div id="cardbody"></div><div id="lastmile"><button type="button" class="x" id="lastmilex" aria-label="Close last mile">&times;</button><div id="lastmilebody"></div></div></div>
+<div id="people"></div>
 <div id="toast"></div>
 
 <script src="family-sync.js"></script>
@@ -111,9 +578,10 @@
 const STYLE={home:{color:"#e11d48"},food:{color:"#ea580c"},shop:{color:"#16a34a"},beach:{color:"#0284c7"},do:{color:"#7c3aed"},golf:{color:"#0d9488"},family:{color:"#db2777"}};
 const CAT_EMOJI={home:"🏡",food:"🍽️",shop:"🛒",beach:"🏖️",do:"🎡",golf:"⛳",family:"📍"};
 // projection MUST match the basemap generator
-const W=1100, H=712.0, lngMin=-10.30, lngMax=-9.20, latMin=53.62, latMax=54.04;
+const W=1100, H=1545.0, lngMin=-10.35, lngMax=-8.95, latMin=53.2, latMax=54.36;
 const pxPerDegLng=W/(lngMax-lngMin), pxPerDegLat=H/(latMax-latMin);
 const proj=(lng,lat)=>[(lng-lngMin)*pxPerDegLng,(latMax-lat)*pxPerDegLat];
+const unproj=(x,y)=>({lng:lngMin+(x/W)*(lngMax-lngMin), lat:latMax-(y/H)*(latMax-latMin)});
 
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nowIso=()=>new Date().toISOString();
@@ -126,9 +594,24 @@ const uuid=()=>(crypto.randomUUID?crypto.randomUUID():('p-'+Date.now()+'-'+Math.
   history.replaceState({},'',u.pathname+u.search+u.hash);
 })();
 
-let CATS={}, CURATED=[], PLACES=[], active=new Set(), hostOnly=false;
+function fitMap(){
+  if(window.MapNav) MapNav.onFit();
+}
+window.addEventListener('resize', fitMap);
+if(window.visualViewport) visualViewport.addEventListener('resize', fitMap);
+window.addEventListener('orientationchange', ()=>setTimeout(fitMap, 250));
+function fitSoon(){ fitMap(); requestAnimationFrame(fitMap); setTimeout(fitMap, 50); setTimeout(fitMap, 300); }
+
+let CATS={}, CURATED=[], PLACES=[], IRISH={}, active=new Set(), hostOnly=false;
+let showPinLabels=localStorage.getItem('nn-pin-labels')!=='0';
+let mode='drive', GREENWAY={samples:[]};
+let HOME=null, HOST=null;
+const LS_PARTY='nn-party';
 const pinsEl=document.getElementById('pins'), offEl=document.getElementById('offmap');
-const pinNodes=[];
+let pinNodes=[];
+let picked=[];
+let irishLit=new Set();
+const IRISH_FROM={};
 const toastEl=document.getElementById('toast');
 let toastTimer=null;
 
@@ -139,91 +622,906 @@ function toast(msg){
 }
 function hideToast(){ clearTimeout(toastTimer); toastEl.classList.remove('show'); }
 
+function loadParty(){
+  try { return JSON.parse(localStorage.getItem(LS_PARTY)||'[]'); } catch { return []; }
+}
+function saveParty(list){ localStorage.setItem(LS_PARTY, JSON.stringify(list)); }
+function lastMileSteps(fromWest){
+  return (HOME&&(fromWest?HOME.approachFromWest:HOME.approach))||[];
+}
+function lastMileLink(fromWest){
+  const has=lastMileSteps(fromWest).length||(!fromWest&&HOME&&HOME.fromBridge&&HOME.fromBridge.length);
+  if(!has) return '';
+  const label=fromWest?"Last mile — from Mulranny / Achill":"Last mile — from the steel bridge";
+  return `<button type="button" class="lm-link" id="lastmilebtn">${esc(label)}</button>`;
+}
+function openLastMile(fromWest){
+  const steps=lastMileSteps(fromWest);
+  const bridge=(!fromWest&&HOME&&HOME.fromBridge)||[];
+  if(!steps.length&&!bridge.length) return;
+  let html='';
+  if(bridge.length){
+    html+=`<p class="who">From the steel bridge — Google Maps</p>`+
+      `<p class="lm-meta">1.5 km · 3 min · then Louisa's landmarks below</p>`+
+      `<ol class="lm-steps">${bridge.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`;
+  }
+  if(steps.length){
+    html+=`<p class="who">${fromWest?"Last mile — from Mulranny / Achill":"Louisa's landmarks"}</p>`+
+      steps.map(s=>`<p>${esc(s)}</p>`).join('');
+  }
+  document.getElementById('lastmilebody').innerHTML=html;
+  document.getElementById('lastmile').classList.add('show');
+  card.classList.add('lastmile-open');
+  syncLastMileMap();
+  const house=PLACES.find(p=>p.id==='lime-kiln-house');
+  const bridgePt={lng:-9.5724, lat:53.9022};
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      if(window.MapNav && house) MapNav.fitPoints(fromWest?[house]:[bridgePt, house]);
+    });
+  });
+}
+function closeLastMile(){
+  const el=document.getElementById('lastmile');
+  if(el) el.classList.remove('show');
+  if(card) card.classList.remove('lastmile-open');
+  syncLastMileMap();
+}
+function syncLastMileMap(){
+  const fit=document.getElementById('mapfit');
+  if(!fit) return;
+  const overlay=document.getElementById('lastmile')?.classList.contains('show');
+  const houseOpen=picked.length===1 && picked[0] && picked[0].id==='lime-kiln-house';
+  const homebound=picked.length===2 && picked[1] && picked[1].id==='lime-kiln-house';
+  fit.classList.toggle('show-lastmile', !!(overlay||houseOpen||homebound));
+}
+function bindLastMile(fromWest){
+  const btn=document.getElementById('lastmilebtn');
+  if(btn) btn.onclick=()=>openLastMile(!!fromWest);
+}
+function initials(name){
+  return String(name||'?').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('')||'?';
+}
+function photoEl(person){
+  if(person.photo) return `<div class="pphoto"><img src="${person.photo}" alt=""></div>`;
+  return `<div class="pphoto">${esc(initials(person.name))}</div>`;
+}
+function telHref(t){ return 'tel:'+String(t||'').replace(/[^\d+]/g,''); }
+function closePeople(){
+  document.getElementById('people').classList.remove('show');
+}
+function compressPhoto(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const max=480;
+      const s=Math.min(1, max/Math.max(img.width,img.height));
+      const c=document.createElement('canvas');
+      c.width=Math.max(1,Math.round(img.width*s));
+      c.height=Math.max(1,Math.round(img.height*s));
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg',0.82));
+    };
+    img.onerror=()=>{ URL.revokeObjectURL(url); reject(new Error('photo')); };
+    img.src=url;
+  });
+}
+function renderPersonCard(person, opts){
+  const call=person.tel?`<a class="cbtn ccall" href="${telHref(person.tel)}">Call${person.telDisplay?' '+esc(person.telDisplay):''}</a>`:'';
+  const edit=opts&&opts.edit?`<button type="button" class="cbtn cedit" data-edit="${esc(person.id)}">Edit</button>`:'';
+  const hostPic=opts&&opts.hostPhoto?`<button type="button" class="cbtn cedit" id="hostpicbtn">${person.photo?'Change photo':'Add photo'}</button><input type="file" id="hostpic" accept="image/*" hidden>`:'';
+  return `<article class="person">${photoEl(person)}<div class="pbody">`+
+    `<p class="pname">${esc(person.name)}</p>`+
+    `<p class="prole">${esc(person.role||'Party')}</p>`+
+    (person.bio?`<p class="pbio">${esc(person.bio)}</p>`:'')+
+    `<div class="pact">${call}${edit}${hostPic}</div></div></article>`;
+}
+function openPeople(){
+  closeFilterMenu();
+  closeCard();
+  paintPeople();
+  document.getElementById('people').classList.add('show');
+}
+function paintPeople(editingId){
+  const el=document.getElementById('people');
+  const party=loadParty();
+  const hostPhoto=localStorage.getItem('nn-host-photo')||'';
+  const host=HOST?Object.assign({}, HOST, hostPhoto?{photo:hostPhoto}:{}):null;
+  if(editingId){
+    const p=editingId==='new'?{id:'new',name:'',tel:'',bio:'',photo:''}:party.find(x=>x.id===editingId);
+    if(!p){ paintPeople(); return; }
+    el.innerHTML=
+      `<div class="peoplehead"><h2>${p.id==='new'?'Add someone':'Edit'}</h2><button type="button" class="cbtn ccancel" id="peopledone">Cancel</button></div>`+
+      `<form id="personform">`+
+        `<div class="photopick">${photoEl(p)}<input type="file" id="ppic" accept="image/*"></div>`+
+        `<div class="field"><label for="pname">Name</label><input id="pname" required maxlength="79" value="${esc(p.name)}"></div>`+
+        `<div class="field"><label for="ptel">Phone</label><input id="ptel" type="tel" maxlength="40" value="${esc(p.tel||'')}" placeholder="+353 …"></div>`+
+        `<div class="field"><label for="pbio">Short bio</label><textarea id="pbio" maxlength="400" placeholder="Anything the others should know">${esc(p.bio||'')}</textarea></div>`+
+        `<div class="cact"><button type="submit" class="cbtn csave">Save</button>`+
+        (p.id!=='new'?`<button type="button" class="cbtn cdel" id="pdel">Remove</button>`:'')+
+        `</div></form>`;
+    let photo=p.photo||'';
+    document.getElementById('ppic').onchange=async ev=>{
+      const f=ev.target.files&&ev.target.files[0];
+      if(!f) return;
+      try{
+        photo=await compressPhoto(f);
+        ev.target.parentElement.querySelector('.pphoto').outerHTML=photoEl({photo,name:document.getElementById('pname').value});
+      }catch(e){ toast('Could not read that photo.'); }
+    };
+    document.getElementById('personform').onsubmit=e=>{
+      e.preventDefault();
+      const next=loadParty();
+      const rec={
+        id:p.id==='new'?'p-'+Date.now():p.id,
+        name:document.getElementById('pname').value.trim(),
+        tel:document.getElementById('ptel').value.trim(),
+        bio:document.getElementById('pbio').value.trim(),
+        photo, role:'Party'
+      };
+      if(!rec.name) return;
+      if(p.id==='new') next.push(rec);
+      else{
+        const i=next.findIndex(x=>x.id===p.id);
+        if(i>=0) next[i]=rec;
+      }
+      saveParty(next);
+      paintPeople();
+    };
+    document.getElementById('peopledone').onclick=()=>paintPeople();
+    const del=document.getElementById('pdel');
+    if(del) del.onclick=()=>{
+      saveParty(loadParty().filter(x=>x.id!==p.id));
+      paintPeople();
+    };
+    return;
+  }
+  el.innerHTML=
+    `<div class="peoplehead"><h2>Contacts</h2><button type="button" class="cbtn csave" id="peopledone">Done</button></div>`+
+    `<p class="psec">Host</p>`+
+    (host?renderPersonCard(host,{hostPhoto:true}):`<p class="phint">Host details will appear here.</p>`)+
+    `<p class="psec">Our party</p>`+
+    (party.length?party.map(p=>renderPersonCard(p,{edit:true})).join(''):`<p class="phint">Add each of us with a photo, a number, and a line about who we are.</p>`)+
+    `<button type="button" class="cbtn csave" id="padd">Add someone</button>`;
+  document.getElementById('peopledone').onclick=closePeople;
+  document.getElementById('padd').onclick=()=>paintPeople('new');
+  el.querySelectorAll('[data-edit]').forEach(b=>{
+    b.onclick=()=>paintPeople(b.getAttribute('data-edit'));
+  });
+  const hostBtn=document.getElementById('hostpicbtn');
+  const hostFile=document.getElementById('hostpic');
+  if(hostBtn&&hostFile){
+    hostBtn.onclick=()=>hostFile.click();
+    hostFile.onchange=async ev=>{
+      const f=ev.target.files&&ev.target.files[0];
+      if(!f) return;
+      try{
+        localStorage.setItem('nn-host-photo', await compressPhoto(f));
+        paintPeople();
+      }catch(e){ toast('Could not read that photo.'); }
+    };
+  }
+}
+
 function visibleFamily(){
   return FamilySync.loadPins().filter(p=>p && !p.deleted);
 }
 function assemble(){
   PLACES=CURATED.concat(visibleFamily());
-  buildPins(); refresh();
+  PLACES.forEach(p=>{
+    const [x,y]=proj(p.lng,p.lat);
+    p._off=(x<8||x>W-8||y<8||y>H-8);
+  });
+  renderPins(); fitSoon();
 }
 
-fetch('data/places.json').then(r=>r.json()).then(data=>{
+Promise.all([
+  fetch('data/places.json').then(r=>r.json()),
+  fetch('data/irish-directions.json').then(r=>r.json()).catch(()=>({journeys:[]})),
+  fetch('data/contacts.json').then(r=>r.json()).catch(()=>({})),
+  fetch('data/greenway.json').then(r=>r.json()).catch(()=>({samples:[]}))
+]).then(([data, irish, contacts, gw])=>{
   CATS=Object.assign({}, data.categories, {family:'Our pins'});
   CURATED=data.places; active=new Set(Object.keys(CATS));
+  HOME=data.meta&&data.meta.home||null;
+  HOST=contacts.host||null;
+  GREENWAY=gw||{samples:[]};
+  IRISH={};
+  (irish.journeys||[]).forEach(j=>{
+    IRISH[j.from+'>'+j.to]=j;
+    if(!IRISH_FROM[j.from]) IRISH_FROM[j.from]=[];
+    if(!IRISH_FROM[j.from].includes(j.to)) IRISH_FROM[j.from].push(j.to);
+  });
   buildFilters(); assemble();
 }).catch(e=>{ offEl.innerHTML='<b>Could not load places.</b> This app needs to be opened from a web server (see README), not a file:// path.'; });
 
-function buildPins(){
-  pinsEl.innerHTML=''; pinNodes.length=0;
-  PLACES.forEach((p,i)=>{
-    const [x,y]=proj(p.lng,p.lat);
-    p._off=(x<8||x>W-8||y<8||y>H-8);
-    if(p._off) return;
-    const c=(STYLE[p.cat]||{}).color||'#555';
-    const el=document.createElement('div');
-    el.className='pin'; el.style.left=(x/W*100)+'%'; el.style.top=(y/H*100)+'%';
-    el.innerHTML=`<div class="bub" style="background:${c}"><span>${p.emoji||''}</span></div>`+(p.host?`<div class="st">★</div>`:``);
-    el.onclick=()=>openCard(i); el._cat=p.cat; el._host=!!p.host;
-    pinsEl.appendChild(el); pinNodes.push(el);
+function placePinEl(el,x,y){
+  if(window.MapNav){
+    const pct=MapNav.pinPct(x,y);
+    el.style.left=pct.left; el.style.top=pct.top;
+    const l=parseFloat(pct.left), t=parseFloat(pct.top);
+    el.style.display=(el._hidden||l<-12||l>112||t<-12||t>112)?'none':'block';
+  } else {
+    el.style.left=(x/W*100)+'%'; el.style.top=(y/H*100)+'%';
+  }
+}
+function layoutPinPositions(){
+  pinNodes.forEach(n=>{
+    n.dx=n.x; n.dy=n.y;
+    n.el.classList.remove('lab-n','lab-s','lab-e','lab-w','lab-ne','lab-nw','lab-se','lab-sw');
+    n.el.classList.add('lab-s');
+    n.el.style.zIndex='';
+  });
+  const s=window.MapNav&&MapNav.getScale();
+  if(!s||s<9) return;
+  const svg=document.getElementById('basemap');
+  const fit=document.getElementById('mapfit');
+  if(!svg||!fit) return;
+  const vb=svg.viewBox.baseVal;
+  const px=Math.max(1, fit.clientWidth/Math.max(0.001, vb.width));
+  const ps=(window.MapNav&&MapNav.getPinScreen())||1;
+  const minD=(40*ps)/px;
+  const vis=pinNodes.filter(n=>!n.el._hidden);
+  const parent=vis.map((_,i)=>i);
+  const find=i=>parent[i]===i?i:(parent[i]=find(parent[i]));
+  for(let i=0;i<vis.length;i++){
+    for(let j=i+1;j<vis.length;j++){
+      const dx=vis[i].x-vis[j].x, dy=vis[i].y-vis[j].y;
+      if(dx*dx+dy*dy<minD*minD){ const a=find(i), b=find(j); if(a!==b) parent[a]=b; }
+    }
+  }
+  const groups={};
+  vis.forEach((n,i)=>{ const r=find(i); (groups[r]=groups[r]||[]).push(n); });
+  Object.values(groups).forEach(g=>{
+    if(g.length<2) return;
+    g.sort((a,b)=>String(a.el.dataset.id).localeCompare(String(b.el.dataset.id)));
+    const cx=g.reduce((sum,n)=>sum+n.x,0)/g.length;
+    const cy=g.reduce((sum,n)=>sum+n.y,0)/g.length;
+    const radPx=Math.max(72*ps, (g.length*68*ps)/(2*Math.PI));
+    const rad=radPx/px;
+    g.forEach((n,i)=>{
+      const ang=-Math.PI/2+i*2*Math.PI/g.length;
+      n.dx=cx+rad*Math.cos(ang);
+      n.dy=cy+rad*Math.sin(ang);
+      n.el.classList.remove('lab-s');
+      n.el.classList.add(labelSide(ang));
+      n.el.style.zIndex=String(3+i);
+    });
   });
 }
+function labelSide(ang){
+  const tau=Math.PI*2;
+  let a=ang%tau; if(a<0) a+=tau;
+  const deg=a*180/Math.PI;
+  if(deg<22.5||deg>=337.5) return 'lab-e';
+  if(deg<67.5) return 'lab-se';
+  if(deg<112.5) return 'lab-s';
+  if(deg<157.5) return 'lab-sw';
+  if(deg<202.5) return 'lab-w';
+  if(deg<247.5) return 'lab-nw';
+  if(deg<292.5) return 'lab-n';
+  return 'lab-ne';
+}
+function pinShortName(p){
+  const short={
+    'the-pantry-corkscrew-westport':'Pantry',
+    'this-must-be-the-place-westport':'This Must Be',
+    'aunty-nellie-s-sweet-shop-westport':"Aunty Nellie's",
+    'supervalu-o-connors-westport':'SuperValu',
+    'matt-molloy-s-pub-westport':"Matt Molloy's",
+    'the-cobbler-s-bar-westport':"Cobbler's",
+    'an-port-m-r-westport':'An Port Mór',
+    'arno-s-bistro-westport':"Arno's",
+    'the-bella-vita-westport':'Bella Vita',
+    'il-volcano-westport':'Il Volcano',
+    'savoir-fare-westport':'Savoir Fare',
+    'sage-westport':'Sage',
+    'pharmacy-westport':'Pharmacy',
+    'cornrua-bakery-westport':'Cornrua',
+    'achill-lamb-hq-keel':'Achill Lamb',
+    'gw-westport':'Westport start',
+    'gw-kilmeena':'Kilmeena',
+    'great-western-greenway-newport':'Newport viaduct',
+    'gw-burrishoole':'Burrishoole Abbey',
+    'gw-rosturk':'Rosturk',
+    'gw-mulranny':'Mulranny',
+    'gw-achill':'Achill Sound',
+    'rental-clew-bay-westport':'Clew Bay hire',
+    'rental-westport-bike-hire':'Westport hire',
+    'rental-clew-bay-mulranny':'Mulranny hire',
+    'shore-walk-from-the-house':'Shore walk',
+    'western-way-from-the-house':'Western Way',
+    'walk-derrada':'Derrada loops',
+    'burrishoole-abbey-lough':'Burrishoole Abbey',
+    'mulranny-beach-causeway':'Mulranny beach',
+    'croagh-patrick':'Croagh Patrick',
+    'walk-kiladoon-beach-loop':'Killeen loops'
+  };
+  if(short[p.id]) return short[p.id];
+  return String(p.name||'').split(',')[0].replace(/^The /, '').replace(/ \(.*\)$/, '').trim();
+}
+function paintLeads(){
+  const svg=document.getElementById('leads');
+  if(!svg||!window.MapNav) return;
+  svg.replaceChildren();
+  const ns='http://www.w3.org/2000/svg';
+  pinNodes.forEach(n=>{
+    if(n.el._hidden||n.el.style.display==='none') return;
+    if(Math.hypot((n.dx-n.x),(n.dy-n.y))<0.05) return;
+    const a=MapNav.pinPct(n.x,n.y), b=MapNav.pinPct(n.dx,n.dy);
+    const p=document.createElementNS(ns,'path');
+    p.setAttribute('d',`M ${parseFloat(a.left)} ${parseFloat(a.top)} L ${parseFloat(b.left)} ${parseFloat(b.top)}`);
+    svg.appendChild(p);
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('cx', parseFloat(a.left));
+    c.setAttribute('cy', parseFloat(a.top));
+    c.setAttribute('r','0.32');
+    svg.appendChild(c);
+  });
+}
+function positionPins(){
+  layoutPinPositions();
+  pinNodes.forEach(n=>placePinEl(n.el, n.dx, n.dy));
+  paintYarn();
+  paintLeads();
+}
+function pinColor(p){
+  if(p.bike==='stop') return '#15803d';
+  if(p.bike==='rental') return '#ca8a04';
+  if(p.walk) return '#a16207';
+  return (STYLE[p.cat]||{}).color||'#555';
+}
+function placeVisible(p){
+  if(!p) return false;
+  if(mode==='walk') return p.id==='lime-kiln-house' || !!p.walk;
+  if(mode==='bike') return p.id==='lime-kiln-house' || p.bike==='stop' || p.bike==='rental';
+  if(p.bike==='stop' && p.id!=='great-western-greenway-newport') return false;
+  return active.has(p.cat)&&(!hostOnly||p.host);
+}
+function bikePlaces(){
+  return PLACES.filter(p=>!p._off && (p.id==='lime-kiln-house'||p.bike==='stop'||p.bike==='rental'));
+}
+function walkPlaces(){
+  return PLACES.filter(p=>!p._off && (p.id==='lime-kiln-house'||p.walk));
+}
+function isGwStop(p){
+  return !!(p && p.bike==='stop' && p.gwKm!=null);
+}
+function renderOffmap(){
+  if(mode==='walk'){
+    offEl.innerHTML='<b>Walk mode:</b> yellow dashes are waymarked walks (Western Way, shore path, Croagh Patrick). The red line is the Greenway — also walkable. Tap a trailhead for distance and time.';
+    return;
+  }
+  if(mode==='bike'){
+    offEl.innerHTML='<b>Bike mode:</b> red line is the Greenway (44 km, 250 m ascent). Green pins are landmarks — tap two for the distance. Yellow pins are bike hire.';
+    return;
+  }
+  const off=PLACES.filter(p=>p._off&&placeVisible(p));
+  if(off.length){
+    offEl.innerHTML=`<b>Drive mode:</b> tap a place, or hold a pin for Irish hops. <b>Off this map (${off.length}):</b> `+off.map(p=>`${p.emoji||''} ${esc(p.name.split(',')[0])}`).join(' · ')+'.';
+    return;
+  }
+  offEl.innerHTML='Drive mode — hold a pin for Irish hops · hold the map to drop a pin.';
+}
+function renderPins(){
+  pinsEl.innerHTML='';
+  pinNodes=[];
+  PLACES.forEach(p=>{
+    if(p._off) return;
+    const [x,y]=proj(p.lng,p.lat);
+    const c=pinColor(p);
+    const el=document.createElement('div');
+    el.className='pin'+(p.id==='lime-kiln-house'?' home-pin':'')+(p.bike==='stop'?' gw-pin':'')+(p.bike==='rental'?' rental-pin':'')+(p.walk?' walk-pin':'');
+    el._cat=p.cat; el._host=!!p.host;
+    el._hidden=!placeVisible(p);
+    el.dataset.id=p.id;
+    el.innerHTML=`<div class="bub" style="background:${c}"><span>${p.emoji||''}</span></div>`+(p.host?`<div class="st">★</div>`:'')+`<div class="plab">${esc(pinShortName(p))}</div>`;
+    el.onclick=()=>onPinTap(p);
+    const n={el,x,y,dx:x,dy:y};
+    placePinEl(el,x,y);
+    pinsEl.appendChild(el);
+    pinNodes.push(n);
+  });
+  paintPicked();
+  paintIrishLit();
+  positionPins();
+  renderOffmap();
+  renderFilterSummary();
+}
 function refresh(){
-  pinNodes.forEach(el=>{el.style.display=(active.has(el._cat)&&(!hostOnly||el._host))?'block':'none';});
-  const off=PLACES.filter(p=>p._off&&active.has(p.cat)&&(!hostOnly||p.host));
-  offEl.innerHTML=off.length?`<b>Off this map (${off.length}):</b> `+off.map(p=>`${p.emoji||''} ${esc(p.name.split(',')[0])}`).join(' · ')+` — further-afield spots outside the core area.`:'';
+  pinNodes.forEach(n=>{
+    const p=PLACES.find(x=>x.id===n.el.dataset.id);
+    n.el._hidden=!placeVisible(p);
+  });
+  positionPins();
+  renderOffmap();
+  renderFilterSummary();
+}
+function shortCat(label){
+  return String(label||'').split(/[&/]/)[0].trim();
+}
+function renderFilterSummary(){
+  const el=document.getElementById('filtersummary');
+  if(!el) return;
+  el.innerHTML='';
+  if(hostOnly){
+    const s=document.createElement('span'); s.className='mini star'; s.textContent='⭐ Host'; el.appendChild(s);
+  }
+  if(!showPinLabels){
+    const s=document.createElement('span'); s.className='mini muted'; s.textContent='Names off'; el.appendChild(s);
+  }
+  Object.entries(CATS).forEach(([k,label])=>{
+    if(!active.has(k)) return;
+    const c=(STYLE[k]||{}).color||'#555';
+    const s=document.createElement('span'); s.className='mini'; s.style.background=c;
+    s.textContent=(CAT_EMOJI[k]||'')+' '+shortCat(label);
+    el.appendChild(s);
+  });
+  if(!hostOnly && !Object.keys(CATS).some(k=>active.has(k))){
+    const s=document.createElement('span'); s.className='mini muted'; s.textContent='Nothing selected'; el.appendChild(s);
+  }
+}
+function setRowPressed(b, on){
+  b.setAttribute('aria-pressed', on?'true':'false');
+  const check=b.querySelector('.fcheck');
+  if(check) check.textContent=on?'✓':'';
+}
+function buildFilterRow(opts){
+  const b=document.createElement('button');
+  b.type='button'; b.className='frow'+(opts.star?' star':'');
+  b.dataset.key=opts.key||'';
+  const check=document.createElement('span'); check.className='fcheck';
+  b.appendChild(check);
+  if(opts.color){
+    const d=document.createElement('span'); d.className='fdot'; d.style.background=opts.color; b.appendChild(d);
+  }
+  const lab=document.createElement('span'); lab.textContent=opts.label; b.appendChild(lab);
+  setRowPressed(b, opts.on);
+  b.onclick=e=>{
+    e.stopPropagation();
+    opts.toggle();
+    setRowPressed(b, opts.isOn());
+    refresh();
+  };
+  return b;
+}
+function paintFilterMenu(){
+  const menu=document.getElementById('filtermenu');
+  menu.innerHTML='';
+  menu.appendChild(buildFilterRow({
+    star:true, key:'host', on:hostOnly, isOn:()=>hostOnly, label:'⭐ Host picks only',
+    toggle:()=>{ hostOnly=!hostOnly; }
+  }));
+  menu.appendChild(buildFilterRow({
+    key:'labels', on:showPinLabels, isOn:()=>showPinLabels, label:'Show names on pins',
+    toggle:()=>{
+      showPinLabels=!showPinLabels;
+      localStorage.setItem('nn-pin-labels', showPinLabels?'1':'0');
+      if(window.MapNav) MapNav.onFit();
+    }
+  }));
+  const sep=document.createElement('div'); sep.className='fsep'; menu.appendChild(sep);
+  Object.entries(CATS).forEach(([k,label])=>{
+    menu.appendChild(buildFilterRow({
+      key:k, on:active.has(k), isOn:()=>active.has(k), color:(STYLE[k]||{}).color||'#555',
+      label:(CAT_EMOJI[k]||'')+' '+label,
+      toggle:()=>{ if(active.has(k)) active.delete(k); else active.add(k); }
+    }));
+  });
+  const actions=document.createElement('div'); actions.className='factions';
+  const all=document.createElement('button'); all.type='button'; all.className='cbtn csave'; all.textContent='Show all';
+  all.onclick=e=>{
+    e.stopPropagation();
+    Object.keys(CATS).forEach(k=>active.add(k)); hostOnly=false;
+    menu.querySelectorAll('.frow').forEach(row=>{
+      const k=row.dataset.key;
+      if(k==='host') setRowPressed(row, false);
+      else if(k==='labels') setRowPressed(row, showPinLabels);
+      else setRowPressed(row, true);
+    });
+    refresh();
+  };
+  const done=document.createElement('button'); done.type='button'; done.className='cbtn ccancel'; done.textContent='Done';
+  done.onclick=e=>{ e.stopPropagation(); closeFilterMenu(); };
+  actions.appendChild(all); actions.appendChild(done); menu.appendChild(actions);
+}
+function openFilterMenu(){
+  paintFilterMenu();
+  document.getElementById('filtermenu').classList.add('show');
+  document.getElementById('filterscrim').classList.add('show');
+  document.getElementById('filterbtn').setAttribute('aria-expanded','true');
+}
+function closeFilterMenu(){
+  document.getElementById('filtermenu').classList.remove('show');
+  document.getElementById('filterscrim').classList.remove('show');
+  document.getElementById('filterbtn').setAttribute('aria-expanded','false');
+}
+function setMode(next){
+  if(next!=='drive' && next!=='bike' && next!=='walk') return;
+  if(next===mode) return;
+  mode=next;
+  document.querySelectorAll('#modewrap .modebtn').forEach(b=>{
+    b.setAttribute('aria-pressed', b.dataset.mode===mode?'true':'false');
+  });
+  const fit=document.getElementById('mapfit');
+  if(fit){
+    fit.classList.toggle('drive-mode', mode==='drive');
+    fit.classList.toggle('bike-mode', mode==='bike');
+    fit.classList.toggle('walk-mode', mode==='walk');
+  }
+  if(mode!=='bike') clearGwSeg();
+  closeCard();
+  refresh();
+  if(mode==='bike'){
+    toast('Red line is the Greenway. Tap two landmarks for the distance. Yellow pins are bike hire.');
+    const pts=bikePlaces();
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        if(window.MapNav && pts.length) MapNav.fitPoints(pts);
+      });
+    });
+  } else if(mode==='walk'){
+    toast('Yellow dashes are walking trails. Tap a trailhead for time and distance.');
+    const pts=walkPlaces();
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        if(window.MapNav && pts.length) MapNav.fitPoints(pts);
+      });
+    });
+  }
 }
 function buildFilters(){
-  const fEl=document.getElementById('filters'); fEl.innerHTML='';
-  const sc=document.createElement('div'); sc.className='chip star'; sc.dataset.on='false'; sc.textContent='⭐ Host picks only';
-  sc.onclick=()=>{hostOnly=!hostOnly; sc.dataset.on=hostOnly?'true':'false'; refresh();}; fEl.appendChild(sc);
-  const sep=document.createElement('div'); sep.className='chip sep'; fEl.appendChild(sep);
-  Object.entries(CATS).forEach(([k,label])=>{
-    const c=(STYLE[k]||{}).color||'#555';
-    const ch=document.createElement('div'); ch.className='chip'; ch.dataset.on='true';
-    ch.innerHTML=`<span class="dot" style="background:${c}"></span>${CAT_EMOJI[k]||''} ${label}`;
-    ch.style.background=c; ch.style.color='#fff'; ch.style.borderColor='transparent';
-    ch.onclick=()=>{const on=ch.dataset.on==='true'; ch.dataset.on=on?'false':'true'; if(on)active.delete(k);else active.add(k);
-      ch.style.background=on?'#fff':c; ch.style.color=on?'#4b5563':'#fff'; ch.style.borderColor=on?'#d8d2c4':'transparent'; refresh();};
-    fEl.appendChild(ch);
+  renderFilterSummary();
+  const btn=document.getElementById('filterbtn');
+  btn.onclick=()=>{
+    const open=btn.getAttribute('aria-expanded')==='true';
+    if(open) closeFilterMenu(); else { closeCard(); closePeople(); openFilterMenu(); }
+  };
+  const scrim=document.getElementById('filterscrim');
+  scrim.onpointerdown=e=>{ e.preventDefault(); closeFilterMenu(); };
+  document.getElementById('filtermenu').onpointerdown=e=>e.stopPropagation();
+  document.querySelectorAll('#modewrap .modebtn').forEach(b=>{
+    b.onclick=()=>{ closeFilterMenu(); closePeople(); setMode(b.dataset.mode); };
   });
 }
 const card=document.getElementById('card'), body=document.getElementById('cardbody');
-function openCard(i){
-  const p=PLACES[i], c=(STYLE[p.cat]||{}).color||'#555', nm=encodeURIComponent(p.name);
+function irishFor(a,b){
+  return IRISH[a.id+'>'+b.id]||null;
+}
+function paintPicked(){
+  const ids=new Set(picked.map(p=>p.id));
+  pinNodes.forEach(n=>n.el.classList.toggle('picked', ids.has(n.el.dataset.id)));
+}
+function paintIrishLit(){
+  pinsEl.classList.toggle('finding', irishLit.size>0);
+  pinNodes.forEach(n=>n.el.classList.toggle('irish-lit', irishLit.has(n.el.dataset.id)));
+}
+function nearestGwSample(p){
+  const s=GREENWAY.samples||[];
+  let best=0, bestD=Infinity;
+  for(let i=0;i<s.length;i++){
+    const d=(s[i].lat-p.lat)**2+(s[i].lng-p.lng)**2;
+    if(d<bestD){ bestD=d; best=i; }
+  }
+  return best;
+}
+function gwSegPath(a,b){
+  const s=GREENWAY.samples||[];
+  if(s.length<2) return '';
+  let i=nearestGwSample(a), j=nearestGwSample(b);
+  if(i===j) return '';
+  if(i>j){ const t=i; i=j; j=t; }
+  const pts=s.slice(i,j+1);
+  return pts.map((pt,k)=>{
+    const [x,y]=proj(pt.lng,pt.lat);
+    return (k?'L':'M')+' '+x.toFixed(1)+','+y.toFixed(1);
+  }).join(' ');
+}
+function clearGwSeg(){
+  const el=document.getElementById('gwseg');
+  if(!el) return;
+  el.setAttribute('d','');
+  el.classList.remove('on');
+}
+function paintGwSeg(a,b){
+  const el=document.getElementById('gwseg');
+  if(!el) return;
+  const d=(a&&b)?gwSegPath(a,b):'';
+  el.setAttribute('d', d||'');
+  el.classList.toggle('on', !!d);
+}
+function paintYarn(animate){
+  const path=document.getElementById('yarnpath');
+  if(!path) return;
+  if(picked.length===2 && isGwStop(picked[0]) && isGwStop(picked[1])){
+    path.setAttribute('d',''); path.classList.remove('draw');
+    paintGwSeg(picked[0], picked[1]);
+    return;
+  }
+  clearGwSeg();
+  if(picked.length<2 || !window.MapNav){
+    path.setAttribute('d',''); path.classList.remove('draw');
+    return;
+  }
+  const [x1s,y1s]=proj(picked[0].lng,picked[0].lat);
+  const [x2s,y2s]=proj(picked[1].lng,picked[1].lat);
+  const a=MapNav.pinPct(x1s,y1s), b=MapNav.pinPct(x2s,y2s);
+  const x1=parseFloat(a.left), y1=parseFloat(a.top);
+  const x2=parseFloat(b.left), y2=parseFloat(b.top);
+  const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1;
+  const bulge=Math.min(16, len*0.22);
+  const cx=(x1+x2)/2 - dy/len*bulge;
+  const cy=(y1+y2)/2 + dx/len*bulge;
+  path.setAttribute('d', `M ${x1.toFixed(2)} ${y1.toFixed(2)} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)}`);
+  if(animate){
+    path.classList.remove('draw');
+    void path.getBoundingClientRect();
+    path.classList.add('draw');
+  }
+}
+function clearPick(){
+  picked=[];
+  irishLit.clear();
+  paintPicked();
+  paintIrishLit();
+  paintYarn();
+}
+function irishHopsFrom(id){
+  const hops=IRISH_FROM[id]||[];
+  if(mode==='drive') return hops;
+  return hops.filter(hid=>{
+    const p=PLACES.find(x=>x.id===hid);
+    return p && placeVisible(p);
+  });
+}
+function showIrishFrom(p){
+  picked=[p];
+  irishLit=new Set(irishHopsFrom(p.id));
+  paintPicked();
+  paintIrishLit();
+  paintYarn();
+  openCard(p);
+  if(!irishLit.size) toast('No Irish directions from here yet.');
+  else toast(irishLit.size===1?'That glow is an Irish hop — tap it.':irishLit.size+' Irish hops lit up. Tap one.');
+  const hops=irishHopsFrom(p.id).map(id=>PLACES.find(x=>x.id===id)).filter(x=>x&&!x._off);
+  if(hops.length){
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        if(window.MapNav) MapNav.fitPoints([p].concat(hops));
+      });
+    });
+  }
+}
+let skipPinClick=false;
+function onPinTap(p){
+  if(skipPinClick){ skipPinClick=false; return; }
+  if(picked.length===1 && picked[0].id!==p.id){
+    if(mode==='walk'){
+      const hop=irishFor(picked[0], p);
+      if(!(hop && hop.how==='walk')){
+        picked=[p];
+        irishLit.clear();
+        paintPicked();
+        paintIrishLit();
+        paintYarn();
+        openCard(p);
+        return;
+      }
+    }
+    irishLit.clear();
+    paintIrishLit();
+    picked=[picked[0], p];
+    paintPicked();
+    paintYarn(true);
+    if(isGwStop(picked[0]) && isGwStop(picked[1])) openGwHop(picked[0], picked[1]);
+    else openJourney(picked[0], picked[1]);
+    return;
+  }
+  picked=[p];
+  irishLit.clear();
+  paintPicked();
+  paintIrishLit();
+  paintYarn();
+  openCard(p);
+}
+function openGwHop(a,b){
+  closeFilterMenu();
+  closePeople();
+  closeLastMile();
+  const km=Math.abs((Number(a.gwKm)||0)-(Number(b.gwKm)||0));
+  const mins=Math.max(1, Math.round(km*5));
+  const towardAchill=(Number(b.gwKm)||0)>(Number(a.gwKm)||0);
+  const wind=towardAchill
+    ? 'Heading west toward Achill — often into the prevailing wind. Start at Achill if you want it at your back.'
+    : 'Heading east toward Westport — the prevailing wind is often with you.';
+  const meta=km>=40
+    ? `${km} km along the trail · 250 m ascent · about ${mins} min at an easy family pace (visitor maps mark 44 km including Westport town)`
+    : `${km} km along the trail · about ${mins} min at an easy family pace`;
+  const goog=`https://www.google.com/maps/dir/?api=1&origin=${a.lat},${a.lng}&destination=${b.lat},${b.lng}&travelmode=bicycling`;
+  body.innerHTML=
+    `<div class="ct"><span class="ctag" style="background:#dc2626">Greenway</span></div>`+
+    `<div class="cname">${a.emoji||''} ${esc(pinShortName(a))} <span style="color:#dc2626">→</span> ${b.emoji||''} ${esc(pinShortName(b))}</div>`+
+    `<p class="cinfo">${esc(meta)}</p>`+
+    `<p class="cdesc">${esc(wind)}</p>`+
+    `<div class="cact">`+
+      `<a class="cbtn cgoog" href="${goog}" target="_blank" rel="noopener">Google Maps (bike)</a>`+
+      `<button type="button" class="cbtn ccancel" id="swapleg">Swap</button>`+
+    `</div>`;
+  document.getElementById('swapleg').onclick=()=>{
+    picked=[b,a];
+    paintPicked();
+    paintYarn();
+    openGwHop(b,a);
+  };
+  card.classList.add('open');
+  paintGwSeg(a,b);
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      if(window.MapNav) MapNav.fitPoints([a,b]);
+    });
+  });
+}
+function openJourney(a,b){
+  closeFilterMenu();
+  closePeople();
+  closeLastMile();
+  const irish=irishFor(a,b);
+  const travel=(irish&&irish.how==='walk')||mode==='walk'?'walking':(irish&&irish.how==='bike')||mode==='bike'?'bicycling':'driving';
+  const goog=`https://www.google.com/maps/dir/?api=1&origin=${a.lat},${a.lng}&destination=${b.lat},${b.lng}&travelmode=${travel}`;
+  const meta=irish?`${irish.mins} min ${irish.how} · ${irish.km} km`:'Tap Irish directions if we have a local version of this hop.';
+  const homebound=b.id==='lime-kiln-house';
+  const fromWest=homebound&&HOME&&a.lng<HOME.lng-0.02;
+  body.innerHTML=
+    `<div class="ct"><span class="ctag" style="background:#a21caf">Journey</span></div>`+
+    `<div class="cname">${a.emoji||''} ${esc(a.name.split(',')[0])} <span style="color:#a21caf">→</span> ${b.emoji||''} ${esc(b.name.split(',')[0])}</div>`+
+    `<p class="cinfo">${esc(meta)}</p>`+
+    `<div class="cact">`+
+      `<a class="cbtn cgoog" href="${goog}" target="_blank" rel="noopener">Google Maps</a>`+
+      (irish?`<button type="button" class="cbtn cirish" id="irishbtn">Irish directions</button>`:``)+
+      `<button type="button" class="cbtn ccancel" id="swapleg">Swap</button>`+
+    `</div>`+
+    (irish?`<div class="irishbox" id="irishbox" hidden><p class="who">As a local might put it</p>${irish.irish.map(s=>`<p>${esc(s)}</p>`).join('')}${homebound?lastMileLink(fromWest):''}</div>`:
+      `<p class="cinfo">We've only written Irish directions for a few hops so far — this isn't one of them yet.</p>`+(homebound?lastMileLink(fromWest):''));
+  if(irish){
+    document.getElementById('irishbtn').onclick=()=>{
+      const box=document.getElementById('irishbox');
+      box.hidden=!box.hidden;
+      if(!box.hidden) frameIrishPair(a,b);
+    };
+  }
+  document.getElementById('swapleg').onclick=()=>{
+    picked=[b,a];
+    paintPicked();
+    paintYarn(true);
+    openJourney(b,a);
+  };
+  bindLastMile(fromWest);
+  card.classList.add('open');
+  if(irish){
+    document.getElementById('irishbox').hidden=false;
+    frameIrishPair(a,b);
+  }
+  syncLastMileMap();
+}
+function frameIrishPair(a,b){
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      if(window.MapNav) MapNav.fitPair(a.lng, a.lat, b.lng, b.lat);
+    });
+  });
+}
+function walkBox(p){
+  const w=p.walk;
+  if(!w || typeof w!=='object') return '';
+  const loops=w.loops||[];
+  if(!loops.length && !w.km && !w.grade) return '';
+  let body='';
+  if(loops.length){
+    body=loops.map(l=>`<p><b>${esc(l.name)}</b> — ${l.km} km · about ${l.mins} min · ${esc(l.grade||'')}${l.marks?' · '+esc(l.marks):''}</p>`).join('');
+  } else {
+    const bits=[w.km!=null?`${w.km} km`:'', w.mins!=null?`about ${w.mins} min`:'', w.grade, w.marks].filter(Boolean);
+    body=`<p>${esc(bits.join(' · '))}</p>`;
+  }
+  return `<div class="walkloops"><p class="who">Walk</p>${body}</div>`;
+}
+function openCard(p){
+  closeFilterMenu();
+  closePeople();
+  closeLastMile();
+  const c=pinColor(p), nm=encodeURIComponent(p.name);
   const geo=`geo:${p.lat},${p.lng}?q=${p.lat},${p.lng}(${nm})`;
   const goog=`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
   const family=p.cat==='family';
   const who=family&&p.addedBy?`Added by ${esc(p.addedBy)}`:'';
   const extra=[p.info,p.hours,who].filter(Boolean).join(' · ');
+  const callLbl=p.telLabel?`Call ${p.telLabel} ☎`:'Call ☎';
+  const tag=p.bike==='stop'?'Greenway':p.bike==='rental'?'Bike hire':(p.walk?'Walk':(CATS[p.cat]||''));
+  const hint=p.bike==='stop'
+    ? 'Tap another Greenway pin for the distance along the trail.'
+    : (p.walk
+      ? 'Follow the waymarks on the ground. The yellow line on this map is a guide.'
+      : (irishHopsFrom(p.id).length?'Hold this pin to light up Irish hops.':'Tap another place to link a journey.'));
+  const house=PLACES.find(x=>x.id==='lime-kiln-house');
+  const fromHouse=house && p.id!==house.id && irishFor(house, p);
   body.innerHTML=
-    `<div class="ct"><span class="ctag" style="background:${c}">${esc(CATS[p.cat]||'')}</span>`+(p.host?`<span class="ctag chost">★ Host pick</span>`:``)+`</div>`+
+    `<div class="ct"><span class="ctag" style="background:${c}">${esc(tag)}</span>`+(p.host?`<span class="ctag chost">★ Host pick</span>`:``)+`</div>`+
     `<div class="cname">${p.emoji||''} ${esc(p.name)}</div>`+
     (p.plan?`<div class="cplan">${esc(p.plan)}</div>`:``)+
     `<p class="cdesc">${esc(p.long||p.desc||'')}</p>`+
-    (extra?`<p class="cinfo">${extra}</p>`:``)+
+    walkBox(p)+
+    `<p class="cinfo">${extra?esc(extra)+' · ':''}${esc(hint)}</p>`+
     `<div class="cact">`+
+      (fromHouse?`<button type="button" class="cbtn ${p.walk?'cwalk':(p.bike==='rental'?'cbike':'cirish')}" id="drivehire">${fromHouse.how==='walk'?'Walk from the house':'Drive from the house'}</button>`:``)+
       `<a class="cbtn cdir" href="${geo}">Directions (offline) ↗</a>`+
       `<a class="cbtn cgoog" href="${goog}" target="_blank" rel="noopener">Google Maps</a>`+
-      (p.tel?`<a class="cbtn ccall" href="tel:${esc(p.tel)}">Call ☎</a>`:``)+
+      (irishHopsFrom(p.id).length?`<button type="button" class="cbtn cirish" id="irishhops">Show Irish hops</button>`:``)+
+      (p.tel?`<a class="cbtn ccall" href="tel:${esc(p.tel)}">${esc(callLbl)}</a>`:``)+
       (family?`<button type="button" class="cbtn cedit" id="editpin">Edit</button><button type="button" class="cbtn cdel" id="delpin">Remove</button>`:``)+
-    `</div>`;
+    `</div>`+
+    (p.id==='lime-kiln-house'?lastMileLink(false):'');
+  if(fromHouse){
+    const btn=document.getElementById('drivehire');
+    if(btn) btn.onclick=()=>{
+      picked=[house, p];
+      irishLit.clear();
+      paintPicked();
+      paintIrishLit();
+      paintYarn(true);
+      openJourney(house, p);
+    };
+  }
+  if(irishHopsFrom(p.id).length){
+    document.getElementById('irishhops').onclick=()=>showIrishFrom(p);
+  }
   if(family){
     document.getElementById('editpin').onclick=()=>openPinForm({existing:p});
     document.getElementById('delpin').onclick=()=>deleteFamilyPin(p);
   }
+  bindLastMile(false);
   card.classList.add('open');
+  syncLastMileMap();
 }
-function closeCard(){card.classList.remove('open');}
+function closeCard(){
+  closeLastMile();
+  card.classList.remove('open');
+  clearPick();
+  syncLastMileMap();
+}
+function goHome(){
+  const house=PLACES.find(p=>p.id==='lime-kiln-house');
+  if(!house||house._off){ toast('Lime Kiln House is not on this map.'); return; }
+  closePeople();
+  closeFilterMenu();
+  active.add('home');
+  hostOnly=false;
+  refresh();
+  picked=[house];
+  irishLit.clear();
+  paintPicked();
+  paintIrishLit();
+  paintYarn();
+  openCard(house);
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      if(window.MapNav) MapNav.centerOn(house.lng, house.lat, 15);
+    });
+  });
+}
 
-function openPinForm({lat,lng,existing}){
+function openPinForm({lat,lng,existing,approx}){
+  closePeople();
+  clearPick();
   const editing=!!existing;
   const name=existing?existing.name:'';
   const desc=existing?existing.desc||'':'';
   const who=existing?existing.addedBy||FamilySync.loadNick():FamilySync.loadNick();
+  const hint=editing?'Update the name or description.':(approx?'Approximate spot on the map — close enough to find later. Name it so the family knows what it is.':'Using your current location. Name it so the family knows what it is.');
   body.innerHTML=
     `<div class="ct"><span class="ctag" style="background:${STYLE.family.color}">Our pins</span></div>`+
     `<div class="cname">${editing?'Edit pin':'Add pin here'}</div>`+
-    `<p class="cinfo">${editing?'Update the name or description.':'Using your current location. Name it so the family knows what it is.'}</p>`+
+    `<p class="cinfo">${hint}</p>`+
     `<form id="pinform">`+
       `<div class="field"><label for="pinname">Name</label><input id="pinname" name="name" maxlength="79" required value="${esc(name)}" placeholder="e.g. Ice cream by the harbour"></div>`+
       `<div class="field"><label for="pindesc">Description</label><textarea id="pindesc" name="desc" maxlength="499" placeholder="Anything the others should know">${esc(desc)}</textarea></div>`+
@@ -236,8 +1534,7 @@ function openPinForm({lat,lng,existing}){
   card.classList.add('open');
   document.getElementById('cancelform').onclick=()=>{
     if(!existing){ closeCard(); return; }
-    const i=PLACES.findIndex(p=>p.id===existing.id);
-    if(i>=0) openCard(i); else closeCard();
+    openCard(existing);
   };
   document.getElementById('pinform').onsubmit=e=>{
     e.preventDefault();
@@ -266,6 +1563,9 @@ function deleteFamilyPin(p){
   toast('Pin removed.');
 }
 
+document.getElementById('lastmilex').onclick=e=>{ e.stopPropagation(); closeLastMile(); };
+document.getElementById('homebtn').onclick=()=>goHome();
+document.getElementById('peoplebtn').onclick=()=>openPeople();
 document.getElementById('addpin').onclick=()=>{
   if(!navigator.geolocation){ toast('This phone cannot share its location.'); return; }
   toast('Finding your location…');
@@ -279,6 +1579,253 @@ document.getElementById('addpin').onclick=()=>{
     toast(msg);
   }, {enableHighAccuracy:true, timeout:15000, maximumAge:10000});
 };
+
+function clientToLatLng(clientX, clientY){
+  const svg=document.getElementById('basemap');
+  const pt=svg.createSVGPoint();
+  pt.x=clientX; pt.y=clientY;
+  const ctm=svg.getScreenCTM();
+  if(!ctm) return null;
+  const p=pt.matrixTransform(ctm.inverse());
+  if(p.x<0||p.x>W||p.y<0||p.y>H) return null;
+  return unproj(p.x, p.y);
+}
+function addPinAtClient(clientX, clientY){
+  const ll=clientToLatLng(clientX, clientY);
+  if(!ll){ toast('Drop a pin on the map.'); return; }
+  openPinForm({lat:ll.lat, lng:ll.lng, approx:true});
+}
+
+(function mapNav(){
+  const stage=document.getElementById('stage');
+  const fit=document.getElementById('mapfit');
+  const svg=document.getElementById('basemap');
+  const MIN=1, MAX=120;
+  let scale=1, vx=0, vy=0, pinScreen=1;
+  const pointers=new Map();
+  let pinch0=null, pan0=null, holdTimer=null, holdX=0, holdY=0, ignoreMenu=false, didMove=false;
+  const btnIn=document.getElementById('zoomin'), btnOut=document.getElementById('zoomout');
+
+  function baseSize(){
+    const sw=Math.max(1, fit.clientWidth), sh=Math.max(1, fit.clientHeight);
+    const ar=sw/sh;
+    if(W/H>ar) return {bw:W, bh:W/ar};
+    return {bw:H*ar, bh:H};
+  }
+  function currentView(){
+    const {bw,bh}=baseSize();
+    return {vw:bw/scale, vh:bh/scale};
+  }
+  function clampView(){
+    const {vw,vh}=currentView();
+    if(scale<=1.001){
+      scale=1;
+      const {bw,bh}=baseSize();
+      vx=(W-bw)/2; vy=(H-bh)/2;
+      return;
+    }
+    vx=vw>=W?(W-vw)/2:Math.min(W-vw, Math.max(0, vx));
+    vy=vh>=H?(H-vh)/2:Math.min(H-vh, Math.max(0, vy));
+  }
+  function apply(opts){
+    if(!opts||!opts.skipClamp) clampView();
+    const {vw,vh}=currentView();
+    svg.setAttribute('viewBox', `${vx.toFixed(2)} ${vy.toFixed(2)} ${vw.toFixed(2)} ${vh.toFixed(2)}`);
+    fit.style.setProperty('--pin-scale', String(1/scale));
+    pinScreen=scale<=6?1:Math.min(1.45, 1+(scale-6)*0.006);
+    fit.style.setProperty('--pin-screen', String(pinScreen));
+    const town=scale<=7?0:scale>=15?1:(scale-7)/8;
+    fit.style.setProperty('--town-opacity', String(town));
+    const lm=scale<=9?0:scale>=16?1:(scale-9)/7;
+    fit.style.setProperty('--lastmile-opacity', String(lm));
+    const pinLabs=showPinLabels && scale>=11;
+    fit.style.setProperty('--pin-labels', pinLabs?'1':'0');
+    fit.classList.toggle('show-pin-labels', pinLabs);
+    const lbl=scale<=2.4?1:scale>=6?0:1-(scale-2.4)/(6-2.4);
+    fit.style.setProperty('--lbl-opacity', String(lbl));
+    btnIn.disabled=scale>=MAX-0.01;
+    btnOut.disabled=scale<=MIN+0.01;
+    if(typeof positionPins==='function') positionPins();
+  }
+  function centerOn(lng, lat, wantScale){
+    const [x,y]=proj(lng,lat);
+    scale=Math.max(MIN, Math.min(MAX, wantScale||15));
+    const {vw,vh}=currentView();
+    const fr=fit.getBoundingClientRect();
+    const cr=card.getBoundingClientRect();
+    const overlap=Math.max(0, Math.min(fr.height, fr.bottom-cr.top));
+    const visW=Math.max(1, fr.width);
+    const visH=Math.max(1, fr.height-overlap);
+    const fitW=Math.max(1, fit.clientWidth), fitH=Math.max(1, fit.clientHeight);
+    vx=x-(visW/2)/fitW*vw;
+    vy=y-(visH/2)/fitH*vh;
+    apply({skipClamp:true});
+  }
+  function fitPoints(pts){
+    if(!pts||!pts.length) return;
+    const xy=pts.map(p=>proj(p.lng,p.lat));
+    let minX=xy[0][0], maxX=xy[0][0], minY=xy[0][1], maxY=xy[0][1];
+    xy.forEach(([x,y])=>{ minX=Math.min(minX,x); maxX=Math.max(maxX,x); minY=Math.min(minY,y); maxY=Math.max(maxY,y); });
+    const spanX=Math.max(maxX-minX, 12);
+    const spanY=Math.max(maxY-minY, 12);
+    const fr=fit.getBoundingClientRect();
+    const cr=card.getBoundingClientRect();
+    const overlap=Math.max(0, Math.min(fr.height, fr.bottom-cr.top));
+    const visW=Math.max(1, fr.width);
+    const visH=Math.max(1, fr.height-overlap);
+    const innerW=visW*0.60, innerH=visH*0.60;
+    const fitW=Math.max(1, fit.clientWidth), fitH=Math.max(1, fit.clientHeight);
+    const {bw,bh}=baseSize();
+    const ar=fitW/fitH;
+    let vw=spanX*fitW/innerW;
+    const vwFromY=(spanY*fitH/innerH)*ar;
+    vw=Math.max(vw, vwFromY);
+    let newScale=bw/vw;
+    newScale=Math.max(MIN, Math.min(MAX, newScale));
+    scale=newScale;
+    vw=bw/scale;
+    const vh=bh/scale;
+    const midX=(minX+maxX)/2, midY=(minY+maxY)/2;
+    vx=midX-(visW/2)/fitW*vw;
+    vy=midY-(visH/2)/fitH*vh;
+    apply({skipClamp:true});
+  }
+  function fitPair(lng1, lat1, lng2, lat2){
+    fitPoints([{lng:lng1, lat:lat1},{lng:lng2, lat:lat2}]);
+  }
+  function zoomAt(clientX, clientY, newScale){
+    const pt=svg.createSVGPoint();
+    pt.x=clientX; pt.y=clientY;
+    const ctm=svg.getScreenCTM();
+    if(!ctm) return;
+    const p=pt.matrixTransform(ctm.inverse());
+    newScale=Math.max(MIN, Math.min(MAX, newScale));
+    const r=fit.getBoundingClientRect();
+    const fx=(clientX-r.left)/Math.max(1,r.width);
+    const fy=(clientY-r.top)/Math.max(1,r.height);
+    scale=newScale;
+    const {vw,vh}=currentView();
+    vx=p.x-fx*vw;
+    vy=p.y-fy*vh;
+    apply();
+  }
+  function cancelHold(){ if(holdTimer){ clearTimeout(holdTimer); holdTimer=null; } }
+
+  window.MapNav={
+    onFit(){ apply(); },
+    reset(){ scale=1; apply(); },
+    pinPct(x,y){
+      const {vw,vh}=currentView();
+      return {left:((x-vx)/vw*100)+'%', top:((y-vy)/vh*100)+'%'};
+    },
+    fitPair,
+    fitPoints,
+    centerOn,
+    getScale(){ return scale; },
+    getPinScreen(){ return pinScreen; }
+  };
+
+  stage.addEventListener('wheel', e=>{
+    if(e.target.closest('#mapzoom')) return;
+    e.preventDefault();
+    zoomAt(e.clientX, e.clientY, scale*(e.deltaY>0?0.9:1.12));
+  }, {passive:false});
+
+  stage.addEventListener('pointerdown', e=>{
+    if(e.target.closest('#mapzoom')) return;
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    didMove=false;
+    if(pointers.size>=2){
+      cancelHold();
+      const pts=[...pointers.values()];
+      pinch0={
+        dist:Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y)||1,
+        scale,
+        x:(pts[0].x+pts[1].x)/2,
+        y:(pts[0].y+pts[1].y)/2
+      };
+      pan0=null;
+      return;
+    }
+    pan0={x:e.clientX, y:e.clientY, vx, vy};
+    const pinEl=e.target.closest('.pin');
+    holdX=e.clientX; holdY=e.clientY;
+    cancelHold();
+    holdTimer=setTimeout(()=>{
+      holdTimer=null;
+      if(didMove||pointers.size!==1) return;
+      ignoreMenu=true;
+      if(pinEl){
+        skipPinClick=true;
+        const p=PLACES.find(x=>x.id===pinEl.dataset.id);
+        if(p) showIrishFrom(p);
+        return;
+      }
+      addPinAtClient(holdX, holdY);
+    }, 550);
+  });
+  stage.addEventListener('pointermove', e=>{
+    if(!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    if(pinch0 && pointers.size>=2){
+      const pts=[...pointers.values()];
+      const dist=Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y)||1;
+      zoomAt((pts[0].x+pts[1].x)/2, (pts[0].y+pts[1].y)/2, pinch0.scale*(dist/pinch0.dist));
+      didMove=true;
+      return;
+    }
+    if(pan0){
+      const dx=e.clientX-pan0.x, dy=e.clientY-pan0.y;
+      if(dx*dx+dy*dy>64){ didMove=true; cancelHold(); }
+      if(didMove && scale>1.01){
+        const {vw,vh}=currentView();
+        const fw=fit.clientWidth, fh=fit.clientHeight;
+        vx=pan0.vx-dx*vw/Math.max(1,fw);
+        vy=pan0.vy-dy*vh/Math.max(1,fh);
+        apply();
+      }
+    }
+  });
+  function endPtr(e){
+    pointers.delete(e.pointerId);
+    cancelHold();
+    if(pointers.size<2) pinch0=null;
+    if(pointers.size===0) pan0=null;
+    else if(pointers.size===1){
+      const p=[...pointers.values()][0];
+      pan0={x:p.x, y:p.y, vx, vy};
+    }
+  }
+  stage.addEventListener('pointerup', endPtr);
+  stage.addEventListener('pointercancel', endPtr);
+  stage.addEventListener('click', e=>{
+    if(didMove){ e.stopPropagation(); e.preventDefault(); }
+    if(skipPinClick){ skipPinClick=false; e.stopPropagation(); e.preventDefault(); }
+  }, true);
+  stage.addEventListener('contextmenu', e=>{
+    e.preventDefault();
+    if(e.target.closest('#mapzoom')) return;
+    const pinEl=e.target.closest('.pin');
+    if(pinEl){
+      const p=PLACES.find(x=>x.id===pinEl.dataset.id);
+      if(p) showIrishFrom(p);
+      return;
+    }
+    if(ignoreMenu){ ignoreMenu=false; return; }
+    addPinAtClient(e.clientX, e.clientY);
+  });
+
+  document.getElementById('zoomin').onclick=()=>{
+    const r=fit.getBoundingClientRect();
+    zoomAt(r.left+r.width/2, r.top+r.height/2, scale*1.45);
+  };
+  document.getElementById('zoomout').onclick=()=>{
+    const r=fit.getBoundingClientRect();
+    zoomAt(r.left+r.width/2, r.top+r.height/2, scale/1.45);
+  };
+  apply();
+})();
 
 async function forceRefresh(){
   if(!navigator.onLine){ toast('Need a signal to update. Try again on Wi-Fi.'); return; }
@@ -315,6 +1862,7 @@ if('serviceWorker' in navigator){
     });
   }
 }
+fitSoon();
 </script>
 </body>
 </html>

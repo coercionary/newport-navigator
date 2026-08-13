@@ -1,8 +1,9 @@
 // Newport Navigator service worker — offline app shell
-const CACHE = 'newport-nav-v4';
+const CACHE = 'newport-nav-v50';
 const ASSETS = [
   '.', 'index.html', 'manifest.webmanifest', 'data/places.json',
-  'family-sync.js',
+  'family-sync.js', 'data/irish-directions.json', 'data/contacts.json',
+  'data/greenway.json',
   'icons/icon.svg', 'icons/icon-maskable.svg'
 ];
 self.addEventListener('install', e => {
