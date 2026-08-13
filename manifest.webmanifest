@@ -1,0 +1,15 @@
+{
+  "name": "Newport Navigator",
+  "short_name": "Newport Nav",
+  "description": "Family map for Lime Kiln House — Newport, Co. Mayo. Curated food, shops, beaches, activities & golf with host picks. Works offline.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eef4f2",
+  "theme_color": "#0f766e",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
