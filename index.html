@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=6.0, viewport-fit=cover"/>
+<title>Newport Navigator</title>
+<meta name="description" content="Family map for Lime Kiln House — Newport, Co. Mayo. Works offline."/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="theme-color" content="#0f766e"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Newport Nav"/>
+<link rel="apple-touch-icon" href="icons/icon.svg"/>
+<link rel="icon" href="icons/icon.svg"/>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#243;background:#eef4f2;}
+  header{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;box-shadow:0 2px 10px rgba(0,0,0,.18);position:sticky;top:0;z-index:50;}
+  header h1{margin:0;font-size:16px;display:flex;align-items:center;gap:8px;}
+  header p{margin:3px 0 0;font-size:12px;opacity:.92;}
+  #filters{display:flex;gap:7px;overflow-x:auto;padding:9px 12px;background:#faf7f0;border-bottom:1px solid #e7e2d6;position:sticky;top:56px;z-index:40;scrollbar-width:none;}
+  #filters::-webkit-scrollbar{display:none;}
+  .chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;border:1.5px solid #d8d2c4;background:#fff;border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;color:#4b5563;}
+  .chip .dot{width:10px;height:10px;border-radius:50%;}
+  .chip[data-on="true"]{color:#fff;border-color:transparent;}
+  .chip.star[data-on="true"]{background:#f59e0b;color:#fff;}
+  .chip.sep{border:none;background:transparent;width:1px;padding:0;border-left:1px solid #d8d2c4;height:20px;align-self:center;}
+  #stage{position:relative;width:100%;}
+  #stage svg{display:block;width:100%;height:auto;}
+  #pins{position:absolute;inset:0;}
+  .pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;}
+  .pin .bub{width:26px;height:26px;border-radius:50% 50% 50% 3px;transform:rotate(45deg);border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;}
+  .pin .bub span{transform:rotate(-45deg);font-size:12px;line-height:1;}
+  .pin .st{position:absolute;top:-6px;right:-7px;width:14px;height:14px;border-radius:50%;background:#f59e0b;color:#fff;font-size:9px;line-height:14px;text-align:center;border:1.5px solid #fff;}
+  .note{padding:9px 14px;font-size:12px;color:#556;background:#faf7f0;border-top:1px solid #e7e2d6;}
+  .note b{color:#243;}
+  #card{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.22);padding:14px 16px calc(env(safe-area-inset-bottom) + 18px);transform:translateY(115%);transition:transform .25s;}
+  #card.open{transform:translateY(0);}
+  #card .x{position:absolute;top:10px;right:12px;font-size:20px;color:#889;cursor:pointer;line-height:1;}
+  .ct{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
+  .ctag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#fff;padding:2px 8px;border-radius:999px;}
+  .chost{background:#fde68a;color:#7c5c00;}
+  .cname{font-size:16px;font-weight:700;margin:2px 0 4px;padding-right:22px;}
+  .cplan{margin:0 0 8px;padding:7px 9px;background:#fff7ed;border-left:3px solid #ea580c;border-radius:0 6px 6px 0;color:#7c2d12;font-size:12.5px;font-weight:600;}
+  .cdesc{margin:0 0 6px;font-size:13.5px;line-height:1.45;color:#374151;}
+  .cinfo{margin:0 0 10px;font-size:12px;color:#6b7280;}
+  .cact{display:flex;gap:8px;flex-wrap:wrap;}
+  .cbtn{text-decoration:none;font-weight:600;font-size:12.5px;padding:8px 13px;border-radius:8px;border:none;}
+  .cdir{background:#0f766e;color:#fff;}
+  .cgoog{background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;}
+  .ccall{background:#e6f4ea;color:#166534;border:1px solid #b7e0c4;}
+  #loading{padding:40px 20px;text-align:center;color:#889;}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧭 Newport Navigator</h1>
+  <p>Lime Kiln House · Clew Bay · tap a pin · ⭐ = host pick</p>
+</header>
+<div id="filters"></div>
+
+<div id="stage">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 712.0" id="basemap">
+    <rect width="1100" height="712.0" fill="#bfe0e8"/>
+    <style>
+      .land{fill:#e9e0c8;stroke:#c9bd97;stroke-width:1.5}
+      .isle{fill:#d8cba6;stroke:#c9bd97;stroke-width:0.5}
+      .peak{fill:#b7a77f;stroke:#8f7f57;stroke-width:1}.peakcross{stroke:#5b4e34;stroke-width:2}
+      .greenway{fill:none;stroke:#2f9e44;stroke-width:3;stroke-dasharray:2 7;stroke-linecap:round}
+      .road{fill:none;stroke:#e0b34d;stroke-width:2.5}
+      text{font-family:Georgia,serif}
+      .lbl-bay{fill:#2b7a8c;font-style:italic;letter-spacing:3px;text-anchor:middle}
+      .lbl-sea{fill:#7fb0bd;font-style:italic;letter-spacing:2px;text-anchor:middle}
+      .lbl-land{fill:#7a6f4e;font-weight:bold;letter-spacing:1px;text-anchor:middle}
+      .lbl-town{fill:#334;font-weight:bold;text-anchor:middle}
+      .lbl-feat{fill:#6b5636;font-style:italic;text-anchor:middle}
+    </style>
+    <path d="M 250.0,0.0 L 1100.0,0.0 L 1100.0,712.0 L 510.0,712.0 L 540.0,601.8 L 640.0,517.0 L 400.0,464.5 L 500.0,471.3 L 600.0,461.1 L 664.0,445.8 L 720.0,420.4 L 755.0,401.8 L 750.0,356.0 L 748.0,305.1 L 754.7,259.5 L 680.0,237.3 L 600.0,233.9 L 522.0,227.2 L 440.0,213.6 L 380.0,203.4 L 360.0,118.7 L 300.0,33.9 Z" class="land"/><path d="M 360.0,194.9 L 310.0,84.8 L 240.0,42.4 L 160.0,67.8 L 100.0,127.1 L 110.0,194.9 L 180.0,237.3 L 280.0,228.9 L 335.0,211.9 L 360.0,194.9 Z" class="land"/><path d="M 330.0,423.8 L 370.0,406.8 L 400.0,381.4 L 360.0,356.0 L 320.0,381.4 Z" class="land"/><ellipse cx="640.0" cy="356.0" rx="9" ry="5" class="isle"/><ellipse cx="680.0" cy="322.1" rx="9" ry="5" class="isle"/><ellipse cx="720.0" cy="339.0" rx="9" ry="5" class="isle"/><ellipse cx="600.0" cy="330.6" rx="9" ry="5" class="isle"/><ellipse cx="660.0" cy="296.7" rx="9" ry="5" class="isle"/><ellipse cx="700.0" cy="372.9" rx="9" ry="5" class="isle"/><ellipse cx="620.0" cy="305.1" rx="9" ry="5" class="isle"/><ellipse cx="580.0" cy="356.0" rx="9" ry="5" class="isle"/><ellipse cx="740.0" cy="356.0" rx="9" ry="5" class="isle"/><ellipse cx="645.0" cy="262.8" rx="9" ry="5" class="isle"/><polygon points="620,449 642,415 664,449" class="peak"/><line x1="642" y1="415" x2="642" y2="405" class="peakcross"/><line x1="638" y1="409" x2="646" y2="409" class="peakcross"/><path d="M 779.1,406.8 L 754.7,259.5 L 522.0,227.2 L 380.0,203.4 L 300.0,169.5" class="greenway"/><path d="M 779.1,406.8 L 970.0,322.1" class="road"/><path d="M 755.0,401.8 L 500.0,471.3 L 400.0,464.5" class="road"/><path d="M 754.7,259.5 L 522.0,227.2 L 380.0,203.4" class="road"/><text x="640" y="373" class="lbl-bay" font-size="22">CLEW BAY</text><text x="230" y="144" class="lbl-land" font-size="16">ACHILL ISLAND</text><text x="755" y="251" class="lbl-town" font-size="13">NEWPORT</text><text x="780" y="420" class="lbl-town" font-size="13">WESTPORT</text><text x="522" y="217" class="lbl-town" font-size="12">MULRANNY</text><text x="500" y="483" class="lbl-town" font-size="11">LOUISBURGH</text><text x="970" y="312" class="lbl-town" font-size="11">CASTLEBAR</text><text x="360" y="407" class="lbl-land" font-size="10">CLARE I.</text><text x="642" y="471" class="lbl-feat" font-size="10">CROAGH PATRICK</text><text x="150" y="542" class="lbl-sea" font-size="15">ATLANTIC OCEAN</text>
+  </svg>
+  <div id="pins"></div>
+</div>
+<div class="note" id="offmap"><span id="loading">Loading places…</span></div>
+
+<div id="card"><div class="x" onclick="closeCard()">&times;</div><div id="cardbody"></div></div>
+
+<script>
+// Visual style per category (labels + places come from data/places.json)
+const STYLE={home:{color:"#e11d48"},food:{color:"#ea580c"},shop:{color:"#16a34a"},beach:{color:"#0284c7"},do:{color:"#7c3aed"},golf:{color:"#0d9488"}};
+const CAT_EMOJI={home:"🏡",food:"🍽️",shop:"🛒",beach:"🏖️",do:"🎡",golf:"⛳"};
+// projection MUST match the basemap generator
+const W=1100, H=712.0, lngMin=-10.30, lngMax=-9.20, latMin=53.62, latMax=54.04;
+const pxPerDegLng=W/(lngMax-lngMin), pxPerDegLat=H/(latMax-latMin);
+const proj=(lng,lat)=>[(lng-lngMin)*pxPerDegLng,(latMax-lat)*pxPerDegLat];
+
+let CATS={}, PLACES=[], active=new Set(), hostOnly=false;
+const pinsEl=document.getElementById('pins'), offEl=document.getElementById('offmap');
+const pinNodes=[];
+
+fetch('data/places.json').then(r=>r.json()).then(data=>{
+  CATS=data.categories; PLACES=data.places; active=new Set(Object.keys(CATS));
+  buildFilters(); buildPins(); refresh();
+}).catch(e=>{ offEl.innerHTML='<b>Could not load places.</b> This app needs to be opened from a web server (see README), not a file:// path.'; });
+
+function buildPins(){
+  PLACES.forEach((p,i)=>{
+    const [x,y]=proj(p.lng,p.lat);
+    p._off=(x<8||x>W-8||y<8||y>H-8);
+    if(p._off) return;
+    const c=(STYLE[p.cat]||{}).color||'#555';
+    const el=document.createElement('div');
+    el.className='pin'; el.style.left=(x/W*100)+'%'; el.style.top=(y/H*100)+'%';
+    el.innerHTML=`<div class="bub" style="background:${c}"><span>${p.emoji||''}</span></div>`+(p.host?`<div class="st">★</div>`:``);
+    el.onclick=()=>openCard(i); el._cat=p.cat; el._host=!!p.host;
+    pinsEl.appendChild(el); pinNodes.push(el);
+  });
+}
+function refresh(){
+  pinNodes.forEach(el=>{el.style.display=(active.has(el._cat)&&(!hostOnly||el._host))?'block':'none';});
+  const off=PLACES.filter(p=>p._off&&active.has(p.cat)&&(!hostOnly||p.host));
+  offEl.innerHTML=off.length?`<b>Off this map (${off.length}):</b> `+off.map(p=>`${p.emoji||''} ${p.name.split(',')[0]}`).join(' · ')+` — further-afield spots outside the core area.`:'';
+}
+function buildFilters(){
+  const fEl=document.getElementById('filters'); fEl.innerHTML='';
+  const sc=document.createElement('div'); sc.className='chip star'; sc.dataset.on='false'; sc.textContent='⭐ Host picks only';
+  sc.onclick=()=>{hostOnly=!hostOnly; sc.dataset.on=hostOnly?'true':'false'; refresh();}; fEl.appendChild(sc);
+  const sep=document.createElement('div'); sep.className='chip sep'; fEl.appendChild(sep);
+  Object.entries(CATS).forEach(([k,label])=>{
+    const c=(STYLE[k]||{}).color||'#555';
+    const ch=document.createElement('div'); ch.className='chip'; ch.dataset.on='true';
+    ch.innerHTML=`<span class="dot" style="background:${c}"></span>${CAT_EMOJI[k]||''} ${label}`;
+    ch.style.background=c; ch.style.color='#fff'; ch.style.borderColor='transparent';
+    ch.onclick=()=>{const on=ch.dataset.on==='true'; ch.dataset.on=on?'false':'true'; if(on)active.delete(k);else active.add(k);
+      ch.style.background=on?'#fff':c; ch.style.color=on?'#4b5563':'#fff'; ch.style.borderColor=on?'#d8d2c4':'transparent'; refresh();};
+    fEl.appendChild(ch);
+  });
+}
+const card=document.getElementById('card'), body=document.getElementById('cardbody');
+function openCard(i){
+  const p=PLACES[i], c=(STYLE[p.cat]||{}).color||'#555', nm=encodeURIComponent(p.name);
+  // Organic Maps / any offline maps app: geo: URI (then tap Route -> walk/bike/car)
+  const geo=`geo:${p.lat},${p.lng}?q=${p.lat},${p.lng}(${nm})`;
+  const goog=`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
+  body.innerHTML=
+    `<div class="ct"><span class="ctag" style="background:${c}">${CATS[p.cat]||''}</span>`+(p.host?`<span class="ctag chost">★ Host pick</span>`:``)+`</div>`+
+    `<div class="cname">${p.emoji||''} ${p.name}</div>`+
+    (p.plan?`<div class="cplan">${p.plan}</div>`:``)+
+    `<p class="cdesc">${p.long||p.desc}</p>`+
+    ((p.info||p.hours)?`<p class="cinfo">${[p.info,p.hours].filter(Boolean).join(' · ')}</p>`:``)+
+    `<div class="cact">`+
+      `<a class="cbtn cdir" href="${geo}">Directions (offline) ↗</a>`+
+      `<a class="cbtn cgoog" href="${goog}" target="_blank" rel="noopener">Google Maps</a>`+
+      (p.tel?`<a class="cbtn ccall" href="tel:${p.tel}">Call ☎</a>`:``)+
+    `</div>`;
+  card.classList.add('open');
+}
+function closeCard(){card.classList.remove('open');}
+
+// PWA service worker
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+</script>
+</body>
+</html>
