@@ -1,3 +1,6 @@
-FROM pierrezemb/gostatic
-COPY . /srv/http/
-CMD ["-port","8080","-https-promote", "-enable-logging"]
+FROM python:3.12-slim
+WORKDIR /app
+COPY . /app
+EXPOSE 8080
+ENV PORT=8080
+CMD ["python3", "server.py", "--port", "8080"]

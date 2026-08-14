@@ -1,9 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
 <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f766e"/><stop offset="1" stop-color="#0284c7"/></linearGradient></defs>
-<rect x="0" y="0" width="512" height="512" rx="0" fill="url(#g)"/>
-<g transform="translate(64,64) scale(0.75)">
-<path d="M120 380 Q 220 300 300 360 T 420 300" fill="none" stroke="#7ee0a0" stroke-width="18" stroke-linecap="round" stroke-dasharray="4 34"/>
-<path d="M256 96 C 176 96 120 156 120 232 C 120 330 256 430 256 430 C 256 430 392 330 392 232 C 392 156 336 96 256 96 Z" fill="#ffffff"/>
-<circle cx="256" cy="228" r="58" fill="#0284c7"/>
-<text x="256" y="250" font-family="Georgia, serif" font-size="78" font-weight="bold" fill="#ffffff" text-anchor="middle">N</text>
-</g></svg>
+<rect width="512" height="512" fill="url(#g)"/>
+<g transform="translate(256,236) scale(0.7)">
+  <g fill="#ffffff">
+    <path d="M0 10 C 24 -32 92 -44 0 -132 C -92 -44 -24 -32 0 10Z"/>
+    <path d="M0 10 C 24 -32 92 -44 0 -132 C -92 -44 -24 -32 0 10Z" transform="rotate(-128)"/>
+    <path d="M0 10 C 24 -32 92 -44 0 -132 C -92 -44 -24 -32 0 10Z" transform="rotate(128)"/>
+    <circle r="24"/>
+  </g>
+  <path d="M0 90 Q 22 170 66 214" fill="none" stroke="#ffffff" stroke-width="43" stroke-linecap="round"/>
+</g>
+</svg>

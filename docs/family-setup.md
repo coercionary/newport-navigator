@@ -5,32 +5,21 @@ Do this **at home, on Wi-Fi, a day or two before you fly** — not after you lan
 ## 1. Add the Newport Navigator to your home screen
 1. Open this link in **Safari** (iPhone) or **Chrome** (Android): **[https://newport-navigator.fly.dev/](https://newport-navigator.fly.dev/)**
 2. Tap the **Share** button, then **Add to Home Screen**.
-3. It now opens like an app — and works with no signal.
+3. It now opens like an app — the map, pins, and Irish hops work with no signal.
 
-## 2. Install Organic Maps (for offline walking / cycling / driving directions)
-Google Maps only gives **driving** directions offline. For **walking and cycling** offline
-(including the Great Western Greenway), we're using **Organic Maps** — it's free, no ads, no account.
+## 2. Drop a pin
+Tap **Add pin**, then pick one:
+- **I'm here** — uses this phone's location (allow Location). Best when you're actually there.
+- **Paste a maps link or Eircode** — a Google or Apple Maps share, coordinates, or an Irish Eircode (like F28 X380). If an Eircode doesn't find the place, paste the Maps share instead.
+- **On the map:** press and hold (or right-click on a computer). Position is approximate.
 
-1. Install **Organic Maps** from the App Store / Google Play.
-2. Open it, and when it offers to download your area, search **"Westport"** or **"Mayo"**.
-3. Download the **West / Mayo** region (a few hundred MB). Do this on Wi-Fi.
-4. That's it — it now routes walking, cycling and driving with no internet.
+Pins save on your phone even with no signal, and show up for everyone else once you're back online.
 
-> Tip: In the Newport Navigator app, tapping **"Directions (offline)"** on any place opens it in your
-> maps app. In Organic Maps, tap **Route**, then choose 🚶 walk / 🚴 bike / 🚗 car.
-
-## 3. (Optional) Google Maps offline area — driving backup
-If you also want Google Maps as a driving backup:
-1. Open Google Maps → search **"Westport, Mayo"** → tap the name → **Download**.
-2. Note: Google offline maps do **driving only**, and expire after ~15 days, so download close to travel.
-
-## 4. Drop a pin
-- **On the map:** press and hold (or right-click on a computer) where you want it. Position is approximate.
-- **Where you are:** tap **Add pin** and allow **Location**. Best when you're actually there.
+Turn-by-turn is **Google Maps** on each place (needs a signal). Irish hops in the app are the local version — they live on the phone once the app has loaded.
 
 If the app looks out of date, open it on Wi-Fi and tap **Get latest** at the top.
 
 ## You're set ✅
-- Newport Navigator on your home screen → see what's around, host picks, our plans.
-- Organic Maps with West Mayo downloaded → real walking/cycling/driving directions, no signal needed.
-- **Add pin** → GPS at your location, or press-and-hold the map (approximate).
+- Newport Navigator on your home screen → what's around, host picks, Irish hops, our plans.
+- **Google Maps** on a place → actual driving / walking / cycling.
+- **Add pin** → GPS, paste a maps link / Eircode, or press-and-hold the map.

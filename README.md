@@ -3,53 +3,60 @@
 An offline-friendly, installable map for our family stay at **Lime Kiln House**, Newport, Co. Mayo (Aug 22–29).
 It shows a curated, illustrated map of the Clew Bay area — food & drink, essentials, beaches & nature,
 activities, and golf — with the **hosts' own recommendations** highlighted (⭐) and our **planning notes**
-baked in. Each place hands off to a real maps app for turn-by-turn **walking / cycling / driving** directions.
+baked in. Each place can open **Google Maps** for turn-by-turn; **Irish hops** in the app
+are the local landmark version and stay on the phone once downloaded.
 
 It's a **PWA**: open the hosted link once, "Add to Home Screen", and it launches like an app and works
-with **no internet**. Anyone can tap **Add pin** to drop a GPS pin with a name and description; pins
-are saved on that phone (sharing across phones will be a small Fly.io API later).
+with **no internet**. Anyone can tap **Add pin** to drop a GPS pin, paste a Maps link / Eircode, or
+press-and-hold the map. Pins save on the phone immediately and sync to the family when there's a signal.
 
-## Why it works offline (and where directions come from)
+## Why it works offline
 Map *imagery* (street tiles) can't legally be bundled offline, so this app uses a lightweight, custom
-**illustrated basemap** that needs no tiles at all. The place data, filters, and info all live in the app
-and are cached by a service worker, so the whole thing opens with no signal.
+**illustrated basemap** that needs no tiles at all. Places, Irish hops, and family pins live in the
+app (and sync when there's a signal), cached by a service worker, so the map opens with no coverage.
 
-For actual **roads + directions offline**, each pin's **"Directions (offline)"** button opens the phone's
-maps app via a `geo:` link. Install **[Organic Maps](https://organicmaps.app)** (free, open-source) and
-download the West Mayo region once — it routes **walking, cycling, and driving** fully offline (including the
-Great Western Greenway). There's also a **Google Maps** button (driving-only offline; needs signal for
-walk/bike). See [`docs/family-setup.md`](docs/family-setup.md) for the one-page family setup.
+Turn-by-turn is **Google Maps** on the place card — that needs a signal. See
+[`docs/family-setup.md`](docs/family-setup.md) for the one-page family setup.
 
 ## Project structure
 ```
 index.html                # the app (illustrated basemap + pins + filters + info cards)
-family-sync.js            # family pins in localStorage (this phone only)
+family-sync.js            # family pins (localStorage + sync)
+server.py                 # static files + /api/resolve + /api/pins
 manifest.webmanifest      # PWA metadata (name, icons, theme)
 sw.js                     # service worker — caches the app shell for offline use
 data/places.json          # curated place data — edit this to add/change host pins
 icons/                    # app icons (scalable SVG: icon.svg + icon-maskable.svg)
 docs/family-setup.md      # "get your phone ready before Ireland" sheet
 fly.toml                  # Fly.io app config
-Dockerfile                # static file server (gostatic on port 8080)
+Dockerfile                # Python server on port 8080
 ```
 
 > Icons are SVG so they stay crisp at any size. High-res PNG icons (192/512/maskable/apple-touch)
 > are also available in the delivered zip if you want to add them for extra iOS home-screen polish.
 
 ## Run it locally
-Because the app fetches `data/places.json`, it must be served over http (not opened as a `file://`).
+Because the app fetches `data/places.json` (and the pin APIs), it must be served over http (not opened as a `file://`).
 Uses port **8787** so it stays out of the way of other local services (including anything on 51xx).
 ```bash
 # from the project folder
-python3 -m http.server 8787
+python3 server.py
 # then visit http://localhost:8787
 ```
-(or use any static server / the Live Server extension in Cursor/VS Code — point it at 8787).
+Paste / Eircode lookup and pin sharing need this server (a plain `python3 -m http.server` will not run the APIs).
 
-## Family pins (GPS drops)
-Curated places stay in `data/places.json`. Pins the family adds are **not** written there — they live in
-`localStorage` on that phone. They work offline. Sharing between phones is not wired up yet (planned as a
-small Fly.io API).
+## Family pins
+Curated places stay in `data/places.json`. Family pins are **not** written there — they live in
+`localStorage` on each phone and sync through `POST /api/pins` when online (last `updatedAt` wins;
+removes are soft-deletes). Offline, they still save on that phone and push when there's a signal.
+
+**Add pin** offers **I'm here** (GPS), **paste** (Google/Apple Maps share, `geo:`, coordinates, or an
+Irish Eircode), or press-and-hold on the map. Short Google links (`maps.app.goo.gl/…`) are followed
+on the server. Eircodes are looked up on OpenStreetMap (only if that code is mapped). A pin within ~50 m of an existing one offers to
+open that pin instead.
+
+The trip code is `clewbay2026` (header `X-Trip-Code`; override on the server with `NN_TRIP_CODE`).
+Anyone with the family URL and that code can add and see pins. No photos or chat.
 
 **Getting an update onto a phone:** open the home-screen icon **on Wi-Fi** and tap **Get latest** in the header. That unregisters the service worker, clears the cache, and reloads from the network. You do not need to delete website data. (The app also refreshes its cache in the background when online; **Get latest** is the immediate / stuck-stale button.)
 
@@ -82,13 +89,13 @@ Live at **[https://newport-navigator.fly.dev/](https://newport-navigator.fly.dev
 fly deploy
 ```
 
-Then tap **Get latest** on any phone that already has the icon. This is a static PWA (no pin-sharing API yet).
+Then tap **Get latest** on any phone that already has the icon.
 
 ## Roadmap
 - Fill in the expandable pin fields (hours, photos, longer write-ups) — content task.
 - Optional: de-cluster the Westport town pins into an expandable group.
 - Optional: a day-by-day itinerary view.
 - Optional: directions between two selected pins.
-- Shared family pins via a Fly.io API.
+- Optional: Android share-target so a Maps share opens Add pin directly.
 
 Built for the Lime Kiln House trip. Map data © OpenStreetMap contributors (positions); illustration is original.

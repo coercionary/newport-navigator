@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="mode-drive">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"/>
@@ -19,12 +19,20 @@
   #topbar{flex:0 0 auto;z-index:70;position:relative;}
   header{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;box-shadow:0 2px 10px rgba(0,0,0,.18);}
   .headrow{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-  header h1{margin:0;font-size:16px;display:flex;align-items:center;gap:8px;}
-  header p{margin:3px 0 0;font-size:12px;opacity:.92;}
-  .upd{background:none;border:none;color:#fff;font:inherit;font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;margin:0;}
-  .addbtn{flex:0 0 auto;background:#fff;color:#0f766e;border:none;border-radius:999px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;}
-  .headbtns{display:flex;align-items:center;gap:6px;flex:0 0 auto;}
-  .addbtn.alt{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.75);}
+  header h1{margin:0;font-size:17px;display:flex;align-items:center;gap:8px;}
+  .headbtns{display:flex;align-items:center;gap:4px;flex:0 0 auto;}
+  .iconbtn{width:40px;height:40px;padding:0;border:none;border-radius:10px;background:transparent;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .iconbtn:active{background:rgba(255,255,255,.18);}
+  .iconbtn svg{width:22px;height:22px;display:block;}
+  .iconbtn.primary{background:#fff;color:#0f766e;}
+  .iconbtn.primary:active{background:#e6fffb;}
+  #findwrap{padding:8px 12px 4px;background:#faf7f0;}
+  #qfind{width:100%;border:1.5px solid #c4bba8;border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;color:#243;background:#fff;}
+  #qfind:focus{outline:none;border-color:#0f766e;box-shadow:0 0 0 3px rgba(15,118,110,.18);}
+  #searchview{display:none;padding:4px 12px 4px;background:#faf7f0;}
+  #searchview.show{display:flex;}
+  #searchview .modebtn[aria-pressed="true"],.viewtoggle .modebtn[aria-pressed="true"]{background:#0f766e;border-color:#0f766e;color:#fff;}
+  .viewtoggle{display:flex;margin:8px 0 10px;}
   #modewrap{display:flex;padding:8px 12px 4px;background:#faf7f0;}
   .modebtn{flex:1;border:1.5px solid #c4bba8;background:#fff;color:#4b5563;padding:7px 6px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.2;}
   .modebtn + .modebtn{border-left-width:0;}
@@ -34,26 +42,15 @@
   .modebtn[data-mode="drive"][aria-pressed="true"]{background:#1d4ed8;border-color:#1d4ed8;}
   .modebtn[data-mode="bike"][aria-pressed="true"]{background:#14532d;border-color:#14532d;}
   .modebtn[data-mode="walk"][aria-pressed="true"]{background:#a16207;border-color:#a16207;}
-  #filterwrap{display:flex;align-items:center;gap:8px;padding:6px 12px;background:#faf7f0;border-bottom:1px solid #e7e2d6;min-height:40px;}
-  .filterbtn{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;border:1.5px solid #0f766e;background:#0f766e;color:#fff;border-radius:8px;padding:6px 10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;}
-  .filterbtn[aria-expanded="true"]{background:#115e59;}
-  #filtersummary{display:flex;flex-wrap:wrap;gap:4px;align-items:center;min-width:0;flex:1;max-height:2.6em;overflow:hidden;}
-  #filtersummary .mini{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;line-height:1.3;}
-  #filtersummary .mini.star{background:#f59e0b;color:#fff;}
-  #filtersummary .mini.muted{background:#e7e2d6;color:#6b7280;}
-  #filterscrim{display:none;position:fixed;inset:0;z-index:55;background:rgba(15,30,28,.28);}
-  #filterscrim.show{display:block;}
-  #filtermenu{display:none;position:absolute;left:8px;right:8px;top:100%;z-index:60;background:#fff;border-radius:0 0 12px 12px;box-shadow:0 10px 28px rgba(0,0,0,.2);padding:8px 10px 12px;max-height:min(62dvh,420px);overflow-y:auto;}
-  #filtermenu.show{display:block;}
-  .frow{display:flex;align-items:center;gap:10px;width:100%;border:none;background:#fff;padding:10px 8px;border-radius:8px;font:inherit;font-size:14px;font-weight:600;color:#243;cursor:pointer;text-align:left;}
-  .frow:active{background:#f3f4f6;}
-  .fcheck{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:13px;color:#fff;background:#fff;}
-  .frow[aria-pressed="true"] .fcheck{background:#0f766e;border-color:#0f766e;}
-  .frow.star[aria-pressed="true"] .fcheck{background:#f59e0b;border-color:#f59e0b;}
-  .fdot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
-  .fsep{height:1px;background:#e7e2d6;margin:4px 8px;}
-  .factions{display:flex;gap:8px;padding:8px 8px 0;}
-  .factions .cbtn{flex:1;text-align:center;}
+  .chiprow{display:flex;flex-wrap:wrap;gap:6px;padding:4px 12px 8px;background:#faf7f0;}
+  #catwrap{border-bottom:1px solid #e7e2d6;padding-bottom:8px;}
+  .chip{border:1.5px solid #c4bba8;background:#fff;color:#374151;border-radius:999px;padding:8px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;}
+  .chip[aria-pressed="true"]{background:var(--chip,#0f766e);border-color:var(--chip,#0f766e);color:#fff;}
+  html.mode-bike .chiprow, html.mode-walk .chiprow{display:none;}
+  #towns{position:absolute;inset:0;z-index:4;pointer-events:none;}
+  .townmark{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;touch-action:manipulation;z-index:7;border:none;background:none;padding:0;font:inherit;}
+  .townmark .tlab{display:block;font-size:15px;font-weight:800;color:#0f766e;background:rgba(255,252,245,.96);border:1.5px solid #0f766e;padding:7px 12px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.18);white-space:nowrap;}
+  .townmark[aria-pressed="true"] .tlab{background:#0f766e;color:#fff;}
   #stage{flex:1 1 auto;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;background:#d4cbb3;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
   #mapfit{position:absolute;inset:0;overflow:hidden;--pin-scale:1;--lbl-opacity:1;--town-opacity:0;--pin-screen:1;--pin-labels:0;--lastmile-opacity:0;}
   #mapfit svg{display:block;width:100%;height:100%;}
@@ -61,10 +58,24 @@
   #mapzoom button{width:36px;height:36px;border:none;border-radius:8px;background:#fff;color:#0f766e;font-size:20px;font-weight:700;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.22);cursor:pointer;font-family:inherit;}
   #mapzoom button:disabled{opacity:.35;cursor:default;}
   #pins{position:absolute;inset:0;z-index:2;}
-  #yarn,#leads{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible;}
+  #clusters{position:absolute;inset:0;z-index:3;pointer-events:none;}
+  .cluster{position:absolute;transform:translate(-50%,-100%);pointer-events:auto;cursor:pointer;touch-action:manipulation;z-index:7;}
+  .cluster .cbadge{min-width:44px;height:44px;padding:0 10px;border-radius:999px;background:#0f766e;color:#fff;font-weight:800;font-size:18px;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;}
+  .cluster .plab{left:50%;top:100%;transform:translate(-50%,6px);opacity:1;pointer-events:none;font-size:13px;}
+  .clist{display:flex;flex-direction:column;gap:6px;margin:2px 0 0;}
+  .clist-sec{margin:14px 0 6px;font-size:13px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#0f766e;}
+  .clist-sec:first-child{margin-top:4px;}
+  .crow{display:block;width:100%;border:1px solid #e7e2d6;background:#fff;padding:12px 12px;border-radius:12px;font:inherit;text-align:left;cursor:pointer;}
+  .crow:active,.crow:hover{background:#f8faf9;border-color:#c5ddd8;}
+  .crow-name{display:block;font-size:17px;font-weight:700;color:#243;line-height:1.25;}
+  .crow-desc{display:block;margin-top:4px;font-size:14.5px;font-weight:500;color:#4b5563;line-height:1.4;}
+  .crow-host{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:700;color:#b45309;}
+  .cmeta{font-size:12px;color:#6b7280;margin-left:auto;}
+  #yarn,#leads,#leaddots{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible;}
   #yarn path{fill:none;stroke:#a21caf;stroke-width:1.1;stroke-linecap:round;stroke-dasharray:2.2 1.8;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));}
-  #leads path{fill:none;stroke:#5b4e34;stroke-width:0.45;stroke-linecap:round;opacity:.7;}
-  #leads circle{fill:#5b4e34;stroke:#fff;stroke-width:0.22;}
+  #leads path.lead-halo{fill:none;stroke:#fff;stroke-width:1.55;stroke-linecap:round;opacity:.92;}
+  #leads path.lead{fill:none;stroke:#2563eb;stroke-width:0.72;stroke-linecap:round;opacity:.95;}
+  .leaddot{position:absolute;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#2563eb;border:2px solid #fff;box-shadow:0 0 0 1px rgba(37,99,235,.45),0 1px 3px rgba(0,0,0,.28);pointer-events:none;}
   #yarn path.draw{animation:yarnin .4s ease-out;}
   @keyframes yarnin{from{opacity:0}to{opacity:1}}
   .pin.picked .bub{box-shadow:0 0 0 3px #fff,0 0 0 6px #a21caf,0 2px 5px rgba(0,0,0,.35);}
@@ -78,11 +89,13 @@
   .pin{position:absolute;transform:translate(-50%,-100%) scale(var(--pin-screen,1));transform-origin:50% 100%;cursor:pointer;touch-action:manipulation;}
   .pin .bub{width:28px;height:28px;border-radius:50% 50% 50% 3px;transform:rotate(45deg);border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;}
   .pin .bub span{transform:rotate(-45deg);font-size:13px;line-height:1;}
+  .pin.revealed{z-index:8;}
+  .pin.revealed .plab{opacity:1 !important;}
   .pin.home-pin{z-index:6;}
   .pin.home-pin .bub{width:36px;height:36px;}
   .pin.home-pin .bub span{font-size:17px;}
   .pin .st{position:absolute;top:-6px;right:-7px;width:14px;height:14px;border-radius:50%;background:#f59e0b;color:#fff;font-size:9px;line-height:14px;text-align:center;border:1.5px solid #fff;}
-  .pin .plab{position:absolute;font-size:11px;font-weight:700;color:#243;background:rgba(255,252,245,.96);border:1px solid rgba(91,78,52,.2);padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;opacity:var(--pin-labels,0);box-shadow:0 1px 2px rgba(0,0,0,.12);line-height:1.2;}
+  .pin .plab,.cluster .plab{position:absolute;font-size:11px;font-weight:700;color:#243;background:rgba(255,252,245,.96);border:1px solid rgba(91,78,52,.2);padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;opacity:var(--pin-labels,0);box-shadow:0 1px 2px rgba(0,0,0,.12);line-height:1.2;}
   #mapfit.show-pin-labels .pin .plab{pointer-events:auto;cursor:pointer;}
   .pin.lab-s .plab{left:50%;top:100%;transform:translate(-50%,5px) scale(calc(1 / var(--pin-screen,1)));transform-origin:50% 0;}
   .pin.lab-n .plab{left:50%;top:0;transform:translate(-50%,calc(-100% - 8px)) scale(calc(1 / var(--pin-screen,1)));transform-origin:50% 100%;}
@@ -94,9 +107,17 @@
   .pin.lab-sw .plab{left:0;top:100%;transform:translate(calc(-100% - 5px),4px) scale(calc(1 / var(--pin-screen,1)));transform-origin:100% 0;}
   .note{flex:0 0 auto;padding:8px 14px calc(8px + env(safe-area-inset-bottom));font-size:12px;color:#556;background:#faf7f0;border-top:1px solid #e7e2d6;max-height:4.8em;overflow-y:auto;}
   .note b{color:#243;}
-  #card{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.22);padding:14px 16px calc(env(safe-area-inset-bottom) + 18px);transform:translateY(115%);transition:transform .25s;max-height:min(78dvh,640px);overflow-y:auto;}
+  #card{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.22);padding:0 16px calc(env(safe-area-inset-bottom) + 18px);transform:translateY(115%);transition:transform .25s;max-height:min(78dvh,640px);overflow:hidden;display:flex;flex-direction:column;}
   #card.open{transform:translateY(0);}
-  #card .x{position:absolute;top:10px;right:12px;font-size:20px;color:#889;cursor:pointer;line-height:1;}
+  #card.no-anim{transition:none;}
+  #card.journey{max-height:50dvh;}
+  #card.dragging{transition:none;}
+  .csheet{flex:0 0 auto;display:flex;align-items:center;justify-content:center;padding:10px 0 8px;cursor:grab;touch-action:none;}
+  .csheet i{display:block;width:40px;height:5px;border-radius:999px;background:#d1d5db;}
+  #cardbody{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  #card.journey #cardbody{overflow:hidden;display:flex;flex-direction:column;}
+  #card.journey #cardbody .irishbox{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  #card .x{position:absolute;top:8px;right:12px;z-index:2;font-size:20px;color:#889;cursor:pointer;line-height:1;}
   .ct{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
   .ctag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#fff;padding:2px 8px;border-radius:999px;}
   .chost{background:#fde68a;color:#7c5c00;}
@@ -112,6 +133,12 @@
   .cedit,.ccancel{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;}
   .cdel{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;}
   .csave{background:#0f766e;color:#fff;cursor:pointer;}
+  .cbtn.wide{flex:1 1 100%;text-align:center;padding:12px 14px;font-size:14px;}
+  .cbtn.cprimary{background:#0f766e;color:#fff;}
+  .cbtn.csecondary{background:#fff;color:#0f766e;border:1.5px solid #0f766e;}
+  .cbtn:disabled{opacity:.55;cursor:default;}
+  .csub{display:block;font-weight:500;font-size:12px;opacity:.88;margin-top:3px;}
+  .chint{margin:12px 0 0;font-size:12.5px;color:#6b7280;line-height:1.45;}
   .cirish{background:#14532d;color:#fef9c3;border:none;}
   .irishbox{margin:10px 0 0;padding:10px 12px;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0;}
   .irishbox p{margin:0 0 8px;font-size:14px;line-height:1.45;color:#14532d;}
@@ -119,24 +146,10 @@
   .irishbox .who{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#166534;margin:0 0 8px;}
   .field{margin:0 0 10px;}
   .field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#6b7280;margin-bottom:4px;}
-  .field input,.field textarea{width:100%;border:1.5px solid #d8d2c4;border-radius:8px;padding:8px 10px;font:inherit;font-size:14px;color:#243;background:#fff;}
+  .field input,.field textarea,.field select{width:100%;border:1.5px solid #d8d2c4;border-radius:8px;padding:8px 10px;font:inherit;font-size:14px;color:#243;background:#fff;}
   .field textarea{min-height:72px;resize:vertical;}
   #toast{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:200;background:#1f2937;color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;}
   #toast.show{display:block;}
-  #people{display:none;position:fixed;inset:0;z-index:85;background:#faf7f0;overflow-y:auto;padding:calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 24px);}
-  #people.show{display:block;}
-  .peoplehead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
-  .peoplehead h2{margin:0;font-size:18px;}
-  .psec{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#6b7280;margin:16px 0 8px;}
-  .person{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #e7e2d6;border-radius:12px;padding:12px;margin-bottom:8px;}
-  .pphoto{width:64px;height:64px;border-radius:50%;object-fit:cover;background:#e7e2d6;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-weight:700;color:#6b7280;font-size:18px;overflow:hidden;}
-  .pphoto img{width:100%;height:100%;object-fit:cover;}
-  .pbody{min-width:0;flex:1;}
-  .pname{font-size:16px;font-weight:700;margin:0 0 2px;}
-  .prole{font-size:12px;color:#6b7280;margin:0 0 6px;}
-  .pbio{font-size:13.5px;line-height:1.45;color:#374151;margin:0 0 8px;}
-  .pact{display:flex;flex-wrap:wrap;gap:6px;}
-  .phint{font-size:13px;color:#6b7280;margin:4px 0 12px;}
   .lastmile .who,#lastmile .who{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#c2410c;margin:0 0 8px;}
   #lastmile p,.lastmile p{margin:0 0 8px;font-size:13.5px;line-height:1.45;color:#7c2d12;}
   #lastmile p:last-child,.lastmile p:last-child{margin:0;}
@@ -168,14 +181,9 @@
   .walkloops p{margin:0 0 6px;font-size:13px;line-height:1.4;color:#7c4a03;}
   .walkloops p:last-child{margin:0;}
   .walkloops .who{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#a16207;margin:0 0 8px;}
-  .photopick{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-  .photopick input[type=file]{font-size:12px;}
   #loading{padding:40px 20px;text-align:center;color:#889;}
   @media (max-width:400px){
     header h1{font-size:15px;}
-    header p{font-size:11px;}
-    .addbtn{padding:7px 10px;font-size:12px;}
-    #homebtn .home-lbl{display:none;}
     .modebtn{font-size:12px;padding:7px 4px;}
   }
 </style>
@@ -185,28 +193,35 @@
 <header>
   <div class="headrow">
     <div>
-      <h1>🧭 Newport Navigator</h1>
-      <p>Lime Kiln House · Clew Bay · <button type="button" class="upd" id="getlatest">Get latest</button></p>
+      <h1>☘️ Newport Navigator ☘️</h1>
     </div>
     <div class="headbtns">
-      <button type="button" class="addbtn alt" id="homebtn" aria-label="Go to Lime Kiln House">🏡 <span class="home-lbl">Home</span></button>
-      <button type="button" class="addbtn alt" id="peoplebtn">Contacts</button>
-      <button type="button" class="addbtn" id="addpin">📍 Add pin</button>
+      <button type="button" class="iconbtn" id="getlatest" aria-label="Get latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.4-6.1"/><path d="M21 3v6h-6"/></svg>
+      </button>
+      <button type="button" class="iconbtn" id="homebtn" aria-label="Home — show the house">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5"/><path d="M6.5 10.5V20h11V10.5"/></svg>
+      </button>
+      <button type="button" class="iconbtn primary" id="addpin" aria-label="Add pin">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+      </button>
     </div>
   </div>
 </header>
+<div id="findwrap">
+  <input id="qfind" type="search" placeholder="Find a place — Savoir Fare, Westport, near the house…" autocomplete="off" enterkeyhint="search" aria-label="Find a place"/>
+</div>
+<div id="searchview" role="radiogroup" aria-label="List or map">
+  <button type="button" class="modebtn" data-sview="list" aria-pressed="true">List</button>
+  <button type="button" class="modebtn" data-sview="map" aria-pressed="false">Map</button>
+</div>
 <div id="modewrap" role="radiogroup" aria-label="How you're getting around">
   <button type="button" class="modebtn" data-mode="drive" aria-pressed="true">🚗 Drive</button>
   <button type="button" class="modebtn" data-mode="bike" aria-pressed="false">🚴 Bikes</button>
   <button type="button" class="modebtn" data-mode="walk" aria-pressed="false">🚶 Walks</button>
 </div>
-<div id="filterwrap">
-  <button type="button" class="filterbtn" id="filterbtn" aria-expanded="false" aria-controls="filtermenu">Filters</button>
-  <div id="filtersummary"></div>
+<div id="catwrap" class="chiprow" role="group" aria-label="What"></div>
 </div>
-<div id="filtermenu" role="dialog" aria-label="Filters"></div>
-</div>
-<div id="filterscrim"></div>
 
 <div id="stage">
   <div id="mapfit" class="drive-mode">
@@ -559,7 +574,10 @@
   </svg>
   <svg id="yarn" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path id="yarnpath" d=""/></svg>
   <svg id="leads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <div id="leaddots"></div>
   <div id="pins"></div>
+  <div id="clusters"></div>
+  <div id="towns"></div>
   </div>
   <div id="mapzoom">
     <button type="button" id="zoomin" aria-label="Zoom in">+</button>
@@ -568,15 +586,14 @@
 </div>
 <div class="note" id="offmap"><span id="loading">Loading places…</span></div>
 
-<div id="card"><div class="x" onclick="closeCard()">&times;</div><div id="cardbody"></div><div id="lastmile"><button type="button" class="x" id="lastmilex" aria-label="Close last mile">&times;</button><div id="lastmilebody"></div></div></div>
-<div id="people"></div>
+<div id="card"><div class="csheet" id="cardsheet" aria-label="Drag to resize"><i></i></div><div class="x" onclick="closeCard()">&times;</div><div id="cardbody"></div><div id="lastmile"><button type="button" class="x" id="lastmilex" aria-label="Close last mile">&times;</button><div id="lastmilebody"></div></div></div>
 <div id="toast"></div>
 
 <script src="family-sync.js"></script>
 <script>
 // Visual style per category (labels + places come from data/places.json)
-const STYLE={home:{color:"#e11d48"},food:{color:"#ea580c"},shop:{color:"#16a34a"},beach:{color:"#0284c7"},do:{color:"#7c3aed"},golf:{color:"#0d9488"},family:{color:"#db2777"}};
-const CAT_EMOJI={home:"🏡",food:"🍽️",shop:"🛒",beach:"🏖️",do:"🎡",golf:"⛳",family:"📍"};
+const STYLE={home:{color:"#e11d48"},food:{color:"#ea580c"},shop:{color:"#16a34a"},beach:{color:"#0284c7"},do:{color:"#7c3aed"},golf:{color:"#0d9488"},landmarks:{color:"#78716c"},family:{color:"#db2777"}};
+const CAT_EMOJI={home:"🏡",food:"🍽️",shop:"🛒",beach:"🏖️",do:"🎡",golf:"⛳",landmarks:"🗿",family:"📍"};
 // projection MUST match the basemap generator
 const W=1100, H=1545.0, lngMin=-10.35, lngMax=-8.95, latMin=53.2, latMax=54.36;
 const pxPerDegLng=W/(lngMax-lngMin), pxPerDegLat=H/(latMax-latMin);
@@ -602,15 +619,41 @@ if(window.visualViewport) visualViewport.addEventListener('resize', fitMap);
 window.addEventListener('orientationchange', ()=>setTimeout(fitMap, 250));
 function fitSoon(){ fitMap(); requestAnimationFrame(fitMap); setTimeout(fitMap, 50); setTimeout(fitMap, 300); }
 
-let CATS={}, CURATED=[], PLACES=[], IRISH={}, active=new Set(), hostOnly=false;
-let showPinLabels=localStorage.getItem('nn-pin-labels')!=='0';
+let CATS={}, CURATED=[], PLACES=[], IRISH={};
+let showPinLabels=true;
 let mode='drive', GREENWAY={samples:[]};
-let HOME=null, HOST=null;
-const LS_PARTY='nn-party';
+let catFilter=null, areaFilter=null, searchQ='';
+let listKind=null, lastListPlaces=null, lastListTitle='';
+let resultView='list';
+let spiderOpen=null;
+const TOWNS=[
+  {id:'newport', name:'Newport', lat:53.8869, lng:-9.5453},
+  {id:'westport', name:'Westport', lat:53.8007, lng:-9.5355},
+  {id:'mulranny', name:'Mulranny', lat:53.906, lng:-9.777},
+  {id:'achill', name:'Achill', lat:53.93145, lng:-9.92425, aliases:['achill sound','achill island']},
+  {id:'louisburgh', name:'Louisburgh', lat:53.762, lng:-9.770},
+  {id:'murrisk', name:'Murrisk', lat:53.76, lng:-9.658, aliases:['reek','croagh patrick']}
+];
+const SEARCH_AREAS=[
+  {id:'here', label:'Near the house', aliases:['near the house','near house','around here','nearby','from the house']},
+  {id:'to-achill', label:'On the way to Achill', aliases:['on the way to achill','to achill','towards achill','toward achill']}
+];
+const CAT_CHIPS=[
+  {id:'beach', label:'Beaches'},
+  {id:'food', label:'Food'},
+  {id:'shop', label:'Shops'},
+  {id:'do', label:'To do'},
+  {id:'landmarks', label:'Landmarks'},
+  {id:'golf', label:'Golf'}
+];
+const PIN_CATS=CAT_CHIPS.concat([{id:'family', label:'Our pins'}]);
+const AREA_CORRIDOR={ 'to-achill':['here','mulranny','achill'] };
+let HOME=null;
 const pinsEl=document.getElementById('pins'), offEl=document.getElementById('offmap');
 let pinNodes=[];
 let picked=[];
 let irishLit=new Set();
+let revealedId=null;
 const IRISH_FROM={};
 const toastEl=document.getElementById('toast');
 let toastTimer=null;
@@ -622,10 +665,58 @@ function toast(msg){
 }
 function hideToast(){ clearTimeout(toastTimer); toastEl.classList.remove('show'); }
 
-function loadParty(){
-  try { return JSON.parse(localStorage.getItem(LS_PARTY)||'[]'); } catch { return []; }
+function placeArea(p){
+  if(!p) return 'other';
+  if(p.id==='lime-kiln-house') return 'here';
+  const s=(p.id+' '+p.name).toLowerCase();
+  if(/derrada|shore-walk|western-way|burrishoole/.test(s)) return 'here';
+  if(/achill|keel|doogort|keem|kildavnet/.test(s)) return 'achill';
+  if(/mulranny|rosturk|tiernaur|nevin/.test(s)) return 'mulranny';
+  if(/louisburgh|killeen|kiladoon|carrowniskey|old-head|old head|roonagh|doolough/.test(s)) return 'louisburgh';
+  if(/murrisk|croagh|bertra/.test(s)) return 'murrisk';
+  if(/castlebar|museum-of-country|ballintubber/.test(s)) return 'castlebar';
+  if(/galway/.test(s)) return 'galway';
+  if(/carne|belmullet|enniscrone/.test(s)) return 'north';
+  if(/westport|kilmeena|rosbeg|sheebeen|shebeen|pirate-adventure/.test(s)) return 'westport';
+  if(/newport|darragh|clew-bay-fishing/.test(s)) return 'newport';
+  return 'other';
 }
-function saveParty(list){ localStorage.setItem(LS_PARTY, JSON.stringify(list)); }
+function inArea(p, key){
+  const area=placeArea(p);
+  const corridor=AREA_CORRIDOR[key];
+  if(corridor) return corridor.includes(area);
+  return area===key;
+}
+function driveListed(p){
+  if(!p || p.id==='lime-kiln-house') return false;
+  if(p.bike==='stop' && p.id!=='great-western-greenway-newport') return false;
+  return true;
+}
+function placesInArea(key){
+  return PLACES.filter(p=>driveListed(p) && inArea(p, key));
+}
+function showOverview(){
+  const house=PLACES.find(p=>p.id==='lime-kiln-house');
+  const pts=TOWNS.map(t=>({lat:t.lat, lng:t.lng}));
+  if(house) pts.unshift(house);
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      if(window.MapNav && pts.length) MapNav.fitPoints(pts);
+    });
+  });
+}
+function syncModeClass(){
+  document.documentElement.classList.toggle('mode-drive', mode==='drive');
+  document.documentElement.classList.toggle('mode-bike', mode==='bike');
+  document.documentElement.classList.toggle('mode-walk', mode==='walk');
+}
+function clearSearchBox(){
+  searchQ='';
+  resultView='list';
+  const inp=document.getElementById('qfind');
+  if(inp && inp.value) inp.value='';
+}
+
 function lastMileSteps(fromWest){
   return (HOME&&(fromWest?HOME.approachFromWest:HOME.approach))||[];
 }
@@ -679,154 +770,44 @@ function bindLastMile(fromWest){
   const btn=document.getElementById('lastmilebtn');
   if(btn) btn.onclick=()=>openLastMile(!!fromWest);
 }
-function initials(name){
-  return String(name||'?').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('')||'?';
-}
-function photoEl(person){
-  if(person.photo) return `<div class="pphoto"><img src="${person.photo}" alt=""></div>`;
-  return `<div class="pphoto">${esc(initials(person.name))}</div>`;
-}
-function telHref(t){ return 'tel:'+String(t||'').replace(/[^\d+]/g,''); }
-function closePeople(){
-  document.getElementById('people').classList.remove('show');
-}
-function compressPhoto(file){
-  return new Promise((resolve,reject)=>{
-    const img=new Image();
-    const url=URL.createObjectURL(file);
-    img.onload=()=>{
-      const max=480;
-      const s=Math.min(1, max/Math.max(img.width,img.height));
-      const c=document.createElement('canvas');
-      c.width=Math.max(1,Math.round(img.width*s));
-      c.height=Math.max(1,Math.round(img.height*s));
-      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      URL.revokeObjectURL(url);
-      resolve(c.toDataURL('image/jpeg',0.82));
-    };
-    img.onerror=()=>{ URL.revokeObjectURL(url); reject(new Error('photo')); };
-    img.src=url;
-  });
-}
-function renderPersonCard(person, opts){
-  const call=person.tel?`<a class="cbtn ccall" href="${telHref(person.tel)}">Call${person.telDisplay?' '+esc(person.telDisplay):''}</a>`:'';
-  const edit=opts&&opts.edit?`<button type="button" class="cbtn cedit" data-edit="${esc(person.id)}">Edit</button>`:'';
-  const hostPic=opts&&opts.hostPhoto?`<button type="button" class="cbtn cedit" id="hostpicbtn">${person.photo?'Change photo':'Add photo'}</button><input type="file" id="hostpic" accept="image/*" hidden>`:'';
-  return `<article class="person">${photoEl(person)}<div class="pbody">`+
-    `<p class="pname">${esc(person.name)}</p>`+
-    `<p class="prole">${esc(person.role||'Party')}</p>`+
-    (person.bio?`<p class="pbio">${esc(person.bio)}</p>`:'')+
-    `<div class="pact">${call}${edit}${hostPic}</div></div></article>`;
-}
-function openPeople(){
-  closeFilterMenu();
-  closeCard();
-  paintPeople();
-  document.getElementById('people').classList.add('show');
-}
-function paintPeople(editingId){
-  const el=document.getElementById('people');
-  const party=loadParty();
-  const hostPhoto=localStorage.getItem('nn-host-photo')||'';
-  const host=HOST?Object.assign({}, HOST, hostPhoto?{photo:hostPhoto}:{}):null;
-  if(editingId){
-    const p=editingId==='new'?{id:'new',name:'',tel:'',bio:'',photo:''}:party.find(x=>x.id===editingId);
-    if(!p){ paintPeople(); return; }
-    el.innerHTML=
-      `<div class="peoplehead"><h2>${p.id==='new'?'Add someone':'Edit'}</h2><button type="button" class="cbtn ccancel" id="peopledone">Cancel</button></div>`+
-      `<form id="personform">`+
-        `<div class="photopick">${photoEl(p)}<input type="file" id="ppic" accept="image/*"></div>`+
-        `<div class="field"><label for="pname">Name</label><input id="pname" required maxlength="79" value="${esc(p.name)}"></div>`+
-        `<div class="field"><label for="ptel">Phone</label><input id="ptel" type="tel" maxlength="40" value="${esc(p.tel||'')}" placeholder="+353 …"></div>`+
-        `<div class="field"><label for="pbio">Short bio</label><textarea id="pbio" maxlength="400" placeholder="Anything the others should know">${esc(p.bio||'')}</textarea></div>`+
-        `<div class="cact"><button type="submit" class="cbtn csave">Save</button>`+
-        (p.id!=='new'?`<button type="button" class="cbtn cdel" id="pdel">Remove</button>`:'')+
-        `</div></form>`;
-    let photo=p.photo||'';
-    document.getElementById('ppic').onchange=async ev=>{
-      const f=ev.target.files&&ev.target.files[0];
-      if(!f) return;
-      try{
-        photo=await compressPhoto(f);
-        ev.target.parentElement.querySelector('.pphoto').outerHTML=photoEl({photo,name:document.getElementById('pname').value});
-      }catch(e){ toast('Could not read that photo.'); }
-    };
-    document.getElementById('personform').onsubmit=e=>{
-      e.preventDefault();
-      const next=loadParty();
-      const rec={
-        id:p.id==='new'?'p-'+Date.now():p.id,
-        name:document.getElementById('pname').value.trim(),
-        tel:document.getElementById('ptel').value.trim(),
-        bio:document.getElementById('pbio').value.trim(),
-        photo, role:'Party'
-      };
-      if(!rec.name) return;
-      if(p.id==='new') next.push(rec);
-      else{
-        const i=next.findIndex(x=>x.id===p.id);
-        if(i>=0) next[i]=rec;
-      }
-      saveParty(next);
-      paintPeople();
-    };
-    document.getElementById('peopledone').onclick=()=>paintPeople();
-    const del=document.getElementById('pdel');
-    if(del) del.onclick=()=>{
-      saveParty(loadParty().filter(x=>x.id!==p.id));
-      paintPeople();
-    };
-    return;
-  }
-  el.innerHTML=
-    `<div class="peoplehead"><h2>Contacts</h2><button type="button" class="cbtn csave" id="peopledone">Done</button></div>`+
-    `<p class="psec">Host</p>`+
-    (host?renderPersonCard(host,{hostPhoto:true}):`<p class="phint">Host details will appear here.</p>`)+
-    `<p class="psec">Our party</p>`+
-    (party.length?party.map(p=>renderPersonCard(p,{edit:true})).join(''):`<p class="phint">Add each of us with a photo, a number, and a line about who we are.</p>`)+
-    `<button type="button" class="cbtn csave" id="padd">Add someone</button>`;
-  document.getElementById('peopledone').onclick=closePeople;
-  document.getElementById('padd').onclick=()=>paintPeople('new');
-  el.querySelectorAll('[data-edit]').forEach(b=>{
-    b.onclick=()=>paintPeople(b.getAttribute('data-edit'));
-  });
-  const hostBtn=document.getElementById('hostpicbtn');
-  const hostFile=document.getElementById('hostpic');
-  if(hostBtn&&hostFile){
-    hostBtn.onclick=()=>hostFile.click();
-    hostFile.onchange=async ev=>{
-      const f=ev.target.files&&ev.target.files[0];
-      if(!f) return;
-      try{
-        localStorage.setItem('nn-host-photo', await compressPhoto(f));
-        paintPeople();
-      }catch(e){ toast('Could not read that photo.'); }
-    };
-  }
-}
 
 function visibleFamily(){
-  return FamilySync.loadPins().filter(p=>p && !p.deleted);
+  let pins=[];
+  try { pins=(window.FamilySync && FamilySync.loadPins()) || []; } catch(err){ pins=[]; }
+  return (Array.isArray(pins)?pins:[]).filter(p=>p && !p.deleted);
 }
+function isFamilyPin(p){
+  return !!(p && visibleFamily().some(x=>x.id===p.id));
+}
+let didOverview=false;
 function assemble(){
-  PLACES=CURATED.concat(visibleFamily());
+  PLACES=(Array.isArray(CURATED)?CURATED:[]).concat(visibleFamily());
   PLACES.forEach(p=>{
     const [x,y]=proj(p.lng,p.lat);
     p._off=(x<8||x>W-8||y<8||y>H-8);
   });
-  renderPins(); fitSoon();
+  renderPins();
+  if(!didOverview){ didOverview=true; showOverview(); }
+}
+
+function readJson(url){
+  return fetch(url, {cache:'no-cache'}).then(async r=>{
+    const text=await r.text();
+    if(!r.ok) throw new Error(url+' returned '+r.status);
+    try { return JSON.parse(text); }
+    catch(err){ throw new Error(url.replace(/^.*\//,'')+' is not valid JSON'); }
+  });
 }
 
 Promise.all([
-  fetch('data/places.json').then(r=>r.json()),
-  fetch('data/irish-directions.json').then(r=>r.json()).catch(()=>({journeys:[]})),
-  fetch('data/contacts.json').then(r=>r.json()).catch(()=>({})),
-  fetch('data/greenway.json').then(r=>r.json()).catch(()=>({samples:[]}))
-]).then(([data, irish, contacts, gw])=>{
+  readJson('data/places.json'),
+  readJson('data/irish-directions.json').catch(()=>({journeys:[]})),
+  readJson('data/greenway.json').catch(()=>({samples:[]}))
+]).then(([data, irish, gw])=>{
+  if(!data || !Array.isArray(data.places)) throw new Error('places.json has no places list');
   CATS=Object.assign({}, data.categories, {family:'Our pins'});
-  CURATED=data.places; active=new Set(Object.keys(CATS));
+  CURATED=data.places;
   HOME=data.meta&&data.meta.home||null;
-  HOST=contacts.host||null;
   GREENWAY=gw||{samples:[]};
   IRISH={};
   (irish.journeys||[]).forEach(j=>{
@@ -835,35 +816,174 @@ Promise.all([
     if(!IRISH_FROM[j.from].includes(j.to)) IRISH_FROM[j.from].push(j.to);
   });
   buildFilters(); assemble();
-}).catch(e=>{ offEl.innerHTML='<b>Could not load places.</b> This app needs to be opened from a web server (see README), not a file:// path.'; });
+  FamilySync.sync().then(changed=>{ if(changed) assemble(); }).catch(()=>{});
+}).catch(e=>{
+  console.error(e);
+  offEl.innerHTML=location.protocol==='file:'
+    ? '<b>Could not load places.</b> This app needs to be opened from a web server (see README), not a file:// path.'
+    : '<b>Could not load places.</b> '+esc(e && e.message || e)+'. Tap Get latest, then refresh.';
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState!=='visible') return;
+  FamilySync.sync().then(changed=>{ if(changed) assemble(); });
+});
+window.addEventListener('online',()=>{
+  FamilySync.sync().then(changed=>{ if(changed) assemble(); });
+});
 
 function placePinEl(el,x,y){
   if(window.MapNav){
     const pct=MapNav.pinPct(x,y);
     el.style.left=pct.left; el.style.top=pct.top;
     const l=parseFloat(pct.left), t=parseFloat(pct.top);
-    el.style.display=(el._hidden||l<-12||l>112||t<-12||t>112)?'none':'block';
+    el.style.display=(el._hidden||el._clustered||l<-12||l>112||t<-12||t>112)?'none':'block';
   } else {
     el.style.left=(x/W*100)+'%'; el.style.top=(y/H*100)+'%';
   }
 }
+function clusterTitle(places){
+  const towns=places.map(p=>{
+    const n=String(p.name||''), id=String(p.id||'');
+    if(/westport/i.test(n+id)) return 'Westport';
+    if(/newport/i.test(n+id)) return 'Newport';
+    if(/mulranny/i.test(n+id)) return 'Mulranny';
+    if(/louisburgh|killeen|kiladoon|carrowniskey|old head/i.test(n+id)) return 'Louisburgh';
+    if(/achill|keel|doogort/i.test(n+id)) return 'Achill';
+    const bit=n.split(',')[1];
+    return bit?bit.trim():'';
+  }).filter(Boolean);
+  const counts={};
+  towns.forEach(t=>{ counts[t]=(counts[t]||0)+1; });
+  const top=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+  if(top && top[1]>=Math.ceil(places.length/2)) return top[0];
+  return places.length+' places';
+}
+function listGroupKey(p){
+  if(p.bike==='rental') return 'rental';
+  if(p.bike==='stop') return 'greenway';
+  if(p.walk) return 'walk';
+  return p.cat||'do';
+}
+function listGroupLabel(key){
+  if(key==='rental') return 'Bike hire';
+  if(key==='greenway') return 'Greenway';
+  if(key==='walk') return 'Walks';
+  return CATS[key]||key;
+}
+function briefDesc(p){
+  let d=String(p.desc||p.info||'').replace(/^Host pick\s*[—–-]\s*/i,'').replace(/^Host-useful\s*[—–-]\s*/i,'');
+  d=d.replace(/\s+/g,' ').trim();
+  if(d.length>120){
+    const cut=d.slice(0,120);
+    const sp=cut.lastIndexOf(' ');
+    d=(sp>80?cut.slice(0,sp):cut)+'…';
+  }
+  return d;
+}
+function openCluster(places, title){
+  revealedId=null;
+  closeFilterMenu();
+  closeLastMile();
+  resetSheetHeight();
+  const heading=title||clusterTitle(places);
+  const order=['food','shop','beach','do','landmarks','golf','walk','greenway','rental','home','family'];
+  const grouped={};
+  places.forEach(p=>{
+    const k=listGroupKey(p);
+    (grouped[k]=grouped[k]||[]).push(p);
+  });
+  Object.values(grouped).forEach(g=>g.sort((a,b)=>{
+    if(a.host!==b.host) return a.host?-1:1;
+    return String(a.name).localeCompare(String(b.name));
+  }));
+  const keys=order.filter(k=>grouped[k]&&grouped[k].length).concat(Object.keys(grouped).filter(k=>!order.includes(k)));
+  const sections=keys.map(k=>{
+    const rows=grouped[k].map(p=>{
+      const desc=briefDesc(p);
+      return `<button type="button" class="crow" data-id="${esc(p.id)}">`+
+        `<span class="crow-name">${esc(p.name)}</span>`+
+        (desc?`<span class="crow-desc">${esc(desc)}</span>`:'')+
+        (p.host?`<span class="crow-host">★ Host pick</span>`:'')+
+      `</button>`;
+    }).join('');
+    return `<p class="clist-sec">${esc(listGroupLabel(k))}</p>${rows}`;
+  }).join('');
+  body.innerHTML=
+    `<div class="ct"><span class="ctag" style="background:#0f766e">${places.length} places</span></div>`+
+    `<div class="cname">${esc(heading)}</div>`+
+    (places.length>=2?viewToggleHtml():'')+
+    `<p class="cinfo">Tap a place for directions and the rest, or switch to Map to see them all.</p>`+
+    `<div class="clist">${sections}</div>`;
+  bindViewToggle(body);
+  body.querySelectorAll('.crow').forEach(btn=>{
+    btn.onclick=()=>{
+      const p=PLACES.find(x=>x.id===btn.dataset.id);
+      if(p) showPlaceFromList(p);
+    };
+  });
+  card.classList.remove('journey');
+  card.classList.add('open');
+}
+function showPlaceFromList(p){
+  revealedId=p.id;
+  picked=[p];
+  irishLit.clear();
+  skipPinClick=true;
+  syncPinVisibility();
+  paintPicked();
+  paintIrishLit();
+  paintYarn();
+  openCard(p);
+  positionPins();
+  const go=()=>{ if(window.MapNav) MapNav.centerOn(p.lng, p.lat, 28); };
+  requestAnimationFrame(()=>requestAnimationFrame(go));
+  setTimeout(go, 280);
+}
+function clearClusters(){
+  const host=document.getElementById('clusters');
+  if(host) host.replaceChildren();
+}
+function groupSpan(g){
+  let minX=g[0].x, maxX=g[0].x, minY=g[0].y, maxY=g[0].y;
+  g.forEach(n=>{
+    minX=Math.min(minX,n.x); maxX=Math.max(maxX,n.x);
+    minY=Math.min(minY,n.y); maxY=Math.max(maxY,n.y);
+  });
+  return Math.hypot(maxX-minX, maxY-minY);
+}
+function spiderPins(g, px){
+  const n=g.length;
+  const cx=g.reduce((s,node)=>s+node.x,0)/n;
+  const cy=g.reduce((s,node)=>s+node.y,0)/n;
+  const chord=36/px;
+  const r=n===2 ? chord/2 : Math.max(4, chord/(2*Math.sin(Math.PI/n)));
+  g.forEach((node,i)=>{
+    const a=-Math.PI/2 + (i*2*Math.PI)/n;
+    node.dx=cx+Math.cos(a)*r;
+    node.dy=cy+Math.sin(a)*r;
+    node.el._clustered=false;
+  });
+}
 function layoutPinPositions(){
   pinNodes.forEach(n=>{
     n.dx=n.x; n.dy=n.y;
+    n.el._clustered=false;
     n.el.classList.remove('lab-n','lab-s','lab-e','lab-w','lab-ne','lab-nw','lab-se','lab-sw');
     n.el.classList.add('lab-s');
+    n.el.classList.toggle('revealed', n.el.dataset.id===revealedId);
     n.el.style.zIndex='';
   });
-  const s=window.MapNav&&MapNav.getScale();
-  if(!s||s<9) return;
+  clearClusters();
   const svg=document.getElementById('basemap');
   const fit=document.getElementById('mapfit');
-  if(!svg||!fit) return;
-  const vb=svg.viewBox.baseVal;
+  const host=document.getElementById('clusters');
+  if(!svg||!fit||!host||!window.MapNav) return;
+  const vb=svg.viewBox && svg.viewBox.baseVal;
+  if(!vb || !(vb.width>0)) return;
   const px=Math.max(1, fit.clientWidth/Math.max(0.001, vb.width));
   const ps=(window.MapNav&&MapNav.getPinScreen())||1;
-  const minD=(40*ps)/px;
-  const vis=pinNodes.filter(n=>!n.el._hidden);
+  const minD=(48*ps)/px;
+  const vis=pinNodes.filter(n=>!n.el._hidden && !n.el.classList.contains('home-pin') && n.el.dataset.id!==revealedId);
   const parent=vis.map((_,i)=>i);
   const find=i=>parent[i]===i?i:(parent[i]=find(parent[i]));
   for(let i=0;i<vis.length;i++){
@@ -877,32 +997,41 @@ function layoutPinPositions(){
   Object.values(groups).forEach(g=>{
     if(g.length<2) return;
     g.sort((a,b)=>String(a.el.dataset.id).localeCompare(String(b.el.dataset.id)));
+    const places=g.map(n=>PLACES.find(p=>p.id===n.el.dataset.id)).filter(Boolean);
+    if(places.length<2) return;
+    // Same street / stacked coords: fan them out so the map is tappable.
+    const forced=spiderOpen && g.some(n=>spiderOpen.has(n.el.dataset.id));
+    if((px>=8 && groupSpan(g)<minD) || (forced && px>=3.5)){
+      spiderPins(g, Math.max(px, 4));
+      return;
+    }
+    g.forEach(n=>{ n.el._clustered=true; });
     const cx=g.reduce((sum,n)=>sum+n.x,0)/g.length;
     const cy=g.reduce((sum,n)=>sum+n.y,0)/g.length;
-    const radPx=Math.max(72*ps, (g.length*68*ps)/(2*Math.PI));
-    const rad=radPx/px;
-    g.forEach((n,i)=>{
-      const ang=-Math.PI/2+i*2*Math.PI/g.length;
-      n.dx=cx+rad*Math.cos(ang);
-      n.dy=cy+rad*Math.sin(ang);
-      n.el.classList.remove('lab-s');
-      n.el.classList.add(labelSide(ang));
-      n.el.style.zIndex=String(3+i);
-    });
+    const el=document.createElement('div');
+    el.className='cluster';
+    el.innerHTML=`<div class="cbadge">${places.length}</div><div class="plab">${esc(clusterTitle(places))}</div>`;
+    let tapped=false;
+    const expand=e=>{
+      if(e){ e.preventDefault(); e.stopPropagation(); }
+      if(tapped) return;
+      tapped=true;
+      setTimeout(()=>{ tapped=false; }, 400);
+      if(resultView==='map'){
+        spiderOpen=new Set(places.map(p=>p.id));
+        if(window.MapNav) MapNav.fitPoints(places);
+        positionPins();
+        return;
+      }
+      if(!resultSet()) rememberList('cluster', places, clusterTitle(places));
+      openCluster(places);
+    };
+    el.addEventListener('pointerup', expand);
+    el.addEventListener('click', expand);
+    const pct=MapNav.pinPct(cx, cy);
+    el.style.left=pct.left; el.style.top=pct.top;
+    host.appendChild(el);
   });
-}
-function labelSide(ang){
-  const tau=Math.PI*2;
-  let a=ang%tau; if(a<0) a+=tau;
-  const deg=a*180/Math.PI;
-  if(deg<22.5||deg>=337.5) return 'lab-e';
-  if(deg<67.5) return 'lab-se';
-  if(deg<112.5) return 'lab-s';
-  if(deg<157.5) return 'lab-sw';
-  if(deg<202.5) return 'lab-w';
-  if(deg<247.5) return 'lab-nw';
-  if(deg<292.5) return 'lab-n';
-  return 'lab-ne';
 }
 function pinShortName(p){
   const short={
@@ -944,21 +1073,32 @@ function pinShortName(p){
 }
 function paintLeads(){
   const svg=document.getElementById('leads');
+  const dots=document.getElementById('leaddots');
   if(!svg||!window.MapNav) return;
   svg.replaceChildren();
+  if(dots) dots.replaceChildren();
   const ns='http://www.w3.org/2000/svg';
   pinNodes.forEach(n=>{
     if(n.el._hidden||n.el.style.display==='none') return;
     if(Math.hypot((n.dx-n.x),(n.dy-n.y))<0.05) return;
     const a=MapNav.pinPct(n.x,n.y), b=MapNav.pinPct(n.dx,n.dy);
+    const x1=parseFloat(a.left), y1=parseFloat(a.top);
+    const x2=parseFloat(b.left), y2=parseFloat(b.top);
+    const halo=document.createElementNS(ns,'path');
+    halo.setAttribute('class','lead-halo');
+    halo.setAttribute('d',`M ${x1} ${y1} L ${x2} ${y2}`);
+    svg.appendChild(halo);
     const p=document.createElementNS(ns,'path');
-    p.setAttribute('d',`M ${parseFloat(a.left)} ${parseFloat(a.top)} L ${parseFloat(b.left)} ${parseFloat(b.top)}`);
+    p.setAttribute('class','lead');
+    p.setAttribute('d',`M ${x1} ${y1} L ${x2} ${y2}`);
     svg.appendChild(p);
-    const c=document.createElementNS(ns,'circle');
-    c.setAttribute('cx', parseFloat(a.left));
-    c.setAttribute('cy', parseFloat(a.top));
-    c.setAttribute('r','0.32');
-    svg.appendChild(c);
+    if(dots){
+      const d=document.createElement('div');
+      d.className='leaddot';
+      d.style.left=a.left;
+      d.style.top=a.top;
+      dots.appendChild(d);
+    }
   });
 }
 function positionPins(){
@@ -966,6 +1106,7 @@ function positionPins(){
   pinNodes.forEach(n=>placePinEl(n.el, n.dx, n.dy));
   paintYarn();
   paintLeads();
+  positionTowns();
 }
 function pinColor(p){
   if(p.bike==='stop') return '#15803d';
@@ -973,12 +1114,92 @@ function pinColor(p){
   if(p.walk) return '#a16207';
   return (STYLE[p.cat]||{}).color||'#555';
 }
+function resultSet(){
+  return (lastListPlaces && lastListPlaces.length>=2) ? lastListPlaces : null;
+}
+function resultsOnMap(){
+  return resultView==='map' && !!resultSet();
+}
+function inResultSet(p){
+  const hits=resultSet();
+  return !!(hits && p && hits.some(x=>x.id===p.id));
+}
+function viewToggleHtml(){
+  if(!resultSet()) return '';
+  return `<div class="viewtoggle" role="radiogroup" aria-label="List or map">`+
+    `<button type="button" class="modebtn" data-sview="list" aria-pressed="${resultView==='list'?'true':'false'}">List</button>`+
+    `<button type="button" class="modebtn" data-sview="map" aria-pressed="${resultView==='map'?'true':'false'}">Map</button>`+
+  `</div>`;
+}
+function bindViewToggle(root){
+  if(!root) return;
+  root.querySelectorAll('.viewtoggle .modebtn').forEach(b=>{
+    b.onclick=()=>setResultView(b.dataset.sview);
+  });
+}
+function paintResultView(){
+  const el=document.getElementById('searchview');
+  if(!el) return;
+  el.classList.toggle('show', resultsOnMap());
+  el.querySelectorAll('.modebtn').forEach(b=>{
+    b.setAttribute('aria-pressed', b.dataset.sview===resultView?'true':'false');
+  });
+}
+function fitResultSet(){
+  const hits=(resultSet()||[]).filter(p=>!p._off);
+  if(!hits.length) return;
+  const go=()=>{ if(window.MapNav) MapNav.fitPoints(hits); };
+  requestAnimationFrame(()=>requestAnimationFrame(go));
+  setTimeout(go, 50);
+  setTimeout(go, 300);
+}
+function setResultView(next){
+  if(next!=='list' && next!=='map') return;
+  if(!resultSet()) return;
+  resultView=next;
+  paintResultView();
+  if(next==='map'){
+    closeCard({keepResults:true});
+    refresh();
+    fitResultSet();
+    return;
+  }
+  refresh();
+  openCluster(lastListPlaces, lastListTitle);
+}
+function showBrowseResults(kind, places, title, prefer){
+  rememberList(kind, places, title);
+  if(prefer==='list' || prefer==='map') resultView=prefer;
+  if(resultView==='map'){
+    closeCard({keepResults:true});
+    refresh();
+    fitResultSet();
+    return;
+  }
+  refresh();
+  openCluster(places, title);
+}
 function placeVisible(p){
   if(!p) return false;
-  if(mode==='walk') return p.id==='lime-kiln-house' || !!p.walk;
-  if(mode==='bike') return p.id==='lime-kiln-house' || p.bike==='stop' || p.bike==='rental';
+  if(p.id===revealedId) return true;
+  if(irishLit.has(p.id)) return true;
+  if(picked.some(x=>x.id===p.id)) return true;
+  if(p.id==='lime-kiln-house') return true;
+  if(resultsOnMap()) return inResultSet(p);
+  if(resultView==='list' && resultSet()) return false;
+  if(mode==='walk') return !!p.walk;
+  if(mode==='bike') return p.bike==='stop' || p.bike==='rental';
   if(p.bike==='stop' && p.id!=='great-western-greenway-newport') return false;
-  return active.has(p.cat)&&(!hostOnly||p.host);
+  if(isFamilyPin(p) && !catFilter && !resultSet()) return true;
+  if(catFilter==='family') return isFamilyPin(p);
+  if(catFilter) return p.cat===catFilter;
+  return false;
+}
+function syncPinVisibility(){
+  pinNodes.forEach(n=>{
+    const pl=PLACES.find(x=>x.id===n.el.dataset.id);
+    n.el._hidden=!placeVisible(pl);
+  });
 }
 function bikePlaces(){
   return PLACES.filter(p=>!p._off && (p.id==='lime-kiln-house'||p.bike==='stop'||p.bike==='rental'));
@@ -998,12 +1219,33 @@ function renderOffmap(){
     offEl.innerHTML='<b>Bike mode:</b> red line is the Greenway (44 km, 250 m ascent). Green pins are landmarks — tap two for the distance. Yellow pins are bike hire.';
     return;
   }
-  const off=PLACES.filter(p=>p._off&&placeVisible(p));
-  if(off.length){
-    offEl.innerHTML=`<b>Drive mode:</b> tap a place, or hold a pin for Irish hops. <b>Off this map (${off.length}):</b> `+off.map(p=>`${p.emoji||''} ${esc(p.name.split(',')[0])}`).join(' · ')+'.';
+  const hits=resultSet();
+  if(hits){
+    const n=hits.length, on=hits.filter(p=>!p._off).length;
+    const extra=n>on?` ${n-on} are off this map — they’re in the list.`: '';
+    if(resultsOnMap()){
+      offEl.innerHTML=`${n} on the map.${extra} Switch to List for names and descriptions.`;
+    } else {
+      offEl.innerHTML=`${n} places. Switch to Map to see where they are.`;
+    }
     return;
   }
-  offEl.innerHTML='Drive mode — hold a pin for Irish hops · hold the map to drop a pin.';
+  const off=PLACES.filter(p=>p._off&&placeVisible(p));
+  if(off.length){
+    offEl.innerHTML=`<b>Off this map (${off.length}):</b> `+off.map(p=>`${p.emoji||''} ${esc(String(p.name||'').split(',')[0])}`).join(' · ')+'. Search still finds them.';
+    return;
+  }
+  if(catFilter){
+    const chip=CAT_CHIPS.find(c=>c.id===catFilter);
+    offEl.innerHTML=`Showing ${(chip&&chip.label)||catFilter}. Tap a pin, or tap the chip again to go back.`;
+    return;
+  }
+  if(areaFilter){
+    const scope=areaChip(areaFilter);
+    offEl.innerHTML=`Showing ${(scope&&scope.label)||areaFilter}. Tap the chip again to see the whole map.`;
+    return;
+  }
+  offEl.innerHTML='Tap a town name, pick Beaches / Food / Shops, or type a name in Find a place.';
 }
 function renderPins(){
   pinsEl.innerHTML='';
@@ -1026,122 +1268,230 @@ function renderPins(){
   });
   paintPicked();
   paintIrishLit();
+  paintTowns();
   positionPins();
   renderOffmap();
-  renderFilterSummary();
+  paintChips();
+  paintResultView();
 }
 function refresh(){
-  pinNodes.forEach(n=>{
-    const p=PLACES.find(x=>x.id===n.el.dataset.id);
-    n.el._hidden=!placeVisible(p);
-  });
+  syncPinVisibility();
   positionPins();
   renderOffmap();
-  renderFilterSummary();
+  paintChips();
+  paintResultView();
 }
-function shortCat(label){
-  return String(label||'').split(/[&/]/)[0].trim();
-}
-function renderFilterSummary(){
-  const el=document.getElementById('filtersummary');
-  if(!el) return;
-  el.innerHTML='';
-  if(hostOnly){
-    const s=document.createElement('span'); s.className='mini star'; s.textContent='⭐ Host'; el.appendChild(s);
-  }
-  if(!showPinLabels){
-    const s=document.createElement('span'); s.className='mini muted'; s.textContent='Names off'; el.appendChild(s);
-  }
-  Object.entries(CATS).forEach(([k,label])=>{
-    if(!active.has(k)) return;
-    const c=(STYLE[k]||{}).color||'#555';
-    const s=document.createElement('span'); s.className='mini'; s.style.background=c;
-    s.textContent=(CAT_EMOJI[k]||'')+' '+shortCat(label);
-    el.appendChild(s);
+function paintTowns(){
+  const host=document.getElementById('towns');
+  if(!host) return;
+  host.replaceChildren();
+  TOWNS.forEach(t=>{
+    const el=document.createElement('button');
+    el.type='button';
+    el.className='townmark';
+    el.dataset.tid=t.id;
+    el.innerHTML=`<span class="tlab">${esc(t.name)}</span>`;
+    el.onclick=()=>openTown(t);
+    host.appendChild(el);
   });
-  if(!hostOnly && !Object.keys(CATS).some(k=>active.has(k))){
-    const s=document.createElement('span'); s.className='mini muted'; s.textContent='Nothing selected'; el.appendChild(s);
-  }
+  positionTowns();
 }
-function setRowPressed(b, on){
-  b.setAttribute('aria-pressed', on?'true':'false');
-  const check=b.querySelector('.fcheck');
-  if(check) check.textContent=on?'✓':'';
+function positionTowns(){
+  const host=document.getElementById('towns');
+  if(!host||!window.MapNav) return;
+  const show=mode==='drive' && !catFilter && !resultSet();
+  host.style.display=show?'block':'none';
+  if(!show) return;
+  [...host.children].forEach(el=>{
+    const t=TOWNS.find(x=>x.id===el.dataset.tid);
+    if(!t) return;
+    const [x,y]=proj(t.lng, t.lat);
+    const pct=MapNav.pinPct(x,y);
+    el.style.left=pct.left;
+    el.style.top=pct.top;
+    el.setAttribute('aria-pressed', areaFilter===t.id?'true':'false');
+    const l=parseFloat(pct.left), tp=parseFloat(pct.top);
+    el.style.display=(l<-8||l>108||tp<-8||tp>108)?'none':'block';
+  });
 }
-function buildFilterRow(opts){
-  const b=document.createElement('button');
-  b.type='button'; b.className='frow'+(opts.star?' star':'');
-  b.dataset.key=opts.key||'';
-  const check=document.createElement('span'); check.className='fcheck';
-  b.appendChild(check);
-  if(opts.color){
-    const d=document.createElement('span'); d.className='fdot'; d.style.background=opts.color; b.appendChild(d);
-  }
-  const lab=document.createElement('span'); lab.textContent=opts.label; b.appendChild(lab);
-  setRowPressed(b, opts.on);
-  b.onclick=e=>{
-    e.stopPropagation();
-    opts.toggle();
-    setRowPressed(b, opts.isOn());
+function rememberList(kind, places, title){
+  listKind=kind;
+  lastListPlaces=places;
+  lastListTitle=title;
+}
+function openTown(t){
+  clearSearchBox();
+  catFilter=null;
+  spiderOpen=null;
+  areaFilter=t.id;
+  const places=placesInArea(t.id);
+  if(!places.length){ toast('No places listed for '+t.name+' yet.'); return; }
+  showBrowseResults('area', places, t.name, 'list');
+}
+function areaChip(id){
+  if(!id) return null;
+  const t=TOWNS.find(x=>x.id===id);
+  if(t) return {id:t.id, label:t.name};
+  const a=SEARCH_AREAS.find(x=>x.id===id);
+  if(a) return {id:a.id, label:a.label};
+  return {id, label:id};
+}
+function toggleArea(id){
+  clearSearchBox();
+  catFilter=null;
+  spiderOpen=null;
+  if(areaFilter===id){
+    areaFilter=null;
+    closeCard({clearList:true});
     refresh();
-  };
-  return b;
+    showOverview();
+    return;
+  }
+  const town=TOWNS.find(t=>t.id===id);
+  if(town){ openTown(town); return; }
+  const area=SEARCH_AREAS.find(a=>a.id===id);
+  if(!area) return;
+  areaFilter=id;
+  const places=placesInArea(id);
+  if(!places.length){ toast('No places listed for '+area.label+' yet.'); return; }
+  showBrowseResults('area', places, area.label, 'list');
 }
-function paintFilterMenu(){
-  const menu=document.getElementById('filtermenu');
-  menu.innerHTML='';
-  menu.appendChild(buildFilterRow({
-    star:true, key:'host', on:hostOnly, isOn:()=>hostOnly, label:'⭐ Host picks only',
-    toggle:()=>{ hostOnly=!hostOnly; }
-  }));
-  menu.appendChild(buildFilterRow({
-    key:'labels', on:showPinLabels, isOn:()=>showPinLabels, label:'Show names on pins',
-    toggle:()=>{
-      showPinLabels=!showPinLabels;
-      localStorage.setItem('nn-pin-labels', showPinLabels?'1':'0');
-      if(window.MapNav) MapNav.onFit();
+function toggleCat(id){
+  clearSearchBox();
+  areaFilter=null;
+  spiderOpen=null;
+  if(catFilter===id){
+    catFilter=null;
+    closeCard({clearList:true});
+    refresh();
+    showOverview();
+    return;
+  }
+  catFilter=id;
+  const chip=CAT_CHIPS.find(c=>c.id===id)||{id, label:CATS[id]||id};
+  const listed=catFilter==='family'
+    ? PLACES.filter(p=>isFamilyPin(p) && p.id!=='lime-kiln-house')
+    : PLACES.filter(p=>p.cat===id && p.id!=='lime-kiln-house');
+  if(!listed.length){ toast('Nothing in that category yet.'); return; }
+  showBrowseResults('cat', listed, chip.label, 'map');
+}
+function paintChips(){
+  const cat=document.getElementById('catwrap');
+  if(!cat) return;
+  cat.replaceChildren();
+  const chips=CAT_CHIPS.slice();
+  if(visibleFamily().length) chips.push({id:'family', label:'Our pins'});
+  chips.forEach(c=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='chip';
+    const color=(STYLE[c.id]||{}).color||'#0f766e';
+    b.style.setProperty('--chip', color);
+    b.setAttribute('aria-pressed', catFilter===c.id?'true':'false');
+    b.textContent=(CAT_EMOJI[c.id]||'')+' '+c.label;
+    b.onclick=()=>toggleCat(c.id);
+    cat.appendChild(b);
+  });
+  const scope=areaChip(areaFilter);
+  if(scope){
+    const b=document.createElement('button');
+    b.type='button'; b.className='chip scope';
+    b.style.setProperty('--chip', '#0f766e');
+    b.setAttribute('aria-pressed', 'true');
+    b.textContent='📍 '+scope.label;
+    b.onclick=()=>toggleArea(scope.id);
+    cat.appendChild(b);
+  }
+}
+function normQ(s){ return String(s||'').toLowerCase().replace(/[’']/g,"'").trim(); }
+function matchArea(q){
+  const n=normQ(q);
+  if(n.length<4) return null;
+  return SEARCH_AREAS.find(a=>a.label.toLowerCase()===n || (a.aliases||[]).some(al=>al===n || n.startsWith(al) || al.startsWith(n)))||null;
+}
+function matchTown(q){
+  const n=normQ(q);
+  if(n.length<3) return null;
+  const hit=TOWNS.find(t=>{
+    const name=t.name.toLowerCase();
+    if(name===n || t.id===n) return true;
+    if(name.startsWith(n) || n.startsWith(name)) return n.length>=4 || name===n;
+    return (t.aliases||[]).some(a=>a===n || a.startsWith(n) || n.startsWith(a));
+  });
+  return hit||null;
+}
+function placeMatches(p, q){
+  const n=normQ(q);
+  const blob=normQ([p.id,p.name,p.desc,p.long,p.info,p.plan,CATS[p.cat]].join(' '));
+  if(blob.includes(n)) return true;
+  if(n==='pub' || n==='pubs') return /pub|bar|tavern|shebeen|sheebeen/.test(blob);
+  if(n==='pharmacy' || n==='chemist') return /pharmacy|chemist/.test(blob);
+  if(n==='beach' || n==='beaches') return p.cat==='beach' || blob.includes('beach');
+  if(n==='golf') return p.cat==='golf' || blob.includes('golf');
+  if(n==='shop' || n==='shops' || n==='supermarket') return p.cat==='shop';
+  if(n==='petrol' || n==='fuel' || n==='diesel') return /petrol|circle k|fuel/.test(blob);
+  return false;
+}
+function matchPlaces(q){
+  return PLACES.filter(p=>placeMatches(p, q));
+}
+function runSearch(raw, opts){
+  searchQ=String(raw||'').trim();
+  const minLen=(opts&&opts.force)?2:3;
+  if(searchQ.length<minLen){
+    if(listKind==='search') closeCard({clearList:true});
+    resultView='list';
+    refresh();
+    return;
+  }
+  catFilter=null;
+  areaFilter=null;
+  const area=matchArea(searchQ);
+  if(area){
+    areaFilter=area.id;
+    const places=placesInArea(area.id);
+    if(!places.length){
+      rememberList('search', [], area.label);
+      refresh();
+      toast('Nothing listed for '+area.label+' yet.');
+      return;
     }
-  }));
-  const sep=document.createElement('div'); sep.className='fsep'; menu.appendChild(sep);
-  Object.entries(CATS).forEach(([k,label])=>{
-    menu.appendChild(buildFilterRow({
-      key:k, on:active.has(k), isOn:()=>active.has(k), color:(STYLE[k]||{}).color||'#555',
-      label:(CAT_EMOJI[k]||'')+' '+label,
-      toggle:()=>{ if(active.has(k)) active.delete(k); else active.add(k); }
-    }));
-  });
-  const actions=document.createElement('div'); actions.className='factions';
-  const all=document.createElement('button'); all.type='button'; all.className='cbtn csave'; all.textContent='Show all';
-  all.onclick=e=>{
-    e.stopPropagation();
-    Object.keys(CATS).forEach(k=>active.add(k)); hostOnly=false;
-    menu.querySelectorAll('.frow').forEach(row=>{
-      const k=row.dataset.key;
-      if(k==='host') setRowPressed(row, false);
-      else if(k==='labels') setRowPressed(row, showPinLabels);
-      else setRowPressed(row, true);
-    });
+    showBrowseResults('area', places, area.label);
+    return;
+  }
+  const town=matchTown(searchQ);
+  if(town){
+    areaFilter=town.id;
+    const places=placesInArea(town.id);
+    if(!places.length){
+      rememberList('search', [], town.name);
+      refresh();
+      toast('Nothing listed for '+town.name+' yet.');
+      return;
+    }
+    showBrowseResults('area', places, town.name);
+    return;
+  }
+  const places=matchPlaces(searchQ);
+  if(!places.length){
+    rememberList('search', [], searchQ);
     refresh();
-  };
-  const done=document.createElement('button'); done.type='button'; done.className='cbtn ccancel'; done.textContent='Done';
-  done.onclick=e=>{ e.stopPropagation(); closeFilterMenu(); };
-  actions.appendChild(all); actions.appendChild(done); menu.appendChild(actions);
+    toast('Nothing matching “'+searchQ+'”. Try a town or a name.');
+    return;
+  }
+  if(places.length===1){
+    rememberList(null, null, '');
+    refresh();
+    showPlaceFromList(places[0]);
+    return;
+  }
+  showBrowseResults('search', places, '“'+searchQ+'”');
 }
-function openFilterMenu(){
-  paintFilterMenu();
-  document.getElementById('filtermenu').classList.add('show');
-  document.getElementById('filterscrim').classList.add('show');
-  document.getElementById('filterbtn').setAttribute('aria-expanded','true');
-}
-function closeFilterMenu(){
-  document.getElementById('filtermenu').classList.remove('show');
-  document.getElementById('filterscrim').classList.remove('show');
-  document.getElementById('filterbtn').setAttribute('aria-expanded','false');
-}
+function closeFilterMenu(){}
 function setMode(next){
   if(next!=='drive' && next!=='bike' && next!=='walk') return;
   if(next===mode) return;
   mode=next;
+  syncModeClass();
   document.querySelectorAll('#modewrap .modebtn').forEach(b=>{
     b.setAttribute('aria-pressed', b.dataset.mode===mode?'true':'false');
   });
@@ -1152,7 +1502,9 @@ function setMode(next){
     fit.classList.toggle('walk-mode', mode==='walk');
   }
   if(mode!=='bike') clearGwSeg();
-  closeCard();
+  catFilter=null;
+  areaFilter=null;
+  closeCard({clearList:true});
   refresh();
   if(mode==='bike'){
     toast('Red line is the Greenway. Tap two landmarks for the distance. Yellow pins are bike hire.');
@@ -1170,23 +1522,65 @@ function setMode(next){
         if(window.MapNav && pts.length) MapNav.fitPoints(pts);
       });
     });
+  } else {
+    showOverview();
   }
 }
 function buildFilters(){
-  renderFilterSummary();
-  const btn=document.getElementById('filterbtn');
-  btn.onclick=()=>{
-    const open=btn.getAttribute('aria-expanded')==='true';
-    if(open) closeFilterMenu(); else { closeCard(); closePeople(); openFilterMenu(); }
-  };
-  const scrim=document.getElementById('filterscrim');
-  scrim.onpointerdown=e=>{ e.preventDefault(); closeFilterMenu(); };
-  document.getElementById('filtermenu').onpointerdown=e=>e.stopPropagation();
+  paintChips();
+  const inp=document.getElementById('qfind');
+  let searchTimer=null;
+  if(inp){
+    inp.addEventListener('input', ()=>{
+      clearTimeout(searchTimer);
+      searchTimer=setTimeout(()=>runSearch(inp.value), 220);
+    });
+    inp.addEventListener('keydown', e=>{
+      if(e.key!=='Enter') return;
+      e.preventDefault();
+      clearTimeout(searchTimer);
+      runSearch(inp.value, {force:true});
+      inp.blur();
+    });
+  }
   document.querySelectorAll('#modewrap .modebtn').forEach(b=>{
-    b.onclick=()=>{ closeFilterMenu(); closePeople(); setMode(b.dataset.mode); };
+    b.onclick=()=>{ setMode(b.dataset.mode); };
+  });
+  document.querySelectorAll('#searchview .modebtn').forEach(b=>{
+    b.onclick=()=>setResultView(b.dataset.sview);
   });
 }
 const card=document.getElementById('card'), body=document.getElementById('cardbody');
+function resetSheetHeight(){ if(card) card.style.height=''; }
+(function sheetDrag(){
+  const handle=document.getElementById('cardsheet');
+  if(!handle||!card) return;
+  let startY=0, startH=0, dragging=false;
+  const maxH=()=>window.innerHeight*(card.classList.contains('journey')?0.5:0.78);
+  const minH=()=>Math.min(148, maxH());
+  const onMove=e=>{
+    if(!dragging) return;
+    card.style.height=Math.max(minH(), Math.min(maxH(), startH-(e.clientY-startY)))+'px';
+  };
+  const onUp=e=>{
+    if(!dragging) return;
+    dragging=false;
+    card.classList.remove('dragging');
+    try{ handle.releasePointerCapture(e.pointerId); }catch(err){}
+  };
+  handle.addEventListener('pointerdown', e=>{
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    e.preventDefault();
+    dragging=true;
+    startY=e.clientY;
+    startH=card.getBoundingClientRect().height;
+    card.classList.add('dragging');
+    handle.setPointerCapture(e.pointerId);
+  });
+  handle.addEventListener('pointermove', onMove);
+  handle.addEventListener('pointerup', onUp);
+  handle.addEventListener('pointercancel', onUp);
+})();
 function irishFor(a,b){
   return IRISH[a.id+'>'+b.id]||null;
 }
@@ -1276,16 +1670,35 @@ function irishHopsFrom(id){
     return p && placeVisible(p);
   });
 }
+function irishHopPlaces(p){
+  return irishHopsFrom(p.id).map(id=>PLACES.find(x=>x.id===id)).filter(x=>x&&!x._off);
+}
+function openIrishPair(a,b){
+  revealedId=a.id==='lime-kiln-house'?b.id:a.id;
+  picked=[a,b];
+  irishLit.clear();
+  syncPinVisibility();
+  paintPicked();
+  paintIrishLit();
+  paintYarn(true);
+  positionPins();
+  openJourney(a,b);
+}
 function showIrishFrom(p){
+  const hops=irishHopPlaces(p);
+  if(hops.length===1){
+    openIrishPair(p, hops[0]);
+    return;
+  }
   picked=[p];
-  irishLit=new Set(irishHopsFrom(p.id));
+  irishLit=new Set(hops.map(h=>h.id));
+  syncPinVisibility();
   paintPicked();
   paintIrishLit();
   paintYarn();
   openCard(p);
   if(!irishLit.size) toast('No Irish directions from here yet.');
-  else toast(irishLit.size===1?'That glow is an Irish hop — tap it.':irishLit.size+' Irish hops lit up. Tap one.');
-  const hops=irishHopsFrom(p.id).map(id=>PLACES.find(x=>x.id===id)).filter(x=>x&&!x._off);
+  else toast(irishLit.size+' Irish hops lit up. Tap one.');
   if(hops.length){
     requestAnimationFrame(()=>{
       requestAnimationFrame(()=>{
@@ -1328,7 +1741,6 @@ function onPinTap(p){
 }
 function openGwHop(a,b){
   closeFilterMenu();
-  closePeople();
   closeLastMile();
   const km=Math.abs((Number(a.gwKm)||0)-(Number(b.gwKm)||0));
   const mins=Math.max(1, Math.round(km*5));
@@ -1355,6 +1767,8 @@ function openGwHop(a,b){
     paintYarn();
     openGwHop(b,a);
   };
+  resetSheetHeight();
+  card.classList.remove('journey');
   card.classList.add('open');
   paintGwSeg(a,b);
   requestAnimationFrame(()=>{
@@ -1365,7 +1779,6 @@ function openGwHop(a,b){
 }
 function openJourney(a,b){
   closeFilterMenu();
-  closePeople();
   closeLastMile();
   const irish=irishFor(a,b);
   const travel=(irish&&irish.how==='walk')||mode==='walk'?'walking':(irish&&irish.how==='bike')||mode==='bike'?'bicycling':'driving';
@@ -1398,7 +1811,8 @@ function openJourney(a,b){
     openJourney(b,a);
   };
   bindLastMile(fromWest);
-  card.classList.add('open');
+  resetSheetHeight();
+  card.classList.add('open','journey');
   if(irish){
     document.getElementById('irishbox').hidden=false;
     frameIrishPair(a,b);
@@ -1428,23 +1842,24 @@ function walkBox(p){
 }
 function openCard(p){
   closeFilterMenu();
-  closePeople();
   closeLastMile();
-  const c=pinColor(p), nm=encodeURIComponent(p.name);
-  const geo=`geo:${p.lat},${p.lng}?q=${p.lat},${p.lng}(${nm})`;
+  const c=pinColor(p);
   const goog=`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
-  const family=p.cat==='family';
+  const family=isFamilyPin(p);
   const who=family&&p.addedBy?`Added by ${esc(p.addedBy)}`:'';
   const extra=[p.info,p.hours,who].filter(Boolean).join(' · ');
   const callLbl=p.telLabel?`Call ${p.telLabel} ☎`:'Call ☎';
   const tag=p.bike==='stop'?'Greenway':p.bike==='rental'?'Bike hire':(p.walk?'Walk':(CATS[p.cat]||''));
+  const hops=irishHopPlaces(p);
+  const oneHome=hops.length===1 && hops[0].id==='lime-kiln-house';
   const hint=p.bike==='stop'
     ? 'Tap another Greenway pin for the distance along the trail.'
     : (p.walk
       ? 'Follow the waymarks on the ground. The yellow line on this map is a guide.'
-      : (irishHopsFrom(p.id).length?'Hold this pin to light up Irish hops.':'Tap another place to link a journey.'));
+      : (oneHome?'Safe home opens the way back with Irish directions.':(hops.length?'Hold this pin to light up Irish hops.':'Tap another place to link a journey.')));
   const house=PLACES.find(x=>x.id==='lime-kiln-house');
   const fromHouse=house && p.id!==house.id && irishFor(house, p);
+  const hopBtn=hops.length===0?'':`<button type="button" class="cbtn cirish" id="irishhops">${oneHome?'Safe home':'Show Irish hops'}</button>`;
   body.innerHTML=
     `<div class="ct"><span class="ctag" style="background:${c}">${esc(tag)}</span>`+(p.host?`<span class="ctag chost">★ Host pick</span>`:``)+`</div>`+
     `<div class="cname">${p.emoji||''} ${esc(p.name)}</div>`+
@@ -1454,25 +1869,17 @@ function openCard(p){
     `<p class="cinfo">${extra?esc(extra)+' · ':''}${esc(hint)}</p>`+
     `<div class="cact">`+
       (fromHouse?`<button type="button" class="cbtn ${p.walk?'cwalk':(p.bike==='rental'?'cbike':'cirish')}" id="drivehire">${fromHouse.how==='walk'?'Walk from the house':'Drive from the house'}</button>`:``)+
-      `<a class="cbtn cdir" href="${geo}">Directions (offline) ↗</a>`+
-      `<a class="cbtn cgoog" href="${goog}" target="_blank" rel="noopener">Google Maps</a>`+
-      (irishHopsFrom(p.id).length?`<button type="button" class="cbtn cirish" id="irishhops">Show Irish hops</button>`:``)+
+      `<a class="cbtn cdir" href="${goog}" target="_blank" rel="noopener">Google Maps</a>`+
+      hopBtn+
       (p.tel?`<a class="cbtn ccall" href="tel:${esc(p.tel)}">${esc(callLbl)}</a>`:``)+
       (family?`<button type="button" class="cbtn cedit" id="editpin">Edit</button><button type="button" class="cbtn cdel" id="delpin">Remove</button>`:``)+
     `</div>`+
     (p.id==='lime-kiln-house'?lastMileLink(false):'');
   if(fromHouse){
     const btn=document.getElementById('drivehire');
-    if(btn) btn.onclick=()=>{
-      picked=[house, p];
-      irishLit.clear();
-      paintPicked();
-      paintIrishLit();
-      paintYarn(true);
-      openJourney(house, p);
-    };
+    if(btn) btn.onclick=()=>openIrishPair(house, p);
   }
-  if(irishHopsFrom(p.id).length){
+  if(hops.length){
     document.getElementById('irishhops').onclick=()=>showIrishFrom(p);
   }
   if(family){
@@ -1480,57 +1887,153 @@ function openCard(p){
     document.getElementById('delpin').onclick=()=>deleteFamilyPin(p);
   }
   bindLastMile(false);
+  resetSheetHeight();
+  card.classList.remove('journey');
   card.classList.add('open');
   syncLastMileMap();
 }
-function closeCard(){
+function closeCard(opts){
   closeLastMile();
-  card.classList.remove('open');
+  resetSheetHeight();
+  const keepResults=opts&&opts.keepResults;
+  const clearList=opts&&opts.clearList;
+  const fromPlace=!!revealedId || picked.length===1;
+  if(keepResults) card.classList.add('no-anim');
+  card.classList.remove('open','journey');
+  if(keepResults) requestAnimationFrame(()=>card.classList.remove('no-anim'));
+  revealedId=null;
   clearPick();
+  if(clearList){
+    listKind=null;
+    lastListPlaces=null;
+    lastListTitle='';
+    resultView='list';
+    areaFilter=null;
+  } else if(keepResults){
+    // sheet only — the place list stays for List / Map
+  } else if(fromPlace && resultSet() && resultView!=='map'){
+    openCluster(lastListPlaces, lastListTitle);
+    positionPins();
+    syncLastMileMap();
+    return;
+  } else if(!fromPlace){
+    listKind=null;
+    lastListPlaces=null;
+    lastListTitle='';
+    resultView='list';
+    catFilter=null;
+    areaFilter=null;
+  }
+  paintChips();
+  paintResultView();
+  syncPinVisibility();
+  positionPins();
   syncLastMileMap();
 }
 function goHome(){
-  const house=PLACES.find(p=>p.id==='lime-kiln-house');
-  if(!house||house._off){ toast('Lime Kiln House is not on this map.'); return; }
-  closePeople();
-  closeFilterMenu();
-  active.add('home');
-  hostOnly=false;
-  refresh();
-  picked=[house];
-  irishLit.clear();
-  paintPicked();
-  paintIrishLit();
-  paintYarn();
-  openCard(house);
-  requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{
-      if(window.MapNav) MapNav.centerOn(house.lng, house.lat, 15);
-    });
+  spiderOpen=null;
+  mode='drive';
+  syncModeClass();
+  document.querySelectorAll('#modewrap .modebtn').forEach(b=>{
+    b.setAttribute('aria-pressed', b.dataset.mode==='drive'?'true':'false');
   });
+  const fit=document.getElementById('mapfit');
+  if(fit){
+    fit.classList.toggle('drive-mode', true);
+    fit.classList.toggle('bike-mode', false);
+    fit.classList.toggle('walk-mode', false);
+  }
+  if(typeof clearGwSeg==='function') clearGwSeg();
+  catFilter=null;
+  areaFilter=null;
+  clearSearchBox();
+  closeCard({clearList:true});
+  refresh();
+  showOverview();
 }
 
-function openPinForm({lat,lng,existing,approx}){
-  closePeople();
+function metresBetween(aLat,aLng,bLat,bLng){
+  const R=6371000, toR=x=>x*Math.PI/180;
+  const dLat=toR(bLat-aLat), dLng=toR(bLng-aLng);
+  const s=Math.sin(dLat/2)**2+Math.cos(toR(aLat))*Math.cos(toR(bLat))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.min(1,Math.sqrt(s)));
+}
+function nearbyPlace(lat,lng,exceptId){
+  let best=null, bestD=Infinity;
+  PLACES.forEach(p=>{
+    if(!p||p.deleted||p.id===exceptId||p.lat==null||p.lng==null) return;
+    const d=metresBetween(lat,lng,p.lat,p.lng);
+    if(d<50 && d<bestD){ bestD=d; best=p; }
+  });
+  return best?{place:best, metres:bestD}:null;
+}
+function afterFamilySave(){
+  assemble();
+  closeCard();
+  toast(navigator.onLine?'Saved — sharing with the family.':'Saved on this phone. It will share when you have a signal.');
+  FamilySync.sync().then(changed=>{ if(changed) assemble(); });
+}
+function commitFamilyPin(pin, {existing, skipDup}={}){
+  if(!existing && !skipDup){
+    const near=nearbyPlace(pin.lat, pin.lng, pin.id);
+    if(near){
+      showDupChoice(near, pin);
+      return;
+    }
+  }
+  FamilySync.upsertLocal(pin);
+  afterFamilySave();
+}
+function showDupChoice(near, pending){
+  const metres=Math.max(1, Math.round(near.metres));
+  body.innerHTML=
+    `<div class="ct"><span class="ctag" style="background:${STYLE.family.color}">Our pins</span></div>`+
+    `<div class="cname">Already on the map</div>`+
+    `<p class="cinfo">That's next to <b>${esc(near.place.name)}</b> — about ${metres} m away.</p>`+
+    `<div class="cact">`+
+      `<button type="button" class="cbtn cprimary wide" id="opendup">Open that pin</button>`+
+      `<button type="button" class="cbtn csecondary wide" id="addanyway">Add anyway</button>`+
+      `<button type="button" class="cbtn ccancel wide" id="canceldup">Cancel</button>`+
+    `</div>`;
+  resetSheetHeight();
+  card.classList.remove('journey');
+  card.classList.add('open');
+  document.getElementById('opendup').onclick=()=>{ closeCard(); showPlaceFromList(near.place); };
+  document.getElementById('addanyway').onclick=()=>commitFamilyPin(pending, {skipDup:true});
+  document.getElementById('canceldup').onclick=()=>closeCard();
+}
+
+function openPinForm({lat,lng,existing,approx,name,source}){
   clearPick();
   const editing=!!existing;
-  const name=existing?existing.name:'';
+  const nm=existing?existing.name:(name||'');
   const desc=existing?existing.desc||'':'';
-  const who=existing?existing.addedBy||FamilySync.loadNick():FamilySync.loadNick();
-  const hint=editing?'Update the name or description.':(approx?'Approximate spot on the map — close enough to find later. Name it so the family knows what it is.':'Using your current location. Name it so the family knows what it is.');
+  const who=existing?existing.addedBy||'':'';
+  const cat0=PIN_CATS.some(c=>c.id===(existing&&existing.cat))?existing.cat:'family';
+  const catOpts=PIN_CATS.map(c=>`<option value="${c.id}"${c.id===cat0?' selected':''}>${esc(c.label)}</option>`).join('');
+  const hint=editing
+    ? 'Update the name or description.'
+    : (source==='paste'
+      ? 'From a maps link or Eircode. Name it so the family knows what it is.'
+      : (approx
+        ? 'Approximate spot on the map — close enough to find later. Name it so the family knows what it is.'
+        : 'Using your current location. Name it so the family knows what it is.'));
   body.innerHTML=
     `<div class="ct"><span class="ctag" style="background:${STYLE.family.color}">Our pins</span></div>`+
     `<div class="cname">${editing?'Edit pin':'Add pin here'}</div>`+
     `<p class="cinfo">${hint}</p>`+
     `<form id="pinform">`+
-      `<div class="field"><label for="pinname">Name</label><input id="pinname" name="name" maxlength="79" required value="${esc(name)}" placeholder="e.g. Ice cream by the harbour"></div>`+
+      `<div class="field"><label for="pinname">Name</label><input id="pinname" name="name" maxlength="79" required value="${esc(nm)}" placeholder="e.g. Ice cream by the harbour"></div>`+
+      `<div class="field"><label for="pincat">Category</label><select id="pincat" name="cat" required>${catOpts}</select></div>`+
       `<div class="field"><label for="pindesc">Description</label><textarea id="pindesc" name="desc" maxlength="499" placeholder="Anything the others should know">${esc(desc)}</textarea></div>`+
-      `<div class="field"><label for="pinwho">Who added this (optional)</label><input id="pinwho" name="who" maxlength="39" value="${esc(who)}" placeholder="Your name"></div>`+
+      `<div class="field"><label for="pinwho">Added by (name)</label><input id="pinwho" name="who" maxlength="39" value="${esc(who)}" placeholder="Optional"></div>`+
       `<div class="cact">`+
         `<button type="submit" class="cbtn csave">Save pin</button>`+
         `<button type="button" class="cbtn ccancel" id="cancelform">Cancel</button>`+
       `</div>`+
     `</form>`;
+  resetSheetHeight();
+  card.classList.remove('journey');
   card.classList.add('open');
   document.getElementById('cancelform').onclick=()=>{
     if(!existing){ closeCard(); return; }
@@ -1541,17 +2044,87 @@ function openPinForm({lat,lng,existing,approx}){
     const n=document.getElementById('pinname').value.trim();
     const d=document.getElementById('pindesc').value.trim();
     const addedBy=document.getElementById('pinwho').value.trim();
+    const cat=PIN_CATS.some(c=>c.id===document.getElementById('pincat').value)?document.getElementById('pincat').value:'family';
     if(!n){ toast('Give the pin a name.'); return; }
-    FamilySync.saveNick(addedBy);
+    const emoji=CAT_EMOJI[cat]||'📍';
     const pin=existing
-      ? Object.assign({}, existing, {name:n, desc:d, addedBy, updatedAt:nowIso(), deleted:false, cat:'family', emoji:existing.emoji||'📍'})
-      : {id:uuid(), name:n, desc:d, lat, lng, cat:'family', emoji:'📍', addedBy, createdAt:nowIso(), updatedAt:nowIso(), deleted:false};
-    FamilySync.upsertLocal(pin);
-    assemble();
-    closeCard();
-    toast('Saved on this phone.');
+      ? Object.assign({}, existing, {name:n, desc:d, addedBy, cat, emoji, updatedAt:nowIso(), deleted:false})
+      : {id:uuid(), name:n, desc:d, lat, lng, cat, emoji, addedBy, createdAt:nowIso(), updatedAt:nowIso(), deleted:false};
+    commitFamilyPin(pin, {existing});
   };
   setTimeout(()=>document.getElementById('pinname').focus(), 50);
+}
+
+function openAddChooser(){
+  clearPick();
+  body.innerHTML=
+    `<div class="ct"><span class="ctag" style="background:${STYLE.family.color}">Our pins</span></div>`+
+    `<div class="cname">Add a pin</div>`+
+    `<p class="cinfo">Put a place on the family map. Everyone sees it after it syncs.</p>`+
+    `<div class="cact">`+
+      `<button type="button" class="cbtn cprimary wide" id="addhere">I'm here<span class="csub">Use this phone's location</span></button>`+
+      `<button type="button" class="cbtn csecondary wide" id="addpaste">Paste a maps link or Eircode<span class="csub">Google, Apple Maps, coordinates, or an Irish postcode</span></button>`+
+    `</div>`+
+    `<p class="chint">Or press and hold on the map for an approximate pin.</p>`;
+  resetSheetHeight();
+  card.classList.remove('journey');
+  card.classList.add('open');
+  document.getElementById('addhere').onclick=startGpsPin;
+  document.getElementById('addpaste').onclick=openPasteForm;
+}
+function startGpsPin(){
+  if(!navigator.geolocation){ toast('This phone cannot share its location.'); return; }
+  const btn=document.getElementById('addhere');
+  if(btn) btn.disabled=true;
+  toast('Finding your location…');
+  navigator.geolocation.getCurrentPosition(pos=>{
+    hideToast();
+    openPinForm({lat:pos.coords.latitude, lng:pos.coords.longitude, source:'gps'});
+  }, err=>{
+    if(btn) btn.disabled=false;
+    const msg=err && err.code===1
+      ? 'Location is turned off for this app. You can enable it in Settings, then try again.'
+      : 'Could not find your location. Try again somewhere more open.';
+    toast(msg);
+  }, {enableHighAccuracy:true, timeout:15000, maximumAge:10000});
+}
+function openPasteForm(){
+  body.innerHTML=
+    `<div class="ct"><span class="ctag" style="background:${STYLE.family.color}">Our pins</span></div>`+
+    `<div class="cname">Paste a maps link or Eircode</div>`+
+    `<p class="cinfo">A Google or Apple Maps share, a geo: link, coordinates, or an Irish Eircode such as F28 X380.</p>`+
+    `<form id="pasteform">`+
+      `<div class="field"><label for="pastetext">Link or Eircode</label><textarea id="pastetext" name="text" maxlength="2000" required placeholder="https://maps.app.goo.gl/…  or  F28 X380"></textarea></div>`+
+      `<div class="cact">`+
+        `<button type="submit" class="cbtn csave" id="pastego">Find place</button>`+
+        `<button type="button" class="cbtn ccancel" id="pasteback">Back</button>`+
+      `</div>`+
+    `</form>`;
+  resetSheetHeight();
+  card.classList.remove('journey');
+  card.classList.add('open');
+  document.getElementById('pasteback').onclick=openAddChooser;
+  document.getElementById('pasteform').onsubmit=async e=>{
+    e.preventDefault();
+    const text=document.getElementById('pastetext').value.trim();
+    if(!text){ toast('Paste a maps link, coordinates, or an Eircode.'); return; }
+    const go=document.getElementById('pastego');
+    if(go) go.disabled=true;
+    toast('Looking that up…');
+    try{
+      const found=await FamilySync.resolve(text);
+      hideToast();
+      if(found==null || found.lat==null || found.lng==null) throw new Error('Could not find that place.');
+      openPinForm({lat:found.lat, lng:found.lng, name:found.name||'', source:'paste'});
+    }catch(err){
+      if(go) go.disabled=false;
+      const offline=!navigator.onLine && !FamilySync.parseLocal(text);
+      toast(offline
+        ? 'Need a signal to look up a maps link or Eircode. You can paste coordinates, or hold on the map.'
+        : (err && err.message) || 'Could not find that place.');
+    }
+  };
+  setTimeout(()=>document.getElementById('pastetext').focus(), 50);
 }
 
 function deleteFamilyPin(p){
@@ -1560,25 +2133,13 @@ function deleteFamilyPin(p){
   FamilySync.upsertLocal(pin);
   assemble();
   closeCard();
-  toast('Pin removed.');
+  toast(navigator.onLine?'Removed — sharing with the family.':'Removed on this phone. It will share when you have a signal.');
+  FamilySync.sync().then(changed=>{ if(changed) assemble(); });
 }
 
 document.getElementById('lastmilex').onclick=e=>{ e.stopPropagation(); closeLastMile(); };
 document.getElementById('homebtn').onclick=()=>goHome();
-document.getElementById('peoplebtn').onclick=()=>openPeople();
-document.getElementById('addpin').onclick=()=>{
-  if(!navigator.geolocation){ toast('This phone cannot share its location.'); return; }
-  toast('Finding your location…');
-  navigator.geolocation.getCurrentPosition(pos=>{
-    hideToast();
-    openPinForm({lat:pos.coords.latitude, lng:pos.coords.longitude});
-  }, err=>{
-    const msg=err && err.code===1
-      ? 'Location is turned off for this app. You can enable it in Settings, then try again.'
-      : 'Could not find your location. Try again somewhere more open.';
-    toast(msg);
-  }, {enableHighAccuracy:true, timeout:15000, maximumAge:10000});
-};
+document.getElementById('addpin').onclick=openAddChooser;
 
 function clientToLatLng(clientX, clientY){
   const svg=document.getElementById('basemap');
@@ -1638,7 +2199,7 @@ function addPinAtClient(clientX, clientY){
     fit.style.setProperty('--town-opacity', String(town));
     const lm=scale<=9?0:scale>=16?1:(scale-9)/7;
     fit.style.setProperty('--lastmile-opacity', String(lm));
-    const pinLabs=showPinLabels && scale>=11;
+    const pinLabs=showPinLabels;
     fit.style.setProperty('--pin-labels', pinLabs?'1':'0');
     fit.classList.toggle('show-pin-labels', pinLabs);
     const lbl=scale<=2.4?1:scale>=6?0:1-(scale-2.4)/(6-2.4);
@@ -1647,13 +2208,17 @@ function addPinAtClient(clientX, clientY){
     btnOut.disabled=scale<=MIN+0.01;
     if(typeof positionPins==='function') positionPins();
   }
+  function sheetOverlap(fr){
+    if(!card.classList.contains('open')) return 0;
+    const cr=card.getBoundingClientRect();
+    return Math.max(0, Math.min(fr.height, fr.bottom-cr.top));
+  }
   function centerOn(lng, lat, wantScale){
     const [x,y]=proj(lng,lat);
     scale=Math.max(MIN, Math.min(MAX, wantScale||15));
     const {vw,vh}=currentView();
     const fr=fit.getBoundingClientRect();
-    const cr=card.getBoundingClientRect();
-    const overlap=Math.max(0, Math.min(fr.height, fr.bottom-cr.top));
+    const overlap=sheetOverlap(fr);
     const visW=Math.max(1, fr.width);
     const visH=Math.max(1, fr.height-overlap);
     const fitW=Math.max(1, fit.clientWidth), fitH=Math.max(1, fit.clientHeight);
@@ -1669,8 +2234,7 @@ function addPinAtClient(clientX, clientY){
     const spanX=Math.max(maxX-minX, 12);
     const spanY=Math.max(maxY-minY, 12);
     const fr=fit.getBoundingClientRect();
-    const cr=card.getBoundingClientRect();
-    const overlap=Math.max(0, Math.min(fr.height, fr.bottom-cr.top));
+    const overlap=sheetOverlap(fr);
     const visW=Math.max(1, fr.width);
     const visH=Math.max(1, fr.height-overlap);
     const innerW=visW*0.60, innerH=visH*0.60;
@@ -1732,7 +2296,7 @@ function addPinAtClient(clientX, clientY){
   }, {passive:false});
 
   stage.addEventListener('pointerdown', e=>{
-    if(e.target.closest('#mapzoom')) return;
+    if(e.target.closest('#mapzoom,.cluster')) return;
     if(e.pointerType==='mouse' && e.button!==0) return;
     pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
     didMove=false;
@@ -1800,6 +2364,7 @@ function addPinAtClient(clientX, clientY){
   stage.addEventListener('pointerup', endPtr);
   stage.addEventListener('pointercancel', endPtr);
   stage.addEventListener('click', e=>{
+    if(e.target.closest('.cluster')) return;
     if(didMove){ e.stopPropagation(); e.preventDefault(); }
     if(skipPinClick){ skipPinClick=false; e.stopPropagation(); e.preventDefault(); }
   }, true);
