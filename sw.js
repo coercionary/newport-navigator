@@ -1,5 +1,5 @@
 // Newport Navigator service worker — offline app shell
-const CACHE = 'newport-nav-v85';
+const CACHE = 'newport-nav-v86';
 const ASSETS = [
   '.', 'index.html', 'manifest.webmanifest', 'data/places.json',
   'family-sync.js', 'data/irish-directions.json',
