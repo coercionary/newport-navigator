@@ -2,7 +2,7 @@
 (function (w) {
   const LS_PINS = 'nn-family-pins';
   const LS_HOPS = 'nn-family-hops';
-  const TRIP_CODE = 'clewbay2026';
+  const LS_TRIP = 'nn-trip';
   const AT_RE = /@(-?\d{1,2}\.\d+),\s*(-?\d{1,3}\.\d+)/;
   const BANG_RE = /!3d(-?\d{1,2}\.\d+)!4d(-?\d{1,3}\.\d+)/;
   const LL_RE = /[?&#](?:ll|q|query|destination|center|daddr|saddr)=(-?\d{1,2}\.\d+)[,+/](-?\d{1,3}\.\d+)/i;
@@ -52,8 +52,11 @@
     });
     return Array.from(map.values());
   }
+  function tripCode() {
+    try { return (localStorage.getItem(LS_TRIP) || '').trim(); } catch { return ''; }
+  }
   function headers() {
-    return { 'Content-Type': 'application/json', 'X-Trip-Code': TRIP_CODE };
+    return { 'Content-Type': 'application/json', 'X-Trip-Code': tripCode() };
   }
   function plausible(lat, lng) {
     return lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;

@@ -55,8 +55,8 @@ Irish Eircode), or press-and-hold on the map. Short Google links (`maps.app.goo.
 on the server. Eircodes are looked up on OpenStreetMap (only if that code is mapped). A pin within ~50 m of an existing one offers to
 open that pin instead.
 
-The trip code is `clewbay2026` (header `X-Trip-Code`; override on the server with `NN_TRIP_CODE`).
-Anyone with the family URL and that code can add and see pins. No photos or chat.
+Write APIs need a trip code issued after the one-time family check on the welcome screen
+(`NN_CLAN_ANSWER` / `NN_TRIP_CODE` on the server). No photos or chat.
 
 **Getting an update onto a phone:** open the home-screen icon **on Wi-Fi** and tap **Get latest** in the header. That unregisters the service worker, clears the cache, and reloads from the network. You do not need to delete website data. (The app also refreshes its cache in the background when online; **Get latest** is the immediate / stuck-stale button.)
 

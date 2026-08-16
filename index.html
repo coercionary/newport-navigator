@@ -206,11 +206,14 @@
   #help .helpinner{flex:1;display:flex;flex-direction:column;max-width:420px;margin:0 auto;width:100%;min-height:100%;position:relative;}
   #help .helpstep{font-size:11px;font-weight:800;letter-spacing:.45px;text-transform:uppercase;color:#0f766e;margin:0;}
   #help h2{margin:8px 0 12px;font-size:26px;line-height:1.2;color:#243;}
-  #help .helpbody{margin:0 0 16px;font-size:18px;line-height:1.45;color:#374151;}
+  #help .helpbody{margin:0 0 14px;font-size:18px;line-height:1.5;color:#374151;}
+  #help .helpbody:last-of-type{margin-bottom:16px;}
   #help .helpletter p{margin:0 0 14px;font-size:18px;line-height:1.5;color:#374151;}
   #help .helpletter p:last-of-type{margin-bottom:12px;}
   #help .helpname{margin:0 0 10px;}
   #help .helpname label{margin-bottom:6px;}
+  #help .helpgate{margin:8px 0 16px;padding:14px 14px 6px;background:#fff;border:1.5px solid #e7e2d6;border-radius:14px;}
+  #help .helpgate .helpbody{margin:0 0 12px;font-size:17px;}
   #help .helpfig{background:#fff;border:1.5px solid #e7e2d6;border-radius:14px;padding:16px 14px;margin:0 0 20px;}
   #help .helpfig svg{display:block;width:100%;height:auto;}
   #help .helptown{display:inline-block;font-size:16px;font-weight:800;color:#0f766e;background:rgba(255,252,245,.96);border:1.5px solid #0f766e;padding:8px 14px;border-radius:999px;}
@@ -763,6 +766,16 @@ function setMyName(s){
   const n=cleanName(s);
   try{ if(n) localStorage.setItem('nn-my-name', n); }catch(e){}
   return n;
+}
+function clanOk(){
+  try{ return localStorage.getItem('nn-clan')==='1' && !!(localStorage.getItem('nn-trip')||'').trim(); }
+  catch(e){ return false; }
+}
+function rememberClan(trip){
+  try{
+    localStorage.setItem('nn-clan','1');
+    if(trip) localStorage.setItem('nn-trip', String(trip).trim());
+  }catch(e){}
 }
 function isStandalone(){
   return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
@@ -2166,7 +2179,7 @@ async function generateIrish(a,b,notes){
   try{
     r=await fetch('/api/irish',{
       method:'POST',
-      headers:(window.FamilySync&&FamilySync.headers())||{'Content-Type':'application/json','X-Trip-Code':'clewbay2026'},
+      headers:(window.FamilySync&&FamilySync.headers())||{'Content-Type':'application/json'},
       body:JSON.stringify({
         from:{id:a.id, name:a.name, lat:a.lat, lng:a.lng},
         to:{id:b.id, name:b.name, lat:b.lat, lng:b.lng},
@@ -2275,7 +2288,7 @@ function openJourney(a,b){
     : (otherWay
       ? 'No Irish this way yet. Swap to read the directions going the other way.'
       : (tipOnce('hop')
-        ? 'Write the way when you have a signal. Google Maps still does the turns.'
+        ? 'To add directions for this journey, tap Write Irish directions. That needs internet. Google Maps will still give turn-by-turn directions.'
         : 'Google Maps for the turns. Irish directions name what you pass — write a draft, then Save to put it in the app.'));
   const homebound=b.id==='lime-kiln-house';
   const fromWest=homebound&&HOME&&a.lng<HOME.lng-0.02;
@@ -2658,7 +2671,7 @@ function openAddChooser(){
   body.innerHTML=
     `<div class="ct"><span class="ctag" style="background:${STYLE.family.color}">Our pins</span></div>`+
     `<div class="cname">Add a pin</div>`+
-    `<p class="cinfo">${tipOnce('add')?'Hold the map to drop a pin, or pick a button below.':'Put a place on the family map. Everyone sees it after it syncs.'}</p>`+
+    `<p class="cinfo">${tipOnce('add')?'To add a place, press and hold on the map, or use one of the buttons below.':'Put a place on the family map. Everyone sees it after it syncs.'}</p>`+
     `<div class="cact">`+
       `<button type="button" class="cbtn cprimary wide" id="addhere">I'm here<span class="csub">Use this phone's location</span></button>`+
       `<button type="button" class="cbtn csecondary wide" id="addpaste">Paste a maps link or Eircode<span class="csub">Google, Apple Maps, coordinates, or an Irish postcode</span></button>`+
@@ -2745,6 +2758,7 @@ let helpTopic=null;
 let helpFirst=false;
 let helpAskName=false;
 let helpEditName=false;
+let helpUnlock=false;
 const helpEl=document.getElementById('help');
 function helpFigFind(){
   return `<div class="helpfig" aria-hidden="true"><svg viewBox="0 0 280 110" fill="none">
@@ -2783,18 +2797,55 @@ function helpFigAdd(){
   </svg></div>`;
 }
 const HELP_TOPICS=[
-  {id:'find', title:'Find a place', short:'Tap a town name. Or tap a pin on the map.', long:'Tap a town. Pinch in for pins. A number is several pins together. Tap a pin again, or the empty map, to close the card.', fig:helpFigFind},
-  {id:'directions', title:'Get directions', short:'Tap one place. Then tap another. That shows the way.', long:'Tap one place, then another. That is our way — what you pass. Google Maps is the turns.', fig:helpFigPins},
-  {id:'add', title:'Add a pin', long:'The + at the top. You are here, paste a link, or press and hold on the map.', fig:helpFigAdd},
-  {id:'write', title:'Write the way', long:'Tap your pin and any other pin. If nobody has written that hop, you can — when you have a signal.', fig:helpFigPins},
-  {id:'modes', title:'Drive, bikes, walks', long:'How you are going. Walks shows the yellow dashes. Home brings Drive and the whole map back.'},
-  {id:'what', title:'What to show', long:'Food, pubs, shops. This thins the map. Towns are not a lock — slide to the next one.'},
-  {id:'offline', title:'No signal', long:'The map and your pins still work. Writing hops, Get latest, and looking up an Eircode wait for a signal.'},
-  {id:'home', title:'Start again', short:'Tap the house at the top. The map goes back to the start.', long:'The house at the top. Always. Drive, the whole map, back to the start.', fig:helpFigHome}
+  {id:'find', title:'Find a place', fig:helpFigFind, long:[
+    'The map starts zoomed out. You will see the house and the names of nearby towns.',
+    'Tap a town name to move the map there. You can also pinch the map with two fingers to zoom in, or use the + and − buttons.',
+    'When you zoom in, coloured pins appear. Each pin is a place. A circle with a number means several places are close together — tap the number to see them separately.',
+    'Tap a pin to read about it. To close that card, tap the same pin again, tap a blank part of the map, or tap the × on the card.'
+  ]},
+  {id:'directions', title:'Get directions', fig:helpFigPins, long:[
+    'To see the route from one place to another, tap the first pin, then tap the second pin. A card will open for that journey.',
+    'This app describes landmarks you will pass on the way. For turn-by-turn navigation (left, right, and road names), tap Google Maps on that card. Google Maps is a separate app and needs an internet connection.',
+    'To close the card, tap a blank part of the map or tap the ×.'
+  ]},
+  {id:'add', title:'Add a place to the map', fig:helpFigAdd, long:[
+    'To add a place that is not already on the map, tap the pin button at the top right. It looks like a small map marker.',
+    'You can use this phone’s current location, paste a link from Google Maps or Apple Maps, or press and hold your finger on the map until a new pin appears.',
+    'Type a name so other people on the trip know what the place is. It is saved on this phone straight away, and shared with everyone else when there is internet.'
+  ]},
+  {id:'write', title:'Add directions between places', fig:helpFigPins, long:[
+    'Anyone on the trip can add directions between two places.',
+    'Tap the starting pin, then tap the ending pin. If nobody has written that journey yet, tap Write Irish directions. That step needs an internet connection.',
+    'You can change the wording, then tap Save so other people on the trip can read it later, including when they are offline.'
+  ]},
+  {id:'modes', title:'Driving, cycling, and walking', long:[
+    'Near the top of the screen are three buttons: Drive, Bikes, and Walks. They change which places appear on the map.',
+    'Drive is for places you would visit by car. Bikes shows the Greenway trail and bike hire. Walks shows walking trails, and a yellow dashed line on the map as a guide.',
+    'If the map looks wrong or you are not sure where you are, tap the house button at the top. That returns you to Drive and the full map.'
+  ]},
+  {id:'what', title:'Show only some places', long:[
+    'Tap What to show (or Change) just above the map to choose kinds of places, such as food or shops.',
+    'The map will focus on those pins. You can still slide the map to another town. Nothing is locked.',
+    'Tap the house button at the top when you want the whole map again.'
+  ]},
+  {id:'offline', title:'Using the app without internet', long:[
+    'You do not need internet to look at the map, read directions that are already saved, or add a pin by pressing and holding the map.',
+    'You do need internet to write new directions, look up a pasted map link or Irish postcode, or tap Get latest (the circular arrow at the top) to download updates.',
+    'If something needs internet and you do not have it, a message will explain. Nothing already on this phone is removed.'
+  ]},
+  {id:'home', title:'Go back to the start', fig:helpFigHome, long:[
+    'The house button is at the top of the screen, to the left of the add-pin button.',
+    'Tap it at any time to go back to the start: the house on the map, the town names, and Drive mode.',
+    'Use this if you feel lost or the map is showing the wrong kind of places.'
+  ]}
 ];
 const HELP_TOUR=['find','directions','home'];
 function helpTopicById(id){
   return HELP_TOPICS.find(t=>t.id===id)||HELP_TOPICS[0];
+}
+function helpParas(t){
+  const parts=Array.isArray(t.long)?t.long:[t.long];
+  return parts.map(p=>`<p class="helpbody">${esc(p)}</p>`).join('');
 }
 function paintHelp(){
   if(!helpEl) return;
@@ -2812,16 +2863,17 @@ function paintHelp(){
         `<p>We can use this app to find things in the area, add new spots and add directions between locations. This is NOT google maps. That’s for city slickers! This is Irish Maps, the Newport Navigator edition.</p>`+
         `<p>Enjoy!</p>`+
       `</div>`+
+      (!clanOk()?`<div class="helpgate"><p class="helpbody">We need to make sure you're a member of the clan. What's the short name of Susu and Bear's dog?</p><div class="field helpname"><label for="helpgate">The dog's name</label><input id="helpgate" maxlength="39" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="done"></div></div>`:'')+
       (showName?`<div class="field helpname"><label for="helpname">Your name</label><input id="helpname" maxlength="39" autocomplete="name" enterkeyhint="done" value="${esc(known)}" placeholder="e.g. Louisa" required></div>`:'')+
       `<div class="helpacts flush">`+
         `<button type="button" class="cbtn csave" data-help="next">Continue</button>`+
-        (canClose?`<button type="button" class="helpskip" data-help="close">Close</button>`:'')+
+        (canClose && clanOk()?`<button type="button" class="helpskip" data-help="close">Close</button>`:'')+
       `</div>`;
   } else if(helpView==='index'){
     inner=
       `<p class="helpstep">Help</p>`+
       `<h2 id="helptitle">How this works</h2>`+
-      `<p class="helpbody">Tap a topic. Close whenever you like.</p>`+
+      `<p class="helpbody">Choose a topic. You can close this at any time and open it again with the question mark at the top of the screen.</p>`+
       `<div class="helplist">`+
         HELP_TOPICS.map(t=>`<button type="button" class="helptopic" data-help="topic" data-id="${esc(t.id)}">${esc(t.title)}</button>`).join('')+
       `</div>`+
@@ -2834,7 +2886,7 @@ function paintHelp(){
     inner=
       `<p class="helpstep">${helpTourI+1} of ${HELP_TOUR.length}</p>`+
       `<h2 id="helptitle">${esc(t.title)}</h2>`+
-      `<p class="helpbody">${esc(t.short||t.long)}</p>`+
+      helpParas(t)+
       (t.fig?t.fig():'')+
       `<div class="helpacts">`+
         `<button type="button" class="cbtn csave" data-help="next">${last?'Open the map':'Next'}</button>`+
@@ -2844,7 +2896,7 @@ function paintHelp(){
     inner=
       `<p class="helpstep">Help</p>`+
       `<h2 id="helptitle">${esc(t.title)}</h2>`+
-      `<p class="helpbody">${esc(t.long)}</p>`+
+      helpParas(t)+
       (t.fig?t.fig():'')+
       `<div class="helpacts flush">`+
         `<button type="button" class="cbtn csave" data-help="back">Topics</button>`+
@@ -2852,15 +2904,19 @@ function paintHelp(){
       `</div>`;
   }
   helpEl.innerHTML=`<div class="helpinner">${inner}</div>`;
+  const gate=document.getElementById('helpgate');
   const input=document.getElementById('helpname');
-  if(input){
-    input.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); helpNext(); } };
-    setTimeout(()=>input.focus(), 50);
-  }
+  const focus=gate||input;
+  [gate,input].forEach(el=>{
+    if(!el) return;
+    el.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); helpNext(); } };
+  });
+  if(focus) setTimeout(()=>focus.focus(), 50);
 }
 function openHelp(opts){
   helpAskName=!myName();
   helpFirst=!!(opts&&opts.first)||helpAskName;
+  helpUnlock=!clanOk();
   helpEditName=helpAskName;
   helpView='welcome';
   helpTourI=0;
@@ -2870,24 +2926,59 @@ function openHelp(opts){
   paintHelp();
 }
 function closeHelp(){
+  if(!clanOk()) return;
+  if(helpAskName) return;
   helpEl.classList.remove('show');
   helpEl.setAttribute('aria-hidden','true');
   helpAskName=false;
   helpEditName=false;
   helpFirst=false;
 }
-function helpNext(){
+let helpBusy=false;
+async function checkClan(){
+  if(clanOk()) return true;
+  const input=document.getElementById('helpgate');
+  const answer=String(input&&input.value||'').trim();
+  if(!answer){ toast('Type the dog\'s name, then tap Continue.'); return false; }
+  let r, data={};
+  try{
+    r=await fetch('/api/gate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({answer})
+    });
+    data=await r.json().catch(()=>({}));
+  }catch(err){
+    toast(looksOffline(err)
+      ? 'This check needs a connection the first time. Try again on Wi-Fi.'
+      : 'Could not check that. Try again.');
+    return false;
+  }
+  if(!r.ok || !data.trip){
+    toast(data.error||"That's not it. Try again.");
+    if(input){ input.focus(); input.select(); }
+    return false;
+  }
+  rememberClan(data.trip);
+  return true;
+}
+async function helpNext(){
+  if(helpBusy) return;
   if(helpView==='welcome'){
-    if(helpAskName||helpEditName){
-      const input=document.getElementById('helpname');
-      const n=setMyName(input?input.value:'');
-      if(!n){ toast('Type your name, then tap Continue.'); return; }
-      helpAskName=false;
-      helpEditName=false;
-    }
-    if(helpFirst){ helpView='tour'; helpTourI=0; }
-    else helpView='index';
-    paintHelp();
+    helpBusy=true;
+    try{
+      if(!await checkClan()) return;
+      if(helpAskName||helpEditName){
+        const input=document.getElementById('helpname');
+        const n=setMyName(input?input.value:'');
+        if(!n){ toast('Type your name, then tap Continue.'); return; }
+        helpAskName=false;
+        helpEditName=false;
+      }
+      if(helpFirst){ helpView='tour'; helpTourI=0; paintHelp(); }
+      else if(helpUnlock){ closeHelp(); }
+      else { helpView='index'; paintHelp(); }
+    }finally{ helpBusy=false; }
     return;
   }
   if(helpView==='tour'){
@@ -2908,7 +2999,7 @@ helpEl.addEventListener('click', e=>{
 });
 document.addEventListener('keydown', e=>{
   if(e.key!=='Escape' || !helpEl.classList.contains('show')) return;
-  if(!myName()) return;
+  if(!clanOk() || !myName()) return;
   closeHelp();
 });
 
@@ -3239,7 +3330,7 @@ async function forceRefresh(){
     }));
     const make=(blob, status, headers)=>new Response(blob, {status, headers});
     let names=(await caches.keys()).filter(k=>k.startsWith('newport-nav-'));
-    if(!names.length) names=['newport-nav-v119'];
+    if(!names.length) names=['newport-nav-v121'];
     for(const name of names){
       const cache=await caches.open(name);
       for(const [url, blob, status, headers] of fresh){
@@ -3277,7 +3368,8 @@ if('serviceWorker' in navigator){
   }
 }
 fitSoon();
-if(isStandalone() && !myName()) setTimeout(()=>openHelp({first:true}), 400);
+if(!clanOk()) setTimeout(()=>openHelp({first:!myName()}), 400);
+else if(isStandalone() && !myName()) setTimeout(()=>openHelp({first:true}), 400);
 </script>
 </body>
 </html>

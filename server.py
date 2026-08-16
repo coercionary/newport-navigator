@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hmac
 import json
 import os
 import re
@@ -80,6 +81,22 @@ class ResolveError(Exception):
 
 def trip_code() -> str:
     return os.environ.get("NN_TRIP_CODE", DEFAULT_TRIP).strip() or DEFAULT_TRIP
+
+
+def clan_answer() -> str:
+    return os.environ.get("NN_CLAN_ANSWER", "").strip()
+
+
+def norm_clan(raw) -> str:
+    return re.sub(r"\s+", " ", str(raw or "").strip().lower())
+
+
+def clan_ok(raw) -> bool:
+    got = norm_clan(raw)
+    want = norm_clan(clan_answer())
+    if not got or len(got) != len(want):
+        return False
+    return hmac.compare_digest(got, want)
 
 
 def pins_path() -> Path:
@@ -716,16 +733,22 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         route = self.path.split("?", 1)[0]
-        if route not in ("/api/resolve", "/api/pins", "/api/landmarks", "/api/irish", "/api/hops"):
+        if route not in ("/api/gate", "/api/resolve", "/api/pins", "/api/landmarks", "/api/irish", "/api/hops"):
             self._send(*json_bytes({"error": "Not found."}, 404))
-            return
-        if not self._auth():
-            self._send(*json_bytes({"error": "Wrong trip code."}, 403))
             return
         try:
             data = self._read_json()
         except Exception:
             self._send(*json_bytes({"error": "Send JSON."}, 400))
+            return
+        if route == "/api/gate":
+            if clan_ok(data.get("answer")):
+                self._send(*json_bytes({"ok": True, "trip": trip_code()}))
+            else:
+                self._send(*json_bytes({"error": "That's not it."}, 403))
+            return
+        if not self._auth():
+            self._send(*json_bytes({"error": "Wrong trip code."}, 403))
             return
         if route == "/api/resolve":
             try:
@@ -807,6 +830,18 @@ def self_test() -> int:
     merged = merge_pins([a], [b, {"id": "2", "updatedAt": "2026-08-02T00:00:00Z", "name": "two", "lat": 53.8, "lng": -9.5, "deleted": False}])
     # clean_pin not applied here; merge is by id
     assert {p["id"] for p in merged} == {"1", "2"}
+    prev = os.environ.get("NN_CLAN_ANSWER")
+    os.environ["NN_CLAN_ANSWER"] = "spot"
+    try:
+        assert norm_clan("Spot") == "spot"
+        assert clan_ok("Spot") and clan_ok("  spot  ") and not clan_ok("bear")
+        os.environ["NN_CLAN_ANSWER"] = ""
+        assert not clan_ok("spot")
+    finally:
+        if prev is None:
+            os.environ.pop("NN_CLAN_ANSWER", None)
+        else:
+            os.environ["NN_CLAN_ANSWER"] = prev
     landmarks_mod.self_test()
     irish_write_mod.self_test()
     print("self-test ok")
@@ -821,6 +856,8 @@ def main():
     args = ap.parse_args()
     if args.self_test:
         sys.exit(self_test())
+    if not clan_answer():
+        print("NN_CLAN_ANSWER is not set — the welcome check will reject everyone.", flush=True)
     httpd = ThreadingHTTPServer((args.bind, args.port), Handler)
     print(f"Newport Navigator on http://127.0.0.1:{args.port}  (pins: {pins_path()})", flush=True)
     try:

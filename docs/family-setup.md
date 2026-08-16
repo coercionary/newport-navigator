@@ -7,6 +7,7 @@ Do this **at home, on Wi-Fi, a day or two before you fly** — not after you lan
 2. If you see a green **Add** bar, tap it.
 3. Otherwise: **iPhone** — Share → Add to Home Screen. **Android** — Chrome menu (⋮) → Install app.
 4. It now opens like an app — the map, pins, and Irish hops work with no signal.
+5. The first time, you will be asked a family question. This phone remembers you after that. You need a connection for that first check.
 
 ## 2. Drop a pin
 Tap **Add pin**, then pick one:

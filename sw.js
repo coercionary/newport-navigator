@@ -1,5 +1,5 @@
 // Newport Navigator service worker — offline app shell
-const CACHE = 'newport-nav-v119';
+const CACHE = 'newport-nav-v121';
 const REQUIRED = ['index.html', 'family-sync.js', 'data/places.json'];
 const OPTIONAL = [
   '.', 'manifest.webmanifest',
