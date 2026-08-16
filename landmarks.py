@@ -409,8 +409,8 @@ def landmarks_for_request(data: dict, extra: list[dict] | None = None) -> dict:
     cat = load_catalogue()
     frm = point_from_body(data.get("from"), cat)
     to = point_from_body(data.get("to"), cat)
-    if haversine_m(frm["lat"], frm["lng"], to["lat"], to["lng"]) < 80:
-        raise LandmarkError("Those two points are the same place.")
+    if haversine_m(frm["lat"], frm["lng"], to["lat"], to["lng"]) < 3:
+        raise LandmarkError("Those two pins sit on the same spot.")
     return strip(frm, to, str(data.get("how") or "drive"), extra)
 
 

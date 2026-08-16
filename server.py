@@ -15,7 +15,10 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+import irish_write as irish_write_mod
 import landmarks as landmarks_mod
+
+irish_write_mod.load_env_local()
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_TRIP = "clewbay2026"
@@ -27,11 +30,13 @@ MAPS_UA = (
 IE_LAT = (51.2, 55.6)
 IE_LNG = (-11.0, -5.3)
 MAX_PINS = 400
+MAX_HOPS = 300
 MAX_BODY = 1_000_000
 PIN_KEYS = (
-    "id", "name", "desc", "lat", "lng", "cat", "emoji",
+    "id", "name", "desc", "lat", "lng", "cat", "catLabel", "emoji",
     "addedBy", "createdAt", "updatedAt", "deleted",
 )
+KNOWN_CATS = frozenset(("family", "food", "shop", "beach", "do", "golf", "landmarks"))
 
 _store_lock = threading.Lock()
 _nominatim_lock = threading.Lock()
@@ -86,6 +91,17 @@ def pins_path() -> Path:
     d = ROOT / ".data"
     d.mkdir(exist_ok=True)
     return d / "family-pins.json"
+
+
+def hops_path() -> Path:
+    env = os.environ.get("NN_HOPS")
+    if env:
+        return Path(env)
+    if Path("/data").is_dir():
+        return Path("/data/family-hops.json")
+    d = ROOT / ".data"
+    d.mkdir(exist_ok=True)
+    return d / "family-hops.json"
 
 
 def plausible(lat: float, lng: float) -> bool:
@@ -448,9 +464,12 @@ def clean_pin(raw) -> dict | None:
     name = str(raw.get("name") or "")[:79]
     if not deleted and not name:
         return None
-    cat = str(raw.get("cat") or "family")[:20]
-    if cat not in ("family", "food", "shop", "beach", "do", "golf", "landmarks"):
+    cat = str(raw.get("cat") or "family")[:24].lower()
+    if cat not in KNOWN_CATS and not re.match(r"^[a-z][a-z0-9-]{0,23}$", cat):
         cat = "family"
+    cat_label = ""
+    if cat not in KNOWN_CATS:
+        cat_label = str(raw.get("catLabel") or "")[:24]
     emoji_default = {"food": "🍽️", "shop": "🛒", "beach": "🏖️", "do": "🎡", "golf": "⛳", "landmarks": "🗿"}.get(cat, "📍")
     out = {
         "id": pid,
@@ -459,6 +478,7 @@ def clean_pin(raw) -> dict | None:
         "lat": round(lat, 6) if lat is not None else None,
         "lng": round(lng, 6) if lng is not None else None,
         "cat": cat,
+        "catLabel": cat_label,
         "emoji": str(raw.get("emoji") or emoji_default)[:8],
         "addedBy": str(raw.get("addedBy") or "")[:39],
         "createdAt": str(raw.get("createdAt") or "")[:40],
@@ -474,6 +494,119 @@ def newer(a: dict, b: dict) -> dict:
     if ta != tb:
         return b if tb > ta else a
     return b
+
+
+def hop_id(frm: str, to: str) -> str:
+    return f"{frm}>{to}"
+
+
+def clean_hop(raw) -> dict | None:
+    if not isinstance(raw, dict):
+        return None
+    frm = str(raw.get("from") or "")[:80]
+    to = str(raw.get("to") or "")[:80]
+    hid = str(raw.get("id") or hop_id(frm, to))[:161]
+    if ">" not in hid:
+        return None
+    if not re.match(r"^[A-Za-z0-9._:-]+>[A-Za-z0-9._:-]+$", hid):
+        return None
+    if not frm or not to:
+        frm, to = hid.split(">", 1)
+    irish = raw.get("irish")
+    if not isinstance(irish, list):
+        return None
+    lines = [str(x).strip()[:400] for x in irish if str(x).strip()]
+    if not lines and not raw.get("deleted"):
+        return None
+    how = str(raw.get("how") or "drive")[:12]
+    if how not in ("drive", "bike", "walk"):
+        how = "drive"
+    try:
+        mins = int(raw.get("mins") or 1)
+        km = float(raw.get("km") or 0)
+    except (TypeError, ValueError):
+        mins, km = 1, 0
+    marks = []
+    raw_marks = raw.get("landmarks")
+    if isinstance(raw_marks, list):
+        for m in raw_marks[:20]:
+            if not isinstance(m, dict) or not m.get("id"):
+                continue
+            marks.append({
+                "kind": str(m.get("kind") or "")[:12],
+                "id": str(m.get("id") or "")[:80],
+                "name": str(m.get("name") or "")[:79],
+                "side": str(m.get("side") or "")[:12],
+            })
+    return {
+        "id": hid,
+        "from": frm,
+        "to": to,
+        "mins": max(1, min(mins, 600)),
+        "km": round(max(0.0, min(km, 400.0)), 2),
+        "how": how,
+        "irish": lines[:12],
+        "usedHousePack": bool(raw.get("usedHousePack")),
+        "generated": True,
+        "landmarks": marks,
+        "notes": irish_write_mod.clean_notes(raw.get("notes")),
+        "savedBy": str(raw.get("savedBy") or "")[:39],
+        "updatedAt": str(raw.get("updatedAt") or "")[:40],
+        "deleted": bool(raw.get("deleted")),
+    }
+
+
+def load_hops() -> list:
+    path = hops_path()
+    if not path.is_file():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    if isinstance(data, dict):
+        data = data.get("hops")
+    if not isinstance(data, list):
+        return []
+    return [h for h in (clean_hop(x) for x in data) if h]
+
+
+def save_hops(hops: list) -> None:
+    path = hops_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps({"hops": hops}, ensure_ascii=False, indent=0), encoding="utf-8")
+    tmp.replace(path)
+
+
+def merge_hops(local: list, incoming: list) -> list:
+    by_id = {h["id"]: h for h in local if h and h.get("id")}
+    for h in incoming:
+        if not h or not h.get("id"):
+            continue
+        cur = by_id.get(h["id"])
+        by_id[h["id"]] = newer(cur, h) if cur else h
+    hops = list(by_id.values())
+    if len(hops) > MAX_HOPS:
+        hops.sort(key=lambda h: (not h.get("deleted"), h.get("updatedAt") or ""))
+        hops = hops[-MAX_HOPS:]
+    return hops
+
+
+def family_extra() -> list[dict]:
+    extra = []
+    for p in load_pins():
+        if not p or p.get("deleted") or p.get("lat") is None:
+            continue
+        extra.append({
+            "id": p.get("id") or "",
+            "name": p.get("name") or "",
+            "lat": p["lat"],
+            "lng": p["lng"],
+            "cat": p.get("cat") or "family",
+            "host": False,
+        })
+    return extra
 
 
 def merge_pins(local: list, incoming: list) -> list:
@@ -562,6 +695,14 @@ class Handler(BaseHTTPRequestHandler):
                 pins = load_pins()
             self._send(*json_bytes({"pins": pins}))
             return
+        if self.path.split("?", 1)[0] == "/api/hops":
+            if not self._auth():
+                self._send(*json_bytes({"error": "Wrong trip code."}, 403))
+                return
+            with _store_lock:
+                hops = load_hops()
+            self._send(*json_bytes({"hops": hops}))
+            return
         if self.path.startswith("/api/"):
             self._send(*json_bytes({"error": "Not found."}, 404))
             return
@@ -575,7 +716,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         route = self.path.split("?", 1)[0]
-        if route not in ("/api/resolve", "/api/pins", "/api/landmarks"):
+        if route not in ("/api/resolve", "/api/pins", "/api/landmarks", "/api/irish", "/api/hops"):
             self._send(*json_bytes({"error": "Not found."}, 404))
             return
         if not self._auth():
@@ -595,25 +736,42 @@ class Handler(BaseHTTPRequestHandler):
             self._send(*json_bytes(result))
             return
         if route == "/api/landmarks":
-            extra = []
             with _store_lock:
-                for p in load_pins():
-                    if not p or p.get("deleted") or p.get("lat") is None:
-                        continue
-                    extra.append({
-                        "id": p.get("id") or "",
-                        "name": p.get("name") or "",
-                        "lat": p["lat"],
-                        "lng": p["lng"],
-                        "cat": p.get("cat") or "family",
-                        "host": False,
-                    })
+                extra = family_extra()
             try:
                 result = landmarks_mod.landmarks_for_request(data, extra)
             except landmarks_mod.LandmarkError as e:
                 self._send(*json_bytes({"error": str(e)}, 400))
                 return
             self._send(*json_bytes(result))
+            return
+        if route == "/api/irish":
+            with _store_lock:
+                extra = family_extra()
+            try:
+                hop = irish_write_mod.irish_for_request(data, extra)
+            except landmarks_mod.LandmarkError as e:
+                self._send(*json_bytes({"error": str(e)}, 400))
+                return
+            except Exception as e:
+                sys.stderr.write("irish write failed: %s\n" % e)
+                self._send(*json_bytes({"error": "Could not write that hop. Try two places that are not on top of each other."}, 502))
+                return
+            marks = hop.get("landmarks") or []
+            hop["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            hop["id"] = hop_id(hop.get("from") or "", hop.get("to") or "")
+            hop["draft"] = True
+            out = hop
+            out["landmarks"] = marks
+            self._send(*json_bytes(out))
+            return
+        if route == "/api/hops":
+            incoming = [clean_hop(h) for h in (data.get("hops") or [])]
+            incoming = [h for h in incoming if h]
+            with _store_lock:
+                merged = merge_hops(load_hops(), incoming)
+                save_hops(merged)
+            self._send(*json_bytes({"hops": merged}))
             return
         incoming = [clean_pin(p) for p in (data.get("pins") or [])]
         incoming = [p for p in incoming if p]
@@ -650,6 +808,7 @@ def self_test() -> int:
     # clean_pin not applied here; merge is by id
     assert {p["id"] for p in merged} == {"1", "2"}
     landmarks_mod.self_test()
+    irish_write_mod.self_test()
     print("self-test ok")
     return 0
 

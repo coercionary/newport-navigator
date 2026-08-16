@@ -4,8 +4,9 @@ Do this **at home, on Wi-Fi, a day or two before you fly** — not after you lan
 
 ## 1. Add the Newport Navigator to your home screen
 1. Open this link in **Safari** (iPhone) or **Chrome** (Android): **[https://newport-navigator.fly.dev/](https://newport-navigator.fly.dev/)**
-2. Tap the **Share** button, then **Add to Home Screen**.
-3. It now opens like an app — the map, pins, and Irish hops work with no signal.
+2. If you see a green **Add** bar, tap it.
+3. Otherwise: **iPhone** — Share → Add to Home Screen. **Android** — Chrome menu (⋮) → Install app.
+4. It now opens like an app — the map, pins, and Irish hops work with no signal.
 
 ## 2. Drop a pin
 Tap **Add pin**, then pick one:

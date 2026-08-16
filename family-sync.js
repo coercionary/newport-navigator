@@ -1,6 +1,7 @@
 // Family pins — localStorage plus optional Fly.io sync (trip code, last-write-wins).
 (function (w) {
   const LS_PINS = 'nn-family-pins';
+  const LS_HOPS = 'nn-family-hops';
   const TRIP_CODE = 'clewbay2026';
   const AT_RE = /@(-?\d{1,2}\.\d+),\s*(-?\d{1,3}\.\d+)/;
   const BANG_RE = /!3d(-?\d{1,2}\.\d+)!4d(-?\d{1,3}\.\d+)/;
@@ -96,6 +97,44 @@
     return name ? Object.assign({ name, source }, c) : Object.assign({ source }, c);
   }
 
+  function loadHops() {
+    try {
+      const v = JSON.parse(localStorage.getItem(LS_HOPS) || '[]');
+      return Array.isArray(v) ? v : [];
+    } catch { return []; }
+  }
+  function saveHops(hops) {
+    localStorage.setItem(LS_HOPS, JSON.stringify(hops));
+  }
+  function hopKey(frm, to) {
+    return String(frm || '') + '>' + String(to || '');
+  }
+  function upsertHop(hop) {
+    if (!hop || !hop.from || !hop.to) return loadHops();
+    hop = Object.assign({}, hop, { id: hop.id || hopKey(hop.from, hop.to), generated: true });
+    const hops = loadHops();
+    const i = hops.findIndex(h => h && (h.id === hop.id || (h.from === hop.from && h.to === hop.to)));
+    if (i >= 0) hops[i] = hop; else hops.push(hop);
+    saveHops(hops);
+    return hops;
+  }
+  function findHop(frm, to) {
+    return loadHops().find(h => h && !h.deleted && h.from === frm && h.to === to) || null;
+  }
+  function hopFingerprint(hops) {
+    return (hops || []).map(h => (h.id || '') + '\t' + (h.updatedAt || '') + '\t' + (h.deleted ? 1 : 0)).sort().join('|');
+  }
+  function mergeHops(local, remote) {
+    const map = new Map();
+    (local || []).forEach(h => { if (h && h.id) map.set(h.id, h); });
+    (remote || []).forEach(h => {
+      if (!h || !h.id) return;
+      const cur = map.get(h.id);
+      map.set(h.id, cur ? newer(cur, h) : h);
+    });
+    return Array.from(map.values());
+  }
+
   async function push() {
     if (!navigator.onLine) return false;
     const before = fingerprint(loadPins());
@@ -111,15 +150,31 @@
     return fingerprint(loadPins()) !== before;
   }
 
+  async function pushHops() {
+    if (!navigator.onLine) return false;
+    const before = hopFingerprint(loadHops());
+    const r = await fetch('/api/hops', {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify({ hops: loadHops() })
+    });
+    if (!r.ok) return false;
+    const data = await r.json();
+    if (!Array.isArray(data.hops)) return false;
+    saveHops(mergeHops(loadHops(), data.hops));
+    return hopFingerprint(loadHops()) !== before;
+  }
+
   let syncing = false, lastSync = 0;
-  async function sync() {
+  async function sync(force) {
     if (!navigator.onLine || syncing) return false;
-    if (Date.now() - lastSync < 4000) return false;
+    if (!force && Date.now() - lastSync < 4000) return false;
     syncing = true;
     try {
-      const changed = await push();
+      const pinsChanged = await push();
+      const hopsChanged = await pushHops();
       lastSync = Date.now();
-      return changed;
+      return pinsChanged || hopsChanged;
     } catch {
       return false;
     } finally {
@@ -140,5 +195,8 @@
     return data;
   }
 
-  w.FamilySync = { loadPins, savePins, upsertLocal, parseLocal, resolve, sync, push };
+  w.FamilySync = {
+    loadPins, savePins, upsertLocal, parseLocal, resolve, sync, push, headers,
+    loadHops, saveHops, upsertHop, findHop, hopKey
+  };
 })(window);
